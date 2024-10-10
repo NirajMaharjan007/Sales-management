@@ -1,16 +1,15 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list'; 
+import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 
-// import { AppRoutingModule } from './app-routing.module';
-
-
+import { HomeComponent } from '../home/home.component';
+import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,13 +20,11 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    RouterOutlet,
+    // RouterModule.forRoot([{ path: '/home', component: HomeComponent }]),
   ],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+  styleUrl: './sidebar.component.css',
 })
-export class SidebarComponent {
-  
-  
-
-}
+export class SidebarComponent {}
