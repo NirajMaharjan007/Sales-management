@@ -10,7 +10,7 @@
 
 .widget-small:hover {
     box-shadow: 4px 1px 8px #efefef;
-    transition: box-shadow 0.22s ease-in;
+    transition: box-shadow 0.28s ease-in;
 }
 
 .widget-small:not(:hover) {
