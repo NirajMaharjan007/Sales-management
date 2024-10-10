@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,8 +8,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 
-import { HomeComponent } from '../home/home.component';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterOutlet,
+} from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,9 +26,26 @@ import { RouterModule, RouterOutlet } from '@angular/router';
     MatSidenavModule,
     MatListModule,
     RouterOutlet,
-    // RouterModule.forRoot([{ path: '/home', component: HomeComponent }]),
+    RouterLink,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
-export class SidebarComponent {}
+export class SidebarComponent implements OnInit {
+  currentRoute: string = '';
+
+  constructor(private router: Router) {}
+  ngOnInit(): void {
+    // Listen for route changes and set the currentRoute
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.currentRoute = event.url;
+      }
+    });
+  }
+
+  // A helper function to check if a route matches the current URL
+  isRouteActive(route: string): boolean {
+    return this.currentRoute === route;
+  }
+}

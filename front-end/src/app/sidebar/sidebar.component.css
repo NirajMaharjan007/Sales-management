@@ -33,3 +33,13 @@
     overflow-y: auto;
     /* Scrollable contents if viewport is shorter than content. */
 }
+
+.list-group-item {
+    transition: background-color 0.3s ease-in, color 0.3s ease-in;
+    /* Adjust the properties and duration as needed */
+}
+
+.list-group-item.active {
+    background-color: #0088ff;
+    color: white;
+}
