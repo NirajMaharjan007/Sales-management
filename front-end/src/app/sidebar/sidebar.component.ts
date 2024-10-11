@@ -32,7 +32,7 @@ import {
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent implements OnInit {
-  currentRoute: string = '';
+  currentRoute = '/home';
 
   constructor(private router: Router) {}
   ngOnInit(): void {
