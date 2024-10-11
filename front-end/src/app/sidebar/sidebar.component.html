@@ -20,9 +20,7 @@
         </a>
         <a
           routerLink="/tax/create"
-          [ngClass]="{ active: isRouteActive('/tax') }"
-          [ngClass]="{ active: isRouteActive('/tax/create') }"
-          [ngClass]="{ active: isRouteActive('/tax/edit') }"
+          [ngClass]="{ active: isTaxActive() }"
           class="list-group-item list-group-item-action ripple py-2"
         >
           <i class="fas fa-percent fa-fw me-3" aria-hidden="true"></i

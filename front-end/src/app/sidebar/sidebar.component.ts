@@ -48,4 +48,16 @@ export class SidebarComponent implements OnInit {
   isRouteActive(route: string): boolean {
     return this.currentRoute === route;
   }
+
+  isHomeActive(): boolean {
+    return this.currentRoute === '/home';
+  }
+
+  isTaxActive(): boolean {
+    return (
+      this.currentRoute == '/tax/create' ||
+      this.currentRoute == '/tax/manage' ||
+      this.currentRoute == '/tax/edit'
+    );
+  }
 }
