@@ -6,3 +6,16 @@ button {
     padding: auto;
     margin-left: 8px;
 }
+
+.auto_visible {
+    opacity: 0%;
+}
+
+.auto_visible:hover {
+    opacity: 100%;
+    transition: opacity 0.32s ease-in;
+}
+
+.auto_visible:not(:hover) {
+    transition: opacity 0.32s ease-out;
+}

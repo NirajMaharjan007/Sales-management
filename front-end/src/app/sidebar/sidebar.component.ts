@@ -44,15 +44,8 @@ export class SidebarComponent implements OnInit {
     });
   }
 
-  // A helper function to check if a route matches the current URL
-  isRouteActive(route: string): boolean {
-    return this.currentRoute === route;
-  }
-
   isHomeActive(): boolean {
-    return (
-      this.currentRoute.startsWith('/') || this.currentRoute.startsWith('/home')
-    );
+    return this.currentRoute.startsWith('/home');
   }
 
   isTaxActive(): boolean {
