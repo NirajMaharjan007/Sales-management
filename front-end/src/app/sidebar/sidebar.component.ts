@@ -50,15 +50,15 @@ export class SidebarComponent implements OnInit {
   }
 
   isHomeActive(): boolean {
-    return this.currentRoute === '/home';
+    return (
+      this.currentRoute.startsWith('/') || this.currentRoute.startsWith('/home')
+    );
   }
 
   isTaxActive(): boolean {
-    return (
-      this.currentRoute == '/tax' ||
-      this.currentRoute == '/tax/create' ||
-      this.currentRoute == '/tax/manage' ||
-      this.currentRoute == '/tax/edit'
-    );
+    return this.currentRoute.startsWith('/tax/');
+    // this.currentRoute == '/tax' ||
+    // this.currentRoute == '/tax/create' ||
+    // this.currentRoute == '/tax/manage' ||
   }
 }

@@ -10,7 +10,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'tax/manage', component: TaxIndexComponent },
   { path: 'tax/create', component: TaxCreateComponent },
-  { path: 'tax/edit', component: TaxEditComponent },
+  { path: 'tax/edit/:id', component: TaxEditComponent },
   { path: 'tax', redirectTo: '/tax/create', pathMatch: 'full' },
 ];
 @NgModule({
