@@ -61,4 +61,8 @@ export class SidebarComponent implements OnInit {
     // this.currentRoute == '/tax/create' ||
     // this.currentRoute == '/tax/manage' ||
   }
+
+  isCategoryActive(): boolean {
+    return this.currentRoute.startsWith('/categories/');
+  }
 }
