@@ -3,6 +3,7 @@ import { TaxCreateComponent } from '../create/create.component';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-index',
@@ -13,12 +14,19 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
     MatPaginator,
     MatTableModule,
     MatPaginatorModule,
+    MatIcon,
   ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.css',
 })
 export class TaxIndexComponent implements AfterViewInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = [
+    'position',
+    'name',
+    'weight',
+    'symbol',
+    'actions',
+  ];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
