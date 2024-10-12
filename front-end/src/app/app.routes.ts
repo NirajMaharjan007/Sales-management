@@ -7,18 +7,26 @@ import { TaxIndexComponent } from './tax/index/index.component';
 import { CategoryManageComponent } from './categories/manage/manage.component';
 import { CategoryCreateComponent } from './categories/create/create.component';
 import { CategoryEditComponent } from './categories/edit/edit.component';
+// import { ProductCreateComponent } from './product/create/create.component';
+import { ProductEditComponent } from './product/edit/edit.component';
+import { ProductManageComponent } from './product/manage/manage.component';
+import { ProductCreateComponent } from './product/create/create.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'tax', redirectTo: '/tax/create', pathMatch: 'full' },
+  { path: 'categories', redirectTo: '/tax/create', pathMatch: 'full' },
+
   { path: 'home', component: HomeComponent },
   { path: 'tax/manage', component: TaxIndexComponent },
   { path: 'tax/create', component: TaxCreateComponent },
   { path: 'tax/edit/:id', component: TaxEditComponent },
-  { path: 'tax', redirectTo: '/tax/create', pathMatch: 'full' },
   { path: 'categories/manage', component: CategoryManageComponent },
   { path: 'categories/create', component: CategoryCreateComponent },
   { path: 'categories/edit/:id', component: CategoryEditComponent },
-  { path: 'categories', redirectTo: '/tax/create', pathMatch: 'full' },
+  { path: 'products/create', component: ProductCreateComponent },
+  { path: 'products/manage', component: ProductManageComponent },
+  { path: 'products/edit/:id', component: ProductEditComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
