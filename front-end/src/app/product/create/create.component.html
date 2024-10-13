@@ -100,7 +100,8 @@
               <div
                 id="example-2"
                 class="content py-2"
-                *ngFor="let card of cards"
+                *ngFor="let card of cards; let i = index"
+                [@fadeInOut]
               >
                 <div class="row group">
                   <div class="form-group col-md-5">
@@ -128,12 +129,15 @@
                     >
                       <i class="fa fa-plus"></i>
                     </button>
-                    <button
-                      type="button"
-                      class="btn btn-danger btn-sm mx-2 btnRemove float-right"
-                    >
-                      <i class="fa fa-trash"></i>
-                    </button>
+                    <span *ngIf="hasMoreCard()" [@fadeInOut]>
+                      <button
+                        (click)="removeCard(i)"
+                        type="button"
+                        class="btn btn-danger btn-sm mx-2 btnRemove float-right"
+                      >
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </span>
                   </div>
                 </div>
               </div>
