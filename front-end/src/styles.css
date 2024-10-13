@@ -1,233 +1,236 @@
 html,
 body {
-    height: 100%;
-    background-color: #fcfcfc;
+  height: 100% !important;
+  width: 100% !important;
+  background-color: #fcfcfc;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .tile {
-    position: relative;
-    background: #ffffff;
-    border-radius: 3px;
-    padding: 20px;
-    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-    margin-bottom: 30px;
-    -webkit-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
+  position: relative;
+  background: #ffffff;
+  border-radius: 3px;
+  padding: 20px;
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+    0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .tile:hover {
-    box-shadow: 0 2px 2px 0 rgba(165, 165, 165, 0.14),
-        0 1px 5px 0 rgba(165, 165, 165, 0.12),
-        0 3px 1px -2px rgba(165, 165, 165, 0.2);
-    transition: box-shadow 0.3s ease;
+  box-shadow: 0 2px 2px 0 rgba(165, 165, 165, 0.14),
+    0 1px 5px 0 rgba(165, 165, 165, 0.12),
+    0 3px 1px -2px rgba(165, 165, 165, 0.2);
+  transition: box-shadow 0.3s ease;
 }
 
 .tile:not(:hover) {
-    transition: box-shadow 0.3s ease-out;
+  transition: box-shadow 0.3s ease-out;
 }
 
 @media print {
-    .tile {
-        border: 1px solid #ddd;
-    }
+  .tile {
+    border: 1px solid #ddd;
+  }
 }
 
 .tile.small {
-    padding: 0;
+  padding: 0;
 }
 
 .tile .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(255, 255, 255, 0.9);
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    color: #555;
-    border-radius: 3px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  color: #555;
+  border-radius: 3px;
 }
 
 .tile .overlay .l-text {
-    font-size: 24px;
-    margin-top: 15px;
+  font-size: 24px;
+  margin-top: 15px;
 }
 
 .tile .tile-title {
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
 }
 
 .tile .tile-title-w-btn {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    margin-bottom: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .tile .tile-title-w-btn p {
-    margin: 0;
+  margin: 0;
 }
 
 .tile .tile-title-w-btn .title {
-    margin: 0;
+  margin: 0;
 }
 
 .tile .tile-title-w-btn .side {
-    margin-bottom: 0;
-    padding-left: 0;
+  margin-bottom: 0;
+  padding-left: 0;
 }
 
 .tile .tile-title-w-btn .btn-group {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
 }
 
 .tile .tile-footer {
-    border-top: 1px solid #ddd;
-    padding: 20px 0 0 0;
-    margin-top: 10px;
+  border-top: 1px solid #ddd;
+  padding: 20px 0 0 0;
+  margin-top: 10px;
 }
 
-
 .widget-small {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    border-radius: 8px;
-    color: #FFF;
-    margin-bottom: 32px;
-    box-shadow: 4px 1px 8px #e0e0e0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-radius: 8px;
+  color: #fff;
+  margin-bottom: 32px;
+  box-shadow: 4px 1px 8px #e0e0e0;
 }
 
 .widget-small:hover {
-    box-shadow: 4px 1px 8px #efefef;
-    transition: box-shadow 0.28s ease-in;
+  box-shadow: 4px 1px 8px #efefef;
+  transition: box-shadow 0.28s ease-in;
 }
 
 .widget-small:not(:hover) {
-    /* box-shadow: 4px 1px 8px #efefef; */
-    transition: box-shadow 0.28s ease-out;
+  /* box-shadow: 4px 1px 8px #efefef; */
+  transition: box-shadow 0.28s ease-out;
 }
 
 .widget-small .icon {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    min-width: 85px;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 4px 0 0 4px;
-    font-size: 2.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  min-width: 85px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px 0 0 4px;
+  font-size: 2.5rem;
 }
 
 .widget-small .info {
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    padding: 0 20px;
-    -ms-flex-item-align: center;
-    align-self: center;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 20px;
+  -ms-flex-item-align: center;
+  align-self: center;
 }
 
 .widget-small .info h4 {
-    text-transform: uppercase;
-    margin: 0;
-    margin-bottom: 5px;
-    font-weight: 400;
-    font-size: 1.1rem;
+  text-transform: uppercase;
+  margin: 0;
+  margin-bottom: 5px;
+  font-weight: 400;
+  font-size: 1.1rem;
 }
 
 .widget-small .info p {
-    margin: 0;
-    font-size: 16px;
+  margin: 0;
+  font-size: 16px;
 }
 
 .widget-small.primary {
-    background-color: #00695C;
+  background-color: #00695c;
 }
 
 .widget-small.primary.coloured-icon {
-    background-color: #fff;
-    color: #2a2a2a;
+  background-color: #fff;
+  color: #2a2a2a;
 }
 
 .widget-small.primary.coloured-icon .icon {
-    background-color: #00695C;
-    color: #fff;
+  background-color: #00695c;
+  color: #fff;
 }
 
 .widget-small.info {
-    background-color: #17a2b8;
+  background-color: #17a2b8;
 }
 
 .widget-small.info.coloured-icon {
-    background-color: #fff;
-    color: #2a2a2a;
+  background-color: #fff;
+  color: #2a2a2a;
 }
 
 .widget-small.info.coloured-icon .icon {
-    background-color: #17a2b8;
-    color: #fff;
+  background-color: #17a2b8;
+  color: #fff;
 }
 
 .widget-small.warning {
-    background-color: #ffc107;
+  background-color: #ffc107;
 }
 
 .widget-small.warning.coloured-icon {
-    background-color: #fff;
-    color: #2a2a2a;
+  background-color: #fff;
+  color: #2a2a2a;
 }
 
 .widget-small.warning.coloured-icon .icon {
-    background-color: #ffc107;
-    color: #fff;
+  background-color: #ffc107;
+  color: #fff;
 }
 
 .widget-small.danger {
-    background-color: #dc3545;
+  background-color: #dc3545;
 }
 
 .widget-small.danger.coloured-icon {
-    background-color: #fff;
-    color: #2a2a2a;
+  background-color: #fff;
+  color: #2a2a2a;
 }
 
 .widget-small.danger.coloured-icon .icon {
-    background-color: #dc3545;
-    color: #fff;
+  background-color: #dc3545;
+  color: #fff;
 }

@@ -97,7 +97,11 @@
 
             <!-- Suppliers Section -->
             <div class="tile mt-md-4">
-              <div id="example-2" class="content">
+              <div
+                id="example-2"
+                class="content py-2"
+                *ngFor="let card of cards"
+              >
                 <div class="row group">
                   <div class="form-group col-md-5">
                     <select name="supplier_id[]" class="form-control">
@@ -117,6 +121,7 @@
 
                   <div class="form-group col-md-2">
                     <button
+                      (click)="addCard()"
                       type="button"
                       id="btnAdd-2"
                       class="btn btn-success btn-sm mx-2 float-right"
@@ -134,10 +139,13 @@
               </div>
             </div>
 
-            <div class="form-group col-md-4 align-self-end">
+            <div class="form-group col-md-12 align-self-end">
               <button class="btn btn-success" type="submit">
                 <i class="fa fa-fw fa-lg fa-check-circle"></i> Add Product
               </button>
+              <a routerLink="/products/manage" class="btn-primary btn mx-md-2">
+                <i class="fa fa-edit"></i> Manage Products
+              </a>
             </div>
           </form>
         </div>
