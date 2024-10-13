@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-edit',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.css',
 })
