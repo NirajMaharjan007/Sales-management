@@ -11,6 +11,8 @@ import { CategoryEditComponent } from './categories/edit/edit.component';
 import { ProductEditComponent } from './product/edit/edit.component';
 import { ProductManageComponent } from './product/manage/manage.component';
 import { ProductCreateComponent } from './product/create/create.component';
+import { UnitCreateComponent } from './unit/create/create.component';
+import { UnitManageComponent } from './unit/manage/manage.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -27,6 +29,8 @@ export const routes: Routes = [
   { path: 'products/create', component: ProductCreateComponent },
   { path: 'products/manage', component: ProductManageComponent },
   { path: 'products/edit/:id', component: ProductEditComponent },
+  { path: 'units/create', component: UnitCreateComponent },
+  { path: 'units/manage', component: UnitManageComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -39,7 +39,11 @@
           [ngClass]="{ active: isProductActive() }"
           ><i class="fas fa-cube fa-fw me-3"></i><span>Product</span></a
         >
-        <a href="#" class="list-group-item list-group-item-action ripple py-2">
+        <a
+          routerLink="/units/create"
+          [ngClass]="{ active: isUnitActive() }"
+          class="list-group-item list-group-item-action ripple py-2"
+        >
           <i class="fas fa-bars fa-fw me-3"></i><span>Unit</span>
         </a>
         <a href="#" class="list-group-item list-group-item-action ripple py-2"
