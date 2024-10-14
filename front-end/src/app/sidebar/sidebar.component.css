@@ -23,6 +23,7 @@
   .container {
     margin-left: 16rem; /* Add the width of the sidebar */
     min-width: 85% !important;
+    overflow-x: auto;
   }
 }
 
@@ -33,6 +34,8 @@
   }
 
   .container {
+    overflow: auto;
+    min-width: fit-content;
     margin-top: 0.75rem;
     margin-left: 0; /* No margin on mobile */
   }
