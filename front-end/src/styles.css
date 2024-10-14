@@ -11,6 +11,11 @@ body {
   padding: 0;
 }
 
+table {
+  width: 100%;
+  height: 100%;
+}
+
 .tile {
   position: relative;
   background: #ffffff;
@@ -233,4 +238,17 @@ body {
 .widget-small.danger.coloured-icon .icon {
   background-color: #dc3545;
   color: #fff;
+}
+
+.auto_visible {
+  opacity: 0%;
+}
+
+.auto_visible:hover {
+  opacity: 100%;
+  transition: opacity 0.32s ease-in;
+}
+
+.auto_visible:not(:hover) {
+  transition: opacity 0.32s ease-out;
 }

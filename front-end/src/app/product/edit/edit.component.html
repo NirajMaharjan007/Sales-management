@@ -1,27 +1,155 @@
 <div class="py-4">
-  <div class="row">
-    <div class="clearix"></div>
+  <p class="h3">Product Editor</p>
+
+  <div class="row mt-2">
+    <div class="clearfix"></div>
     <div class="col-md-12">
       <div class="tile">
-        <p class="tile-title h2">Edit Tax Form</p>
-        <p>{{ id }}</p>
+        <span>ID: '{{ id }}'</span>
         <div class="tile-body">
-          <form class="row" method="POST">
-            <div class="form-group col-8">
-              <label class="control-label">Tax Amount</label>
-              <input
-                name="name"
-                class="form-control"
-                type="text"
-                placeholder="Enter your name"
-              />
+          <p class="tile-title">Edit Product Form</p>
+          <form method="POST" action="" enctype="multipart/form-data">
+            <div class="row">
+              <!-- Product Name -->
+              <div class="form-group col-md-6">
+                <label class="control-label">Product</label>
+                <input
+                  name="name"
+                  class="form-control"
+                  type="text"
+                  placeholder="Product Name"
+                />
+              </div>
+
+              <!-- Serial Number -->
+              <div class="form-group col-md-6">
+                <label class="control-label">Serial Number</label>
+                <input
+                  name="serial_number"
+                  class="form-control"
+                  type="text"
+                  placeholder="Enter Serial Number"
+                />
+              </div>
+
+              <!-- Model -->
+              <div class="form-group col-md-6">
+                <label class="control-label">Model</label>
+                <input
+                  name="model"
+                  class="form-control"
+                  type="text"
+                  placeholder="Enter Model"
+                />
+              </div>
+
+              <!-- Category -->
+              <div class="form-group col-md-6">
+                <label class="control-label">Category</label>
+                <select name="category_id" class="form-control">
+                  <option value="">---Select Category---</option>
+                </select>
+              </div>
+
+              <!-- Selling Price -->
+              <div class="form-group col-md-6">
+                <label class="control-label">Selling Price</label>
+                <input
+                  name="sales_price"
+                  class="form-control"
+                  type="number"
+                  step="0.01"
+                  placeholder="Enter Selling Price"
+                />
+              </div>
+
+              <!-- Quantity (Qty) -->
+              <div class="form-group col-md-6">
+                <label class="control-label">Quantity</label>
+                <input
+                  name="qty"
+                  class="form-control"
+                  type="number"
+                  placeholder="Enter Quantity"
+                />
+              </div>
+              <!-- Unit -->
+              <div class="form-group col-md-6">
+                <label class="control-label">Unit</label>
+                <select name="unit_id" class="form-control">
+                  <option value="">---Select Unit---</option>
+                </select>
+              </div>
+
+              <!-- Image -->
+              <div class="form-group col-md-6">
+                <label class="control-label">Image</label>
+                <input name="image" class="form-control" type="file" />
+              </div>
+
+              <!-- Tax -->
+              <div class="form-group col-md-6">
+                <label class="control-label">Tax</label>
+                <select name="tax_id" class="form-control">
+                  <option value="">---Select Tax---</option>
+                </select>
+              </div>
             </div>
-            <div class="form-group col-4 align-self-end">
+
+            <!-- Suppliers Section -->
+            <div class="tile mt-md-4">
+              <div
+                id="example-2"
+                class="content py-2"
+                *ngFor="let card of cards; let i = index"
+                [@fadeInOut]
+              >
+                <div class="row group">
+                  <div class="form-group col-md-5">
+                    <select name="supplier_id[]" class="form-control">
+                      <option value="">Select Supplier</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-5">
+                    <input
+                      name="supplier_price[]"
+                      class="form-control"
+                      type="number"
+                      step="0.01"
+                      placeholder="Purchase Price"
+                    />
+                  </div>
+
+                  <div class="form-group col-md-2">
+                    <button
+                      (click)="addCard()"
+                      type="button"
+                      id="btnAdd-2"
+                      class="btn btn-success btn-sm mx-2 float-right"
+                    >
+                      <i class="fa fa-plus"></i>
+                    </button>
+                    <span *ngIf="hasMoreCard()" [@fadeInOut]>
+                      <button
+                        (click)="removeCard(i)"
+                        type="button"
+                        class="btn btn-danger btn-sm mx-2 btnRemove float-right"
+                      >
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12 align-self-end">
               <button class="btn btn-success" type="submit">
-                <i class="fa fa-fw fa-lg fa-check-circle pe-2"></i>Update
+                <i class="fa fa-lg fa-check-circle me-2"></i> Update Product
               </button>
-              <a class="btn-primary btn mx-2" routerLink="/products/manage">
-                <i class="fa fa-arrow-left pe-2" aria-hidden="true"></i> Back
+              <a routerLink="/products/manage" class="btn-primary btn mx-md-2">
+                <i class="fa fa-arrow-left me-2" aria-hidden="true"></i> Back
               </a>
             </div>
           </form>

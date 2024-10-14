@@ -1,10 +1,10 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-create',
+  selector: 'product-create',
   standalone: true,
   imports: [RouterLink, NgFor, NgIf],
   templateUrl: './create.component.html',

@@ -4,15 +4,9 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-manage',
+  selector: 'categories-manage',
   standalone: true,
-  imports: [
-    RouterLink,
-    CategoryManageComponent,
-    MatPaginator,
-    MatTableModule,
-    MatPaginatorModule,
-  ],
+  imports: [RouterLink, MatPaginator, MatTableModule, MatPaginatorModule],
   templateUrl: './manage.component.html',
   styleUrl: './manage.component.css',
 })

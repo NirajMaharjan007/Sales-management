@@ -6,7 +6,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-index',
+  selector: 'tax-manage',
   standalone: true,
   imports: [
     RouterLink,

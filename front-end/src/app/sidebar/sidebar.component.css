@@ -14,12 +14,15 @@
   z-index: 600;
 }
 
-@media (max-width: 1740px) {
-  .container {
-    margin-left: 18rem; /* No margin on mobile */
-  }
+@media (max-width: 1920px) {
   .sidebar {
-    height: 100%; /* Full width on mobile */
+    height: 100%;
+    min-height: 100%;
+  }
+
+  .container {
+    margin-left: 16rem; /* Add the width of the sidebar */
+    min-width: 85% !important;
   }
 }
 
@@ -30,6 +33,7 @@
   }
 
   .container {
+    margin-top: 0.75rem;
     margin-left: 0; /* No margin on mobile */
   }
 }

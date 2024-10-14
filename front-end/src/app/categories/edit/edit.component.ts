@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-edit',
+  selector: 'categories-edit',
   standalone: true,
   imports: [RouterLink],
   templateUrl: './edit.component.html',
