@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 
 import {
@@ -26,6 +27,7 @@ import {
     MatListModule,
     RouterOutlet,
     RouterLink,
+    MatCardModule,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
