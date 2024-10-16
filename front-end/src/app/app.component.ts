@@ -45,6 +45,16 @@ export class AppComponent implements OnInit {
             '<div class="d-flex justify-content-around align-items-center"> \
             <i class="fas fa-th fa-fw me-2" aria-current="true"> </i> \
             <span> Categories Management </span></div>';
+        } else if (this.router.url.startsWith('/products')) {
+          this.htmlContent =
+            '<div class="d-flex justify-content-around align-items-center"> \
+            <i class="fas fa-cube fa-fw me-2" aria-current="true"> </i> \
+            <span> Products Management </span></div>';
+        } else if (this.router.url.startsWith('/units')) {
+          this.htmlContent =
+            '<div class="d-flex justify-content-around align-items-center"> \
+            <i class="fas fa-bars fa-fw me-2" aria-current="true"> </i> \
+            <span> Units Management </span></div>';
         } else {
           this.htmlContent = '';
         }
