@@ -63,4 +63,8 @@ export class SidebarComponent implements OnInit {
   isUnitActive(): boolean {
     return this.currentRoute.startsWith('/units/');
   }
+
+  isInvoiceActive(): boolean {
+    return this.currentRoute.startsWith('/invoices/');
+  }
 }

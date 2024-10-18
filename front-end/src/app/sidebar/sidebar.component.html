@@ -46,7 +46,10 @@
         >
           <i class="fas fa-bars fa-fw me-3"></i><span>Unit</span>
         </a>
-        <a href="#" class="list-group-item list-group-item-action ripple py-2"
+        <a
+          routerLink="/invoices/create"
+          [ngClass]="{ active: isInvoiceActive() }"
+          class="list-group-item list-group-item-action ripple py-2"
           ><i class="fas fa-file fa-fw me-3"></i><span>Invoice</span></a
         >
         <a href="#" class="list-group-item list-group-item-action ripple py-2"

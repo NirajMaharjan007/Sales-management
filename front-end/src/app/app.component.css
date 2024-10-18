@@ -6,8 +6,18 @@
 
   .container {
     margin-left: 16rem; /* Add the width of the sidebar */
+    width: max-content !important;
     min-width: 85% !important;
-    overflow-x: auto;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    position: relative;
+    overflow: auto;
+    min-width: 75% !important;
+    margin-left: 16rem;
   }
 }
 
@@ -19,8 +29,8 @@
 
   .container {
     overflow: auto;
-    min-width: fit-content;
-    margin-top: 0.75rem;
+    min-width: 100% !important;
+    margin-top: 0.64rem;
     margin-left: 0; /* No margin on mobile */
   }
 }
