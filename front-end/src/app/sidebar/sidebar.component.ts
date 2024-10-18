@@ -41,30 +41,7 @@ export class SidebarComponent implements OnInit {
     });
   }
 
-  isHomeActive(): boolean {
-    return this.currentRoute.startsWith('/home');
-  }
-
-  isTaxActive(): boolean {
-    return this.currentRoute.startsWith('/tax/');
-    // this.currentRoute == '/tax' ||
-    // this.currentRoute == '/tax/create' ||
-    // this.currentRoute == '/tax/manage' ||
-  }
-
-  isCategoryActive(): boolean {
-    return this.currentRoute.startsWith('/categories/');
-  }
-
-  isProductActive(): boolean {
-    return this.currentRoute.startsWith('/products/');
-  }
-
-  isUnitActive(): boolean {
-    return this.currentRoute.startsWith('/units/');
-  }
-
-  isInvoiceActive(): boolean {
-    return this.currentRoute.startsWith('/invoices/');
+  isRouteActive(url: string): boolean {
+    return this.currentRoute.startsWith(url);
   }
 }

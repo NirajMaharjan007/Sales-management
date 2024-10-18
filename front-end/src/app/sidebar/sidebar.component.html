@@ -11,7 +11,7 @@
         <hr class="p-0 m-0" />
         <a
           routerLink="/home"
-          [ngClass]="{ active: isHomeActive() }"
+          [ngClass]="{ active: isRouteActive('/home') }"
           class="list-group-item list-group-item-action ripple py-2"
           aria-current="true"
         >
@@ -20,7 +20,7 @@
         </a>
         <a
           routerLink="/tax/create"
-          [ngClass]="{ active: isTaxActive() }"
+          [ngClass]="{ active: isRouteActive('/tax') }"
           class="list-group-item list-group-item-action ripple py-2"
         >
           <i class="fas fa-percent fa-fw me-3" aria-hidden="true"></i
@@ -29,26 +29,26 @@
         <a
           routerLink="/categories/create"
           class="list-group-item list-group-item-action ripple py-2"
-          [ngClass]="{ active: isCategoryActive() }"
+          [ngClass]="{ active: isRouteActive('/categories') }"
         >
           <i class="fas fa-th fa-fw me-3"></i><span>Category</span>
         </a>
         <a
           routerLink="/products/create"
           class="list-group-item list-group-item-action ripple py-2"
-          [ngClass]="{ active: isProductActive() }"
+          [ngClass]="{ active: isRouteActive('/products') }"
           ><i class="fas fa-cube fa-fw me-3"></i><span>Product</span></a
         >
         <a
           routerLink="/units/create"
-          [ngClass]="{ active: isUnitActive() }"
+          [ngClass]="{ active: isRouteActive('/units') }"
           class="list-group-item list-group-item-action ripple py-2"
         >
           <i class="fas fa-bars fa-fw me-3"></i><span>Unit</span>
         </a>
         <a
           routerLink="/invoices/create"
-          [ngClass]="{ active: isInvoiceActive() }"
+          [ngClass]="{ active: isRouteActive('/invoices') }"
           class="list-group-item list-group-item-action ripple py-2"
           ><i class="fas fa-file fa-fw me-3"></i><span>Invoice</span></a
         >
