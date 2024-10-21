@@ -20,7 +20,9 @@ import { InvoiceManageComponent } from './invoice/manage/manage.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'tax', redirectTo: '/tax/create', pathMatch: 'full' },
-  { path: 'categories', redirectTo: '/tax/create', pathMatch: 'full' },
+  { path: 'categories', redirectTo: '/categories/create', pathMatch: 'full' },
+  { path: 'products', redirectTo: '/products/create', pathMatch: 'full' },
+  { path: 'invoices', redirectTo: '/invoices/create', pathMatch: 'full' },
 
   { path: 'home', component: HomeComponent },
   { path: 'tax/manage', component: TaxIndexComponent },
