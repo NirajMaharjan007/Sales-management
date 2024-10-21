@@ -19,6 +19,7 @@
             "polyfills": [
               "zone.js"
             ],
+            "externalDependencies":[""],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
