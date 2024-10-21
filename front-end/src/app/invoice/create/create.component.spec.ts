@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InvoiceCreateComponent } from './create.component';
 
-describe('CreateComponent', () => {
+describe('InvoiceCreateComponent', () => {
   let component: InvoiceCreateComponent;
   let fixture: ComponentFixture<InvoiceCreateComponent>;
 
