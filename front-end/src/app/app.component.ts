@@ -65,6 +65,11 @@ export class AppComponent implements OnInit {
             '<div class="d-flex justify-content-evenly align-items-center"> \
           <i class="fas fa-dollar fa-fw me-2"></i><span>Sales</span> \
             </div>';
+        } else if (this.router.url.startsWith('/suppiler')) {
+          this.htmlContent =
+            '<div class="d-flex justify-content-evenly align-items-center"> \
+            <i class="fas fa-truck fa-fw me-3"></i><span>Supplier</span>\
+            </div>';
         } else {
           this.htmlContent = '';
         }

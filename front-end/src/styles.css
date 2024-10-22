@@ -6,6 +6,23 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+article,
+aside,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section {
+  display: block;
+}
+
+@-ms-viewport {
+  width: device-width;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -248,4 +265,8 @@ table {
 
 .auto_visible:not(:hover) {
   transition: opacity 0.32s ease-out;
+}
+
+.form-group {
+  margin-bottom: 0.75rem;
 }

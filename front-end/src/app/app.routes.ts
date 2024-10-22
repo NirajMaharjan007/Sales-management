@@ -17,6 +17,8 @@ import { UnitEditComponent } from './unit/edit/edit.component';
 import { InvoiceCreateComponent } from './invoice/create/create.component';
 import { InvoiceManageComponent } from './invoice/manage/manage.component';
 import { SalesComponent } from './sales/sales.component';
+import { SuppilerCreateComponent } from './suppilers/create/create.component';
+import { SuppilerManageComponent } from './suppilers/manage/manage.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -24,6 +26,7 @@ export const routes: Routes = [
   { path: 'categories', redirectTo: '/categories/create', pathMatch: 'full' },
   { path: 'products', redirectTo: '/products/create', pathMatch: 'full' },
   { path: 'invoices', redirectTo: '/invoices/create', pathMatch: 'full' },
+  { path: 'suppiler', redirectTo: '/suppiler/create', pathMatch: 'full' },
 
   { path: 'home', component: HomeComponent },
   { path: 'tax/manage', component: TaxIndexComponent },
@@ -41,6 +44,8 @@ export const routes: Routes = [
   { path: 'invoices/create', component: InvoiceCreateComponent },
   { path: 'invoices/manage', component: InvoiceManageComponent },
   { path: 'sales', component: SalesComponent },
+  { path: 'suppilers/create', component: SuppilerCreateComponent },
+  { path: 'suppilers/manage', component: SuppilerManageComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
