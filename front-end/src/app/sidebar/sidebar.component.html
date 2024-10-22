@@ -44,7 +44,7 @@
           [ngClass]="{ active: isRouteActive('/units') }"
           class="list-group-item list-group-item-action ripple py-2"
         >
-          <i class="fas fa-bars fa-fw me-3"></i><span>Unit</span>
+          <i class="fas fa-balance-scale fa-fw me-3"></i><span>Unit</span>
         </a>
         <a
           routerLink="/invoices/create"
@@ -52,7 +52,10 @@
           class="list-group-item list-group-item-action ripple py-2"
           ><i class="fas fa-file fa-fw me-3"></i><span>Invoice</span></a
         >
-        <a href="#" class="list-group-item list-group-item-action ripple py-2"
+        <a
+          routerLink="/sales"
+          [ngClass]="{ active: isRouteActive('/sales') }"
+          class="list-group-item list-group-item-action ripple py-2"
           ><i class="fas fa-dollar fa-fw me-3"></i><span>Sales</span></a
         >
         <a href="#" class="list-group-item list-group-item-action ripple py-2"

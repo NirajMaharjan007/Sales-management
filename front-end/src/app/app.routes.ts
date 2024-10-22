@@ -16,6 +16,7 @@ import { UnitManageComponent } from './unit/manage/manage.component';
 import { UnitEditComponent } from './unit/edit/edit.component';
 import { InvoiceCreateComponent } from './invoice/create/create.component';
 import { InvoiceManageComponent } from './invoice/manage/manage.component';
+import { SalesComponent } from './sales/sales.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -39,6 +40,7 @@ export const routes: Routes = [
   { path: 'units/edit/:id', component: UnitEditComponent },
   { path: 'invoices/create', component: InvoiceCreateComponent },
   { path: 'invoices/manage', component: InvoiceManageComponent },
+  { path: 'sales', component: SalesComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
