@@ -19,4 +19,9 @@ import { NgFor, NgIf } from '@angular/common';
     ]),
   ],
 })
-export class InvoiceCreateComponent {}
+export class InvoiceCreateComponent {
+  cards = [{ id: 'card 1' }];
+  addCard() {
+    this.cards.push({ id: 'card' + this.cards.length });
+  }
+}
