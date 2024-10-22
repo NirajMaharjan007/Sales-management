@@ -1,1 +1,37 @@
-<p>sales works!</p>
+<div>
+  <div class="row">
+    <div class="clearix"></div>
+    <div class="col-md-12">
+      <div class="tile">
+        <p class="h3 tile-title">Sales</p>
+        <div class="tile-body">
+          <table class="table table-hover table-bordered" id="sampleTable">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Price</th>
+                <th scope="col">Total</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>name</td>
+                <td>qty</td>
+                <td>price</td>
+                <td>total</td>
+                <td>date</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex flex-row-reverse">
+            <button routerLink="/invoices/create" class="btn btn-primary">
+              <i class="fas fa-file-invoice me-2 fa-fw"></i>Create Invoice
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -58,7 +58,7 @@ export class AppComponent implements OnInit {
         } else if (this.router.url.startsWith('/invoices')) {
           this.htmlContent =
             '<div class="d-flex justify-content-around align-items-center"> \
-            <i class="fas fa-file fa-fw me-2" aria-current="true"></i><span>Invoice</span> \
+            <i class="fas fa-file-invoice fa-fw me-2" aria-current="true"></i><span>Invoice</span> \
             </div>';
         } else if (this.router.url.startsWith('/sales')) {
           this.htmlContent =
