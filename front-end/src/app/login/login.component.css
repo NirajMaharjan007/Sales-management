@@ -7,3 +7,18 @@ input::placeholder {
   color: rgb(190, 186, 186) !important;
   font-size: 0.8em;
 }
+
+.card {
+  max-width: 50%;
+  max-height: 50%;
+  width: fit-content;
+  margin-top: 50%;
+  margin-bottom: 50%;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
