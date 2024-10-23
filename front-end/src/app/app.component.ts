@@ -9,11 +9,19 @@ import {
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { filter } from 'rxjs';
+import { LoginComponent } from './login/login.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SidebarComponent, NavbarComponent],
+  imports: [
+    RouterOutlet,
+    SidebarComponent,
+    NavbarComponent,
+    LoginComponent,
+    NgIf,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -75,5 +83,9 @@ export class AppComponent implements OnInit {
         }
         // this.str = this.router.url;
       });
+  }
+
+  isLoginRoute(): boolean {
+    return this.router.url === '/login';
   }
 }

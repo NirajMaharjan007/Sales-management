@@ -19,6 +19,7 @@ import { InvoiceManageComponent } from './invoice/manage/manage.component';
 import { SalesComponent } from './sales/sales.component';
 import { SuppilerCreateComponent } from './suppilers/create/create.component';
 import { SuppilerManageComponent } from './suppilers/manage/manage.component';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -28,6 +29,7 @@ export const routes: Routes = [
   { path: 'invoices', redirectTo: '/invoices/create', pathMatch: 'full' },
   { path: 'suppiler', redirectTo: '/suppiler/create', pathMatch: 'full' },
 
+  { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
   { path: 'tax/manage', component: TaxIndexComponent },
   { path: 'tax/create', component: TaxCreateComponent },
