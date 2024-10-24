@@ -3,10 +3,12 @@
     <div class="card shadow border-0 card-body px-3 py-4">
       <p class="text-center h2 pt-2 mb-0">Login Page</p>
       <hr />
-      <form>
+      <form class="form-group" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="mb-3 input-group">
           <input
             type="email"
+            name="email"
+            formControlName="email"
             class="form-control form-control-lg"
             placeholder="Email Address"
             required
@@ -15,6 +17,8 @@
 
         <div class="mb-3 input-group">
           <input
+            formControlName="password"
+            name="password"
             type="password"
             class="form-control form-control-lg holder"
             placeholder="Password"
@@ -23,12 +27,11 @@
         </div>
 
         <div class="d-grid gap-2 col-12 mx-auto">
-          <button
+          <input
             class="btn btn-primary text-light fw-bold btn-lg border-0 btn-h-primary"
+            value="Login"
             type="submit"
-          >
-            Log In
-          </button>
+          />
 
           <div class="text-center pb-2">
             <a href="#" class="text-decoration-none">Forgot password?</a>
