@@ -30,7 +30,6 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log('Login');
       console.log(this.loginForm.value);
       this.authService.login(this.loginForm.value).subscribe((data: any) => {
         if (this.authService.isLoggedIn()) {

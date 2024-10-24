@@ -14,13 +14,25 @@ export class AuthService {
   login(data: any) {
     return this.httpClient.post(`${this.baseUrl}/login`, data).pipe(
       tap((result) => {
-        localStorage.setItem('authUser', JSON.stringify(result));
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('authUser', JSON.stringify(result));
+        } else if (typeof sessionStorage !== 'undefined') {
+          // Fallback to sessionStorage if localStorage is not supported
+          sessionStorage.setItem('authUser', JSON.stringify(result));
+        } else {
+          // If neither localStorage nor sessionStorage is supported
+          console.error('Web Storage is not supported in this environment.');
+        }
       })
     );
   }
 
   logout() {
-    localStorage.removeItem('authUser');
+    try {
+      localStorage.removeItem('authUser');
+    } catch (error) {
+      console.error('Error in logout:', error);
+    }
   }
 
   isLoggedIn() {

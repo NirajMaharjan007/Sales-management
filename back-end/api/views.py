@@ -5,7 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
-from django.http import JsonResponse
+# from django.http import JsonResponse
+from rest_framework.authtoken.models import Token
 from .serializers import LoginSerializer
 
 
@@ -40,6 +41,7 @@ class Login(APIView):
             )
             if user is not None:
                 # Perform login action (e.g., create a session)
+                token, created = Token.objects.get_or_create(user=user)
                 return Response({'message': 'Login successful'}, status=status.HTTP_200_OK)
             else:
                 return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
