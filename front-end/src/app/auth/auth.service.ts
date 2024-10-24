@@ -15,10 +15,10 @@ export class AuthService {
     return this.httpClient.post(`${this.baseUrl}/login`, data).pipe(
       tap((result) => {
         if (typeof localStorage !== 'undefined') {
-          localStorage.setItem('authUser', JSON.stringify(result));
+          localStorage.setItem('auth_user', JSON.stringify(result));
         } else if (typeof sessionStorage !== 'undefined') {
           // Fallback to sessionStorage if localStorage is not supported
-          sessionStorage.setItem('authUser', JSON.stringify(result));
+          sessionStorage.setItem('auth_user', JSON.stringify(result));
         } else {
           // If neither localStorage nor sessionStorage is supported
           console.error('Web Storage is not supported in this environment.');

@@ -1,13 +1,8 @@
-from rest_framework.serializers import ModelSerializer, Serializer, CharField
-from base.models import User
+from rest_framework.serializers import ModelSerializer
+from django.contrib.auth.models import User
 
 
 class UserSerializer(ModelSerializer):
-    class Meta:
+    class Meta(object):
         model = User
         fields = "__all__"
-
-
-class LoginSerializer(Serializer):
-    username = CharField(required=True)
-    password = CharField(required=True, write_only=True)
