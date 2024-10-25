@@ -1,11 +1,16 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import permissions
 from django.contrib import auth
 from django.contrib.auth.models import User
 from rest_framework import status
 # from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
 from .serializers import UserSerializer
 
 
@@ -24,7 +29,7 @@ def login(request):
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
     token, created = Token.objects.get_or_create(user=user)
     serializer = UserSerializer(instance=user)
-    auth.login(user)
+    auth.login(request, user)
     return Response({"token": token.key, "user": serializer.data})
 
 
@@ -43,5 +48,20 @@ def singup(request):
 
 
 @ api_view(['POST'])
-def logout(request):
+def logout(req):
+    auth.logout(request=req)
     return Response({})
+
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Sales-management API Title",
+        default_version='v1',
+        description="API documentation for your project",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="niraj.mhrjn770@gmail.com"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
