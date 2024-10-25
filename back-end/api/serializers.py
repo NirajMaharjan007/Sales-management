@@ -5,4 +5,4 @@ from django.contrib.auth.models import User
 class UserSerializer(ModelSerializer):
     class Meta(object):
         model = User
-        fields = "__all__"
+        exclude = ['password']

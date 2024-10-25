@@ -12,7 +12,8 @@ from .serializers import UserSerializer
 # class UserView(APIView):
 @api_view(['GET'])
 def get_users(request):
-    serializer = UserSerializer()
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
