@@ -30,13 +30,20 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
-      this.authService.login(this.loginForm.value).subscribe((data: any) => {
-        if (this.authService.isLoggedIn()) {
-          this.router.navigate(['/home']);
-        }
-        console.log(data);
+      this.authService.login(this.loginForm.value).subscribe({
+        next: (data: any) => {
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          console.error('Login error:', error);
+          alert('Login failed. Please try again.');
+        },
+        complete: () => {
+          console.log('Login request completed');
+        },
       });
+    } else {
+      alert('Error! Invalid login');
     }
   }
 }

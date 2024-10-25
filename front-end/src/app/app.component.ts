@@ -11,6 +11,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { filter } from 'rxjs';
 import { LoginComponent } from './login/login.component';
 import { NgIf } from '@angular/common';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
