@@ -21,14 +21,16 @@ import { SuppilerCreateComponent } from './suppilers/create/create.component';
 import { SuppilerManageComponent } from './suppilers/manage/manage.component';
 import { LoginComponent } from './login/login.component';
 import { authGuard } from './auth/auth.guard';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '404', pathMatch: 'full' },
   { path: 'tax', redirectTo: '/tax/create', pathMatch: 'full' },
   { path: 'categories', redirectTo: '/categories/create', pathMatch: 'full' },
   { path: 'products', redirectTo: '/products/create', pathMatch: 'full' },
   { path: 'invoices', redirectTo: '/invoices/create', pathMatch: 'full' },
   { path: 'suppiler', redirectTo: '/suppiler/create', pathMatch: 'full' },
+  { path: '404', component: PageNotFoundComponent },
 
   { path: 'login', component: LoginComponent },
 

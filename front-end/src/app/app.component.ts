@@ -12,6 +12,7 @@ import { filter } from 'rxjs';
 import { LoginComponent } from './login/login.component';
 import { NgIf } from '@angular/common';
 import { AuthService } from './auth/auth.service';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ import { AuthService } from './auth/auth.service';
     SidebarComponent,
     NavbarComponent,
     LoginComponent,
+    PageNotFoundComponent,
     NgIf,
   ],
   templateUrl: './app.component.html',
@@ -88,5 +90,9 @@ export class AppComponent implements OnInit {
 
   isLoginRoute(): boolean {
     return this.router.url === '/login';
+  }
+
+  isPageNotFoundRoute(): boolean {
+    return this.router.url === '/404'; // Adjust to your Page Not Found route if different
   }
 }
