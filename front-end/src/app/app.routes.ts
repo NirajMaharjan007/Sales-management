@@ -30,8 +30,8 @@ export const routes: Routes = [
   { path: 'products', redirectTo: '/products/create', pathMatch: 'full' },
   { path: 'invoices', redirectTo: '/invoices/create', pathMatch: 'full' },
   { path: 'suppiler', redirectTo: '/suppiler/create', pathMatch: 'full' },
-  { path: '404', component: PageNotFoundComponent },
 
+  { path: '404', component: PageNotFoundComponent },
   { path: 'login', component: LoginComponent },
 
   {

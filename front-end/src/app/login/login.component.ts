@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import {
@@ -15,7 +15,7 @@ import {
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   authService = inject(AuthService);
   router = inject(Router);
 
@@ -25,15 +25,17 @@ export class LoginComponent {
   });
 
   constructor() {}
+  ngOnInit(): void {}
 
   // login() {}
 
   onSubmit() {
+    // this.authService.logout();
+
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (data: any) => {
-          // this.authService.isAuthenticated = true;
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
         },
         error: (error) => {
           console.error('Login error:', error);

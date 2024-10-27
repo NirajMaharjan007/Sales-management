@@ -8,6 +8,12 @@ export class LocalStorageService {
     return typeof window !== 'undefined' && !!window.localStorage;
   }
 
+  clear(): void {
+    if (this.isLocalStorageAvailable()) {
+      localStorage.clear();
+    }
+  }
+
   setItem(key: string, value: string): void {
     if (this.isLocalStorageAvailable()) {
       localStorage.setItem(key, value);

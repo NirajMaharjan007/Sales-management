@@ -18,8 +18,8 @@
       height="50"
     />
 
-    <mat-card-content>
-      <div class="text-center text-black">User's Name</div>
+    <mat-card-content *ngIf="user">
+      <div class="text-center text-black">{{ user.username }}</div>
     </mat-card-content>
   </div>
 </mat-toolbar-row>

@@ -88,11 +88,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  isLoginRoute(): boolean {
-    return this.router.url === '/login';
-  }
-
-  isPageNotFoundRoute(): boolean {
-    return this.router.url === '/404'; // Adjust to your Page Not Found route if different
+  isRoute(route: string): boolean {
+    return this.router.url.startsWith(route);
   }
 }
