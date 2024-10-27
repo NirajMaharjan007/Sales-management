@@ -3,7 +3,13 @@
     <div class="card shadow border-0 card-body px-3 py-4">
       <p class="text-center h2 pt-2 mb-0">Login Page</p>
       <hr />
-      <form class="form-group" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <form
+        class="form-group"
+        [formGroup]="loginForm"
+        method="Post"
+        (ngSubmit)="onSubmit()"
+      >
         <div class="mb-3 input-group">
           <input
             type="email"

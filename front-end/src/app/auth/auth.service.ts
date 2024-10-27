@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { tap } from 'rxjs/operators';
+import { LocalStorageService } from './localstorage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,33 +10,25 @@ import { tap } from 'rxjs/operators';
 export class AuthService {
   httpClient = inject(HttpClient);
   baseUrl = 'http://localhost:8080/api';
-  constructor() {}
+  constructor(private localStorageService: LocalStorageService) {}
 
   login(data: any) {
     return this.httpClient.post(`${this.baseUrl}/login`, data).pipe(
       tap((result) => {
-        if (typeof localStorage !== 'undefined') {
-          localStorage.setItem('auth_user', JSON.stringify(result));
-        } else if (typeof sessionStorage !== 'undefined') {
-          // Fallback to sessionStorage if localStorage is not supported
-          sessionStorage.setItem('auth_user', JSON.stringify(result));
-        } else {
-          // If neither localStorage nor sessionStorage is supported
-          console.error('Web Storage is not supported in this environment.');
-        }
+        this.localStorageService.setItem('auth_user', JSON.stringify(result));
       })
     );
   }
 
   logout() {
     try {
-      localStorage.removeItem('authUser');
+      this.localStorageService.removeItem('auth_user');
     } catch (error) {
       console.error('Error in logout:', error);
     }
   }
 
   isLoggedIn() {
-    return localStorage.getItem('authUser') !== null;
+    return this.localStorageService.getItem('auth_user') !== null;
   }
 }

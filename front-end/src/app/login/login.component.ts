@@ -32,6 +32,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (data: any) => {
+          // this.authService.isAuthenticated = true;
           this.router.navigate(['/']);
         },
         error: (error) => {
