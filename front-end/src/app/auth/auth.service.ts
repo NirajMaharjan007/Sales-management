@@ -31,7 +31,7 @@ export class AuthService {
     );
   }
 
-  logout() {
+  logout(): boolean {
     try {
       this.localStorageService.removeItem('auth_user');
       this.localStorageService.removeItem('auth_token');
@@ -39,8 +39,10 @@ export class AuthService {
 
       sessionStorage.removeItem('token');
       sessionStorage.clear();
+      return true;
     } catch (error) {
       console.error('Error in logout:', error);
+      return false;
     }
   }
 
