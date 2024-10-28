@@ -33,12 +33,27 @@ export class AuthService {
 
   logout(): boolean {
     try {
-      this.localStorageService.removeItem('auth_user');
-      this.localStorageService.removeItem('auth_token');
-      this.localStorageService.clear();
+      this.httpClient
+        .post(`${this.baseUrl}/logout`, {})
+        .pipe(
+          tap(() => {
+            this.localStorageService.removeItem('auth_user');
+            this.localStorageService.removeItem('authtoken_token');
+            this.localStorageService.clear();
 
-      sessionStorage.removeItem('token');
-      sessionStorage.clear();
+            sessionStorage.removeItem('token');
+            sessionStorage.clear();
+          })
+        )
+        .subscribe({
+          next: () => {
+            console.log('Logout successful');
+          },
+          error: (err) => {
+            console.error('Logout failed:', err);
+          },
+        });
+
       return true;
     } catch (error) {
       console.error('Error in logout:', error);
