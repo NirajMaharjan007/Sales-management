@@ -2,9 +2,13 @@ import { Component, OnInit } from '@angular/core';
 
 import {
   ActivatedRoute,
+  ActivatedRouteSnapshot,
+  MaybeAsync,
   NavigationEnd,
+  Resolve,
   Router,
   RouterOutlet,
+  RouterStateSnapshot,
 } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -13,6 +17,7 @@ import { LoginComponent } from './login/login.component';
 import { NgIf } from '@angular/common';
 import { AuthService } from './auth/auth.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -28,11 +33,23 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, Resolve<boolean> {
   title = 'Sales-Management';
   htmlContent = '';
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private authService: AuthService) {}
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): MaybeAsync<boolean> {
+    return new Promise((resolve) => {
+      var isAuthenticated = this.authService.isLoggedIn();
+      if (!isAuthenticated) {
+        this.router.navigate(['/login']);
+      }
+      resolve(true);
+    });
+  }
 
   ngOnInit(): void {
     // Listen to route changes and update `str` based on the current URL
