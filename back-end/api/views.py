@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework import permissions
+from rest_framework.permissions import AllowAny
 from django.contrib import auth
 from django.contrib.auth.models import User
 from rest_framework import status
@@ -60,9 +60,13 @@ def singup(request):
 
 
 @ api_view(['POST'])
-def logout(req):
-    auth.logout(request=req)
-    return Response({})
+def logout(request):
+    if hasattr(request.user, 'authtoken_token'):
+        request.user.auth_token.delete()
+        request.session.flush()
+        auth.logout(request=request)
+
+    return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
 
 
 schema_view = get_schema_view(
@@ -75,5 +79,9 @@ schema_view = get_schema_view(
         license=openapi.License(name="BSD License"),
     ),
     public=True,
-    permission_classes=(permissions.AllowAny,),
+    permission_classes=(AllowAny),
 )
+
+
+def get_taxes(request):
+    return Response({})
