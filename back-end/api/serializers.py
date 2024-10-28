@@ -13,4 +13,4 @@ class UserSerializer(ModelSerializer):
 class TaxSerializer(ModelSerializer):
     class Meta(object):
         model = Tax
-        field = '__all__'
+        fields = '__all__'

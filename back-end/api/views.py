@@ -1,3 +1,4 @@
+from random import randint
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -11,7 +12,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 
-from .serializers import UserSerializer
+from .serializers import *
 
 
 # class UserView(APIView):
@@ -83,5 +84,36 @@ schema_view = get_schema_view(
 )
 
 
+@api_view(['GET'])
 def get_taxes(request):
-    return Response({})
+    taxes = Tax.objects.all()
+    serializer = TaxSerializer(taxes, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['PATCH'])
+def edit_tax(request, id: int):
+    try:
+        tax = Tax.objects.get(pk=id)
+    except Tax.DoesNotExist:
+        return Response({'error': 'Tax not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = TaxSerializer(tax, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def set_tax(request):
+    serializer = TaxSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        tax = Tax()
+        tax.id = serializer.data['id']
+        tax.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
