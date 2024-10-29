@@ -1,0 +1,5 @@
+.tile {
+  min-width: min-content;
+  width: fit-content;
+  overflow: auto;
+}
