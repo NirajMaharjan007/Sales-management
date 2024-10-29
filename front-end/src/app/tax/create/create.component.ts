@@ -22,7 +22,7 @@ export class TaxCreateComponent {
   errorMessage: string | null = ' ';
   constructor(private fb: FormBuilder, private taxService: TaxService) {
     this.taxForm = this.fb.group({
-      id: ['id', [Validators.required, Validators.min(0)]],
+      id: ['id', [Validators.required]],
     });
   }
 

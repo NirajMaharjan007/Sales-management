@@ -20,4 +20,8 @@ export class TaxService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(this.set, taxData, { headers });
   }
+  getTaxes(): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get(this.get, { headers });
+  }
 }
