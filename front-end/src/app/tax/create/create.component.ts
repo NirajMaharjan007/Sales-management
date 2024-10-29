@@ -7,21 +7,22 @@ import {
   Validators,
 } from '@angular/forms';
 import { TaxService } from '../../services/tax.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'tax-create',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, NgIf],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css',
 })
 export class TaxCreateComponent {
   taxForm: FormGroup;
-  successMessage: string | null = null;
-  errorMessage: string | null = null;
+  successMessage: string | null = ' ';
+  errorMessage: string | null = ' ';
   constructor(private fb: FormBuilder, private taxService: TaxService) {
     this.taxForm = this.fb.group({
-      id: ['id', [Validators.required]], // Add any additional validators if necessary
+      id: ['id', [Validators.required, Validators.min(0)]],
     });
   }
 
@@ -31,15 +32,16 @@ export class TaxCreateComponent {
       this.taxService.createTax(this.taxForm.value).subscribe({
         next: (data: any) => {
           this.successMessage = 'Tax created successfully!';
-          this.errorMessage = null; // Clear any previous error message
+          this.errorMessage = ' '; // Clear any previous error message
           this.taxForm.reset(); // Reset the form
+          alert(this.successMessage);
         },
         error: (error) => {
-          this.errorMessage = error.error.message;
-          this.successMessage = null; // Clear any previous success message
+          this.errorMessage = 'An error occurred. Please try again.';
+          this.successMessage = ' '; // Clear any previous success message
+          alert(this.errorMessage);
         },
       });
-      alert(this.successMessage + ' ' + this.errorMessage);
     } else {
       alert('Invalid input');
     }

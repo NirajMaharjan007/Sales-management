@@ -111,9 +111,7 @@ def set_tax(request):
     serializer = TaxSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        tax = Tax()
-        tax.id = serializer.data['id']
-        tax.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    else: return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
