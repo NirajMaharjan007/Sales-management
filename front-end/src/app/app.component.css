@@ -12,11 +12,11 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1366px) {
   .container {
     position: relative;
     overflow: auto;
-    min-width: 75% !important;
+    min-width: 80% !important;
     margin-left: 16rem;
   }
 }
