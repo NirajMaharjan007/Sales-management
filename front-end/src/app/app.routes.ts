@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { TaxCreateComponent } from './tax/create/create.component';
-import { TaxEditComponent } from './tax/edit/edit.component';
 import { TaxIndexComponent } from './tax/index/index.component';
 import { CategoryManageComponent } from './categories/manage/manage.component';
 import { CategoryCreateComponent } from './categories/create/create.component';
@@ -41,7 +40,6 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'tax/manage', component: TaxIndexComponent },
       { path: 'tax/create', component: TaxCreateComponent },
-      { path: 'tax/edit/:id', component: TaxEditComponent },
       { path: 'categories/manage', component: CategoryManageComponent },
       { path: 'categories/create', component: CategoryCreateComponent },
       { path: 'categories/edit/:id', component: CategoryEditComponent },

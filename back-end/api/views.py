@@ -112,6 +112,33 @@ def set_tax(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
-    else: return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def delete_tax(request, id: int):
+    try:
+        tax = Tax.objects.get(id=id)
+        tax.delete()
+        return Response({"message": "Tax deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+    except Tax.DoesNotExist:
+        return Response({"error": "Tax not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST'])
+def set_category(request):
+    serializer = CategorySerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def get_categories(request):
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

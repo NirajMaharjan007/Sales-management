@@ -12,7 +12,11 @@ urlpatterns = [
 
     path('api/get_taxes', views.get_taxes, name='get_taxes'),
     path('api/set_tax', views.set_tax, name='set_tax'),
-    path('api/edit_tax/<int:id>/', views.edit_tax, name='edit_tax'),
+    path('api/delete_tax/<int:id>/', views.delete_tax, name='delete_tax'),
+
+    path('api/set_category', views.set_category, name='set_category'),
+    path('api/get_categories', views.get_categories, name='get_categories'),
+    #     path('api/delete_tax/<int:id>/', views.delete_tax, name='delete_tax'),
 
     path('api/', views.schema_view.with_ui('swagger'),
          name='schema-swagger-ui'),

@@ -37,14 +37,13 @@
                   *matCellDef="let element"
                   class="auto_visible text-center"
                 >
-                  <a
-                    class="btn btn-primary"
-                    routerLink="/tax/edit/{{ element.id }}"
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                    (click)="onDelete(element.id)"
                   >
-                    <i class="fa fa-edit"></i>
-                  </a>
-                  <button class="btn btn-danger mx-2">
-                    <i class="fa fa-trash"></i>
+                    <i class="fa fa-trash fa-fw me-2"></i>
+                    Delete
                   </button>
                 </td>
               </ng-container>

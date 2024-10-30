@@ -36,4 +36,23 @@ export class TaxIndexComponent implements AfterViewInit {
       this.source.paginator = this.paginator; // Set paginator here after data loads
     });
   }
+
+  onDelete(id: number) {
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this item?'
+    );
+    if (confirmed) {
+      this.taxService.deleteTax(id).subscribe({
+        next: () => {
+          console.log('Tax deleted successfully');
+        },
+        error: (error) => {
+          console.error('Error deleting tax', error);
+        },
+        complete: () => {
+          this.ngAfterViewInit();
+        },
+      });
+    }
+  }
 }
