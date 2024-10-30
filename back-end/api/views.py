@@ -91,21 +91,6 @@ def get_taxes(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(['PATCH'])
-def edit_tax(request, id: int):
-    try:
-        tax = Tax.objects.get(pk=id)
-    except Tax.DoesNotExist:
-        return Response({'error': 'Tax not found.'}, status=status.HTTP_404_NOT_FOUND)
-
-    serializer = TaxSerializer(tax, data=request.data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 @api_view(['POST'])
 def set_tax(request):
     serializer = TaxSerializer(data=request.data)
@@ -148,7 +133,7 @@ def get_categories(request):
 def get_category_by_id(request, id: int):
     try:
         category = Category.objects.get(id=id)
-        serializer = UserSerializer(category)
+        serializer = CategorySerializer(category)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Category.DoesNotExist:
         return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -169,8 +154,13 @@ def delete_category(request, id: int):
 @api_view(['PATCH'])
 def updated_category(request, id: int):
     try:
-        category = Category.objects.get(id=id)
-        category.save()
-        return Response({"message": "Category updated successfully"}, status=status.HTTP_204_NO_CONTENT)
-    except Tax.DoesNotExist:
-        return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
+        category = Category.objects.get(pk=id)
+    except Category.DoesNotExist:
+        return Response({'error': 'Category not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = CategorySerializer(category, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

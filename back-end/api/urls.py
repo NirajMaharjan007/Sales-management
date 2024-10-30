@@ -18,7 +18,7 @@ urlpatterns = [
     path('api/get_categories', views.get_categories, name='get_categories'),
     path('api/delete_category/<int:id>/', views.delete_category,
          name='delete_category'),
-    path('api/edit_category/<int:id>/', views.updated_category,
+    path('api/edit_category/<int:id>', views.updated_category,
          name='updated_category'),
     path('api/get_category/<int:id>/', views.get_category_by_id,
          name='get_category_by_id'),

@@ -3,11 +3,12 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { CategoriesService } from '../../services/categories.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'categories-manage',
   standalone: true,
-  imports: [RouterLink, MatPaginator, MatTableModule, MatPaginatorModule],
+  imports: [RouterLink, MatPaginator, MatTableModule, MatPaginatorModule, NgIf],
   templateUrl: './manage.component.html',
   styleUrl: './manage.component.css',
 })

@@ -9,11 +9,14 @@ import { Observable } from 'rxjs';
 export class CategoriesService {
   private set: string;
   private get: string;
+  private getById: string;
   private edit: string;
   private delete: string;
+
   constructor(private http: HttpClient, private authService: AuthService) {
     this.set = authService.baseUrl + '/set_category';
     this.get = authService.baseUrl + '/get_categories';
+    this.getById = authService.baseUrl + '/get_category/';
     this.edit = authService.baseUrl + '/edit_category/';
     this.delete = authService.baseUrl + '/delete_category/';
   }
@@ -27,10 +30,14 @@ export class CategoriesService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.get(this.get, { headers });
   }
-
-  editCategory(categoryData: any): Observable<any> {
+  getCategoryById(id: any) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.put(this.edit + categoryData.id, categoryData, {
+    return this.http.get(this.getById + id, { headers });
+  }
+
+  editCategory(id: any, categoryData: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.patch(this.edit + id, categoryData, {
       headers,
     });
   }
