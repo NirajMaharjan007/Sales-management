@@ -27,4 +27,16 @@ export class CategoriesService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.get(this.get, { headers });
   }
+
+  editCategory(categoryData: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put(this.edit + categoryData.id, categoryData, {
+      headers,
+    });
+  }
+
+  deleteCategory(categoryData: any) {
+    var del = this.delete + categoryData;
+    return this.http.delete(del, categoryData);
+  }
 }

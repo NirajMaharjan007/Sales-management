@@ -142,3 +142,35 @@ def get_categories(request):
     categories = Category.objects.all()
     serializer = CategorySerializer(categories, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_category_by_id(request, id: int):
+    try:
+        category = Category.objects.get(id=id)
+        serializer = UserSerializer(category)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Category.DoesNotExist:
+        return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['DELETE'])
+def delete_category(request, id: int):
+    try:
+        category = Category.objects.get(id=id)
+        category.delete()
+        return Response({"message": "Category deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+    except Tax.DoesNotExist:
+        return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['PATCH'])
+def updated_category(request, id: int):
+    try:
+        category = Category.objects.get(id=id)
+        category.save()
+        return Response({"message": "Category updated successfully"}, status=status.HTTP_204_NO_CONTENT)
+    except Tax.DoesNotExist:
+        return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)

@@ -25,7 +25,7 @@ export class CategoryCreateComponent {
     private categoriesService: CategoriesService
   ) {
     this.categoryForm = this.fb.group({
-      name: ['name', [Validators.required, Validators.minLength(3)]],
+      name: ['', [Validators.required, Validators.minLength(3)]],
     });
   }
 
