@@ -3,7 +3,12 @@
     <button mat-menu-item class="py-2">
       <i class="fa fa-cog fa-fw me-2" aria-hidden="true"></i>Settings
     </button>
-    <button mat-menu-item class="py-2 danger" (click)="logout()">
+    <button
+      mat-menu-item
+      class="py-2 danger"
+      type="button"
+      (click)="logout(user.id)"
+    >
       <i class="fa fa-sign-out fa-fw me-2" aria-hidden="true"></i> Logout
     </button>
   </ng-template>

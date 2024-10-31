@@ -30,13 +30,19 @@ export class NavbarComponent implements OnInit {
     this.user = this.userService.getUser();
   }
 
-  logout(): void {
-    if (this.authServer.logout()) {
-      this.router.navigate(['/login']);
-      console.log('Logged out');
-    } else {
-      this.router.navigate(['/404']);
-      console.error('Error in logout');
+  logout(id: any): void {
+    try {
+      this.authServer.clearToken(id);
+      if (this.authServer.logout()) {
+        this.router.navigate(['/login']);
+        console.log('Logged out');
+      } else {
+        this.router.navigate(['/404']);
+        console.error('Error in logout');
+      }
+    } catch (error) {
+      console.error('Error in logout:', error);
+      // this.router.navigate(['/500']);
     }
   }
 }
