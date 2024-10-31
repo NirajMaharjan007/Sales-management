@@ -6,6 +6,7 @@ router = DefaultRouter()
 router.register(r'user', views.UserViewSet, basename='user')
 router.register(r'tax', views.TaxViewSet, basename='tax')
 router.register(r'category', views.CategoryViewSet, basename='category')
+router.register(r'token', views.TokenViewSet, basename='token')
 
 
 urlpatterns = [

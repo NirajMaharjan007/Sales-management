@@ -65,12 +65,12 @@ class UserViewSet(ViewSet):
     # Logout endpoint
     @action(detail=False, methods=['post'])
     def logout(self, request):
-        if hasattr(request.user, 'auth_token'):
+        if hasattr(request.user, 'authtoken_token'):
             request.user.auth_token.delete()
-            request.session.flush()
-            auth.logout(request=request)
-            return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
-        return Response({'error': 'User is not logged in'}, status=status.HTTP_400_BAD_REQUEST)
+
+        request.session.flush()
+        auth.logout(request=request)
+        return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
 
 
 class TaxViewSet(ViewSet):
@@ -137,3 +137,14 @@ class CategoryViewSet(ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TokenViewSet(ViewSet):
+    def destroy(self, request, pk=None):
+        try:
+            user = User.objects.get(id=pk)
+            token = Token.objects.get(user_id=user.id)
+            token.delete()
+            return Response({"message": "Token deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Token.DoesNotExist:
+            return Response({"error": "Token not found"}, status=status.HTTP_404_NOT_FOUND)
