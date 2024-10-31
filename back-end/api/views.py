@@ -192,10 +192,52 @@ class UnitViewSet(ViewSet):
         try:
             unit = Unit.objects.get(id=pk)
             unit.delete()
-            return Response({"message": "Token deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
-
-        except User.DoesNotExist:
-            return Response({"error": "User id not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": "Unit deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
 
         except Token.DoesNotExist:
-            return Response({"error": "Token not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Unit not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class SupplierViewSet(ViewSet):
+    def list(self, request):
+        suppliers = Supplier.objects.all()
+        serializer = SupplierSerializer(suppliers, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        serializer = SupplierSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, pk=None):
+        try:
+            supplier = Supplier.objects.get(id=pk)
+            serializer = SupplierSerializer(supplier)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Supplier.DoesNotExist:
+            return Response({"error": "Supplier not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def partial_update(self, request, pk=None):
+        try:
+            supplier = Supplier.objects.get(pk=pk)
+        except Supplier.DoesNotExist:
+            return Response({'error': 'Supplier not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = SupplierSerializer(
+            supplier, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk=None):
+        try:
+            supplier = Supplier.objects.get(id=pk)
+            supplier.delete()
+            return Response({"message": "Supplier deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+        except Supplier.DoesNotExist:
+            return Response({"error": "Supplier not found"}, status=status.HTTP_404_NOT_FOUND)

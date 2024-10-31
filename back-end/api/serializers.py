@@ -12,6 +12,12 @@ class UserSerializer(ModelSerializer):
         exclude = ['password']
 
 
+class TokenSerializer(ModelSerializer):
+    class Meta(object):
+        model = Token
+        fields = '__all__'
+
+
 class TaxSerializer(ModelSerializer):
     class Meta(object):
         model = Tax
@@ -30,7 +36,7 @@ class UnitSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class TokenSerializer(ModelSerializer):
+class SupplierSerializer(ModelSerializer):
     class Meta(object):
-        model = Token
+        model = Supplier
         fields = '__all__'

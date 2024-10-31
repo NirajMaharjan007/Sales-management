@@ -43,3 +43,22 @@ class Unit(Model):
 
     class Meta:
         db_table = 'units'
+
+
+class Supplier(Model):
+    id = BigAutoField(primary_key=True)
+    name = CharField(max_length=255)
+    mobile = CharField(max_length=12)
+    address = TextField(blank=True, null=True)
+    details = TextField(blank=True, null=True)
+    previous_balance = DecimalField(
+        max_digits=12, decimal_places=2, default=0.00)
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'suppliers'
+        ordering = ['-created_at', '-updated_at']
+
+    def __str__(self) -> str:
+        return self.name
