@@ -24,18 +24,18 @@ export class CategoriesService {
   }
   getCategoryById(id: any) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get(this.api + id, { headers });
+    return this.http.get(`${this.api}${id}/`, { headers });
   }
 
   editCategory(id: any, categoryData: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.patch(this.api + id, categoryData, {
+    return this.http.patch(`${this.api}${id}/`, categoryData, {
       headers,
     });
   }
 
   deleteCategory(categoryData: any) {
     var del = this.api + categoryData;
-    return this.http.delete(del, categoryData);
+    return this.http.delete(`${del}/`, categoryData);
   }
 }
