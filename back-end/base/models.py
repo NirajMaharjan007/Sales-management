@@ -29,3 +29,17 @@ class Category(Model):
 
     class Meta:
         db_table = 'categories'
+
+
+class Unit(Model):
+    id = AutoField(primary_key=True)
+    name = CharField(max_length=256)
+    active = BooleanField(default=True)
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        db_table = 'units'

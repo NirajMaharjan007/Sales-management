@@ -24,6 +24,12 @@ class CategorySerializer(ModelSerializer):
         fields = '__all__'
 
 
+class UnitSerializer(ModelSerializer):
+    class Meta(object):
+        model = Unit
+        fields = '__all__'
+
+
 class TokenSerializer(ModelSerializer):
     class Meta(object):
         model = Token

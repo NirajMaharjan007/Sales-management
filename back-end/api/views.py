@@ -152,3 +152,50 @@ class TokenViewSet(ViewSet):
 
         except Token.DoesNotExist:
             return Response({"error": "Token not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class UnitViewSet(ViewSet):
+    def list(self, request):
+        units = Unit.objects.all()
+        serializer = UnitSerializer(units, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        serializer = UnitSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, pk=None):
+        try:
+            unit = Unit.objects.get(id=pk)
+            serializer = UnitSerializer(unit)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Unit.DoesNotExist:
+            return Response({"error": "Unit not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def partial_update(self, request, pk=None):
+        try:
+            category = Unit.objects.get(pk=pk)
+        except Unit.DoesNotExist:
+            return Response({'error': 'Unit not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = UnitSerializer(category, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk=None):
+        try:
+            unit = Unit.objects.get(id=pk)
+            unit.delete()
+            return Response({"message": "Token deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+        except User.DoesNotExist:
+            return Response({"error": "User id not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        except Token.DoesNotExist:
+            return Response({"error": "Token not found"}, status=status.HTTP_404_NOT_FOUND)
