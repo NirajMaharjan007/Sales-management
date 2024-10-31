@@ -14,16 +14,8 @@ export class AuthService {
 
   constructor(private localStorageService: LocalStorageService) {}
 
-  // login(data: any) {
-  //   return this.httpClient.post(`${this.baseUrl}/login`, data).pipe(
-  //     tap((result) => {
-  //       this.localStorageService.setItem('auth_user', JSON.stringify(result));
-  //     })
-  //   );
-  // }
-
   login(credentials: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/login`, credentials).pipe(
+    return this.httpClient.post(`${this.baseUrl}/user/login`, credentials).pipe(
       tap((response: any) => {
         localStorage.setItem('token', response.token);
         localStorage.setItem('auth_user', JSON.stringify(response.user));
@@ -34,7 +26,7 @@ export class AuthService {
   logout(): boolean {
     try {
       this.httpClient
-        .post(`${this.baseUrl}/logout`, {})
+        .post(`${this.baseUrl}/user/logout`, {})
         .pipe(
           tap(() => {
             this.localStorageService.removeItem('auth_user');

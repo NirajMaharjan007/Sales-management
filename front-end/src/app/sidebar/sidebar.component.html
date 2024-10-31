@@ -34,18 +34,25 @@
           <i class="fas fa-th fa-fw me-3"></i><span>Category</span>
         </a>
         <a
-          routerLink="/products/create"
-          class="list-group-item list-group-item-action ripple py-2"
-          [ngClass]="{ active: isRouteActive('/products') }"
-          ><i class="fas fa-cube fa-fw me-3"></i><span>Product</span></a
-        >
-        <a
           routerLink="/units/create"
           [ngClass]="{ active: isRouteActive('/units') }"
           class="list-group-item list-group-item-action ripple py-2"
         >
           <i class="fas fa-balance-scale fa-fw me-3"></i><span>Unit</span>
         </a>
+
+        <a
+          routerLink="/suppilers/create"
+          [ngClass]="{ active: isRouteActive('/suppiler') }"
+          class="list-group-item list-group-item-action ripple py-2"
+          ><i class="fas fa-truck fa-fw me-3"></i><span>Supplier</span></a
+        >
+        <a
+          routerLink="/products/create"
+          class="list-group-item list-group-item-action ripple py-2"
+          [ngClass]="{ active: isRouteActive('/products') }"
+          ><i class="fas fa-cube fa-fw me-3"></i><span>Product</span></a
+        >
         <a
           routerLink="/invoices/create"
           [ngClass]="{ active: isRouteActive('/invoices') }"
@@ -58,12 +65,7 @@
           class="list-group-item list-group-item-action ripple py-2"
           ><i class="fas fa-dollar fa-fw me-3"></i><span>Sales</span></a
         >
-        <a
-          routerLink="/suppilers/create"
-          [ngClass]="{ active: isRouteActive('/suppiler') }"
-          class="list-group-item list-group-item-action ripple py-2"
-          ><i class="fas fa-truck fa-fw me-3"></i><span>Supplier</span></a
-        >
+
         <a href="#" class="list-group-item list-group-item-action ripple py-2">
           <i class="fa fa-history fa-fw me-3" aria-hidden="true"></i
           ><span>Log</span>
