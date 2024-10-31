@@ -146,5 +146,9 @@ class TokenViewSet(ViewSet):
             token = Token.objects.get(user_id=user.id)
             token.delete()
             return Response({"message": "Token deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+        except User.DoesNotExist:
+            return Response({"error": "User id not found"}, status=status.HTTP_404_NOT_FOUND)
+
         except Token.DoesNotExist:
             return Response({"error": "Token not found"}, status=status.HTTP_404_NOT_FOUND)
