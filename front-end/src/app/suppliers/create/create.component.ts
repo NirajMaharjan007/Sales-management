@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { SuppilersService } from '../../services/suppilers.service';
+import { SuppilersService } from '../../services/suppliers.service';
 
 @Component({
   selector: 'supplier-create',

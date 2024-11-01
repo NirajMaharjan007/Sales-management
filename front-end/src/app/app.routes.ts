@@ -16,8 +16,8 @@ import { UnitEditComponent } from './unit/edit/edit.component';
 import { InvoiceCreateComponent } from './invoice/create/create.component';
 import { InvoiceManageComponent } from './invoice/manage/manage.component';
 import { SalesComponent } from './sales/sales.component';
-import { SuppilerCreateComponent } from './suppilers/create/create.component';
-import { SuppilerManageComponent } from './suppilers/manage/manage.component';
+import { SupplierCreateComponent } from './suppliers/create/create.component';
+import { SupplierManageComponent } from './suppliers/manage/manage.component';
 import { LoginComponent } from './login/login.component';
 import { authGuard } from './auth/auth.guard';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -28,7 +28,7 @@ export const routes: Routes = [
   { path: 'categories', redirectTo: '/categories/create', pathMatch: 'full' },
   { path: 'products', redirectTo: '/products/create', pathMatch: 'full' },
   { path: 'invoices', redirectTo: '/invoices/create', pathMatch: 'full' },
-  { path: 'suppiler', redirectTo: '/suppiler/create', pathMatch: 'full' },
+  { path: 'suppliers', redirectTo: '/suppliers/create', pathMatch: 'full' },
 
   { path: '404', component: PageNotFoundComponent },
   { path: 'login', component: LoginComponent },
@@ -52,8 +52,8 @@ export const routes: Routes = [
       { path: 'invoices/create', component: InvoiceCreateComponent },
       { path: 'invoices/manage', component: InvoiceManageComponent },
       { path: 'sales', component: SalesComponent },
-      { path: 'suppilers/create', component: SuppilerCreateComponent },
-      { path: 'suppilers/manage', component: SuppilerManageComponent },
+      { path: 'suppliers/create', component: SupplierCreateComponent },
+      { path: 'suppliers/manage', component: SupplierManageComponent },
     ],
   },
 ];
