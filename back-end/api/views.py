@@ -228,6 +228,7 @@ class SupplierViewSet(ViewSet):
 
         serializer = SupplierSerializer(
             supplier, data=request.data, partial=True)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)

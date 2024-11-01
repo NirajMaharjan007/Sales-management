@@ -53,7 +53,6 @@ export class UnitEditComponent {
   }
 
   onSubmit() {
-    console.log('onSubmit ' + this.unitForm.valid);
     if (this.unitForm.valid) {
       this.unitsService.editUnit(this.id, this.unitForm.value).subscribe({
         next: (data: any) => {

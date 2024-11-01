@@ -41,10 +41,10 @@ export class UnitManageComponent implements AfterViewInit {
     if (confirmed) {
       this.unitsService.deleteUnit(id).subscribe({
         next: () => {
-          console.log('Category deleted successfully');
+          console.log('Unit deleted successfully');
         },
         error: (error) => {
-          console.error('Category deleting tax', error);
+          console.error('Failed deleting unit', error);
         },
         complete: () => {
           this.ngAfterViewInit();

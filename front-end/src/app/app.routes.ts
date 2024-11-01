@@ -21,6 +21,7 @@ import { SupplierManageComponent } from './suppliers/manage/manage.component';
 import { LoginComponent } from './login/login.component';
 import { authGuard } from './auth/auth.guard';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SupplierEditComponent } from './suppliers/edit/edit.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '404', pathMatch: 'full' },
@@ -54,6 +55,7 @@ export const routes: Routes = [
       { path: 'sales', component: SalesComponent },
       { path: 'suppliers/create', component: SupplierCreateComponent },
       { path: 'suppliers/manage', component: SupplierManageComponent },
+      { path: 'suppliers/edit/:id', component: SupplierEditComponent },
     ],
   },
 ];
