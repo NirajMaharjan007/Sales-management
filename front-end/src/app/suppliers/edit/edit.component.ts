@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -38,8 +39,18 @@ export class SupplierEditComponent {
     this.supplierForm = this.fb.group({
       name: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      mobile: ['', [Validators.required, Validators.minLength(10)]],
-      previous_balance: ['', [Validators.required]],
+      mobile: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.pattern('^[0-9]*$'),
+        ],
+      ],
+      previous_balance: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]*$')],
+      ],
       details: ['', [Validators.minLength(1)]],
     });
   }
@@ -52,17 +63,20 @@ export class SupplierEditComponent {
   }
 
   fetch() {
-    this.suppilersService.getSupplierById(this.id).subscribe({
-      next: (data: any) => {
-        this.name = data.name;
-        this.address = data.address;
-        this.mobile = data.mobile;
-        this.previous_balance = data.previous_balance;
-        this.details = data.details;
-      },
-      error: (error) => {
-        console.error('Error getting unit', error);
-      },
+    this.suppilersService.getSupplierById(this.id).subscribe((data: any) => {
+      this.name = data.name;
+      this.mobile = data.mobile;
+      this.address = data.address;
+      this.previous_balance = data.previous_balance;
+      this.details = data.details;
+
+      this.supplierForm.patchValue({
+        name: data.name,
+        mobile: data.mobile,
+        address: data.address,
+        previous_balance: data.previous_balance,
+        details: data.details,
+      });
     });
   }
 

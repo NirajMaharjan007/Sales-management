@@ -26,8 +26,18 @@ export class SupplierCreateComponent {
     this.supplierForm = this.fb.group({
       name: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      mobile: ['', [Validators.required, Validators.minLength(10)]],
-      previous_balance: ['', [Validators.required]],
+      mobile: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.pattern('^[0-9]*$'),
+        ],
+      ],
+      previous_balance: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]*$')],
+      ],
       details: ['', [Validators.minLength(1)]],
     });
   }

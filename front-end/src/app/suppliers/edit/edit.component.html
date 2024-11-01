@@ -16,7 +16,6 @@
                 name="name"
                 class="form-control"
                 formControlName="name"
-                value="{{ name }}"
                 type="text"
                 placeholder="Enter Name of Supplier"
               />
@@ -24,11 +23,10 @@
             <div class="form-group col-md-12">
               <label class="control-label">Contact</label>
               <input
-                formControlName="mobile"
-                value="{{ mobile }}"
                 name="mobile"
                 class="form-control"
-                type="number"
+                formControlName="mobile"
+                type="text"
                 placeholder="Enter Contact Number of Supplier"
               />
             </div>
@@ -36,7 +34,6 @@
               <label class="control-label">Address</label>
               <textarea
                 name="address"
-                value="{{ address }}"
                 formControlName="address"
                 class="form-control"
               ></textarea>
@@ -45,7 +42,6 @@
               <label class="control-label">Details</label>
               <textarea
                 name="details"
-                value="{{ details }}"
                 class="form-control"
                 formControlName="details"
               ></textarea>
@@ -55,10 +51,9 @@
               <label class="control-label">Previous Credit Balance</label>
               <input
                 name="previous_balance"
-                value="{{ previous_balance }}"
                 class="form-control"
                 formControlName="previous_balance"
-                type="number"
+                type="text"
                 placeholder="Enter Credit Balance"
               />
             </div>

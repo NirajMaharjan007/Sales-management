@@ -51,8 +51,7 @@ class Supplier(Model):
     mobile = CharField(max_length=12)
     address = TextField(blank=True, null=True)
     details = TextField(blank=True, null=True)
-    previous_balance = DecimalField(
-        max_digits=12, decimal_places=2, default=0.00)
+    previous_balance = IntegerField(default=0)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 
