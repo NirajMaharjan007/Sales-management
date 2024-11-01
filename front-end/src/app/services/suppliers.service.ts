@@ -9,7 +9,7 @@ export class SuppilersService {
   api: string;
 
   constructor(private http: HttpClient, private authService: AuthService) {
-    this.api = authService.baseUrl + '/suppiler/';
+    this.api = authService.baseUrl + '/supplier/';
   }
 
   createSupplier(supplierData: any) {
