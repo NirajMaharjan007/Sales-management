@@ -26,9 +26,9 @@ export class SupplierCreateComponent {
     this.supplierForm = this.fb.group({
       name: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      phone: ['', [Validators.required, Validators.minLength(10)]],
-      credit: ['', [Validators.required]],
-      details: ['N/A'],
+      mobile: ['', [Validators.required, Validators.minLength(10)]],
+      previous_balance: ['', [Validators.required]],
+      details: ['', [Validators.minLength(1)]],
     });
   }
 
@@ -36,7 +36,7 @@ export class SupplierCreateComponent {
     if (this.supplierForm.valid) {
       this.suppilersService.createSupplier(this.supplierForm.value).subscribe({
         next: (data: any) => {
-          this.successMessage = 'Unit created successfully!';
+          this.successMessage = 'Supplier created successfully!';
           this.errorMessage = ' '; // Clear any previous error message
           this.supplierForm.reset(); // Reset the form
           alert(this.successMessage);
