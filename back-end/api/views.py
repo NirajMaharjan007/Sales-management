@@ -242,3 +242,27 @@ class SupplierViewSet(ViewSet):
 
         except Supplier.DoesNotExist:
             return Response({"error": "Supplier not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ProductSupplierViewSet(ViewSet):
+    def list(self, request):
+        product_suppliers = Product_Supplier.objects.all()
+        serializer = ProductSupplierSerializer(product_suppliers, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        serializer = ProductSupplierSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request):
+        try:
+            product_supplier = Product_Supplier.objects.get(
+                id=request.data.get('id'))
+            product_supplier.delete()
+            return Response({"message": "Product Supplier deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Product_Supplier.DoesNotExist:
+            return Response({"error": "Product Supplier not found"}, status=status.HTTP_404_NOT_FOUND)

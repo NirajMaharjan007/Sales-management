@@ -9,6 +9,8 @@ router.register(r'tax', views.TaxViewSet, basename='tax')
 router.register(r'category', views.CategoryViewSet, basename='category')
 router.register(r'unit', views.UnitViewSet, basename='unit')
 router.register(r'supplier', views.SupplierViewSet, basename='supplier')
+router.register(r'product_supplier', views.ProductSupplierViewSet,
+                basename='product_supplier')
 
 
 urlpatterns = [
