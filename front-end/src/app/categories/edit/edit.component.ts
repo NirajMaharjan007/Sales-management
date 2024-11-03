@@ -44,6 +44,9 @@ export class CategoryEditComponent {
     this.categoriesService.getCategoryById(this.id).subscribe({
       next: (data: any) => {
         this.name = data.name;
+        this.categoryForm.patchValue({
+          name: this.name,
+        });
       },
       error: (error) => {
         console.error('Error getting category', error);

@@ -45,6 +45,9 @@ export class UnitEditComponent {
     this.unitsService.getById(this.id).subscribe({
       next: (data: any) => {
         this.name = data.name;
+        this.unitForm.patchValue({
+          name: this.name,
+        });
       },
       error: (error) => {
         console.error('Error getting unit', error);
