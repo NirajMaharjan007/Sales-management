@@ -43,9 +43,20 @@
             <!-- Category -->
             <div class="form-group col-md-6">
               <label class="control-label">Category</label>
-              <select name="category_id" class="form-control">
-                <option value="">---Select Category---</option>
-              </select>
+              <span *ngIf="isNull(categories); else notNull">
+                <div class="form-control">No Data</div>
+              </span>
+              <ng-template #notNull>
+                <select name="category_id" class="form-control">
+                  <option value="">---Select Category---</option>
+                  <option
+                    *ngFor="let category of categories"
+                    [value]="category.id"
+                  >
+                    {{ category.name }}
+                  </option>
+                </select>
+              </ng-template>
             </div>
 
             <!-- Selling Price -->
@@ -73,9 +84,17 @@
             <!-- Unit -->
             <div class="form-group col-md-6">
               <label class="control-label">Unit</label>
-              <select name="unit_id" class="form-control">
-                <option value="">---Select Unit---</option>
-              </select>
+              <span *ngIf="isNull(units); else notNullUnits">
+                <div class="form-control">No Data</div>
+              </span>
+              <ng-template #notNullUnits>
+                <select name="unit_id" class="form-control">
+                  <option value="">---Select Unit---</option>
+                  <option *ngFor="let unit of units" [value]="unit.id">
+                    {{ unit.name }}
+                  </option>
+                </select>
+              </ng-template>
             </div>
 
             <!-- Image -->
@@ -87,9 +106,17 @@
             <!-- Tax -->
             <div class="form-group col-md-6">
               <label class="control-label">Tax</label>
-              <select name="tax_id" class="form-control">
-                <option value="">---Select Tax---</option>
-              </select>
+              <span *ngIf="isNull(taxes); else notNullTaxes">
+                <div class="form-control">No Data</div>
+              </span>
+              <ng-template #notNullTaxes>
+                <select name="tax_id" class="form-control">
+                  <option value="">---Select Tax---</option>
+                  <option *ngFor="let tax of taxes" [value]="tax.id">
+                    {{ tax.id }}
+                  </option>
+                </select>
+              </ng-template>
             </div>
           </div>
 
@@ -104,7 +131,13 @@
               <div class="row group">
                 <div class="form-group col-md-4">
                   <select name="supplier_id[]" class="form-control">
-                    <option value="">Select Supplier</option>
+                    <option value="">---Select Supplier---</option>
+                    <option
+                      *ngFor="let supplier of suppliers"
+                      [value]="supplier.id"
+                    >
+                      {{ supplier.name }}
+                    </option>
                   </select>
                 </div>
 
