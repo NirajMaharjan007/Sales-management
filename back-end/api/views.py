@@ -140,15 +140,16 @@ class CategoryViewSet(ViewSet):
 
 
 class TokenViewSet(ViewSet):
+    def list(self, request):
+        tokens = Token.objects.all()
+        serializer = TokenSerializer(tokens, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def destroy(self, request, pk=None):
         try:
-            user = User.objects.get(id=pk)
-            token = Token.objects.get(user_id=user.id)
+            token = Token.objects.get(key=pk)
             token.delete()
             return Response({"message": "Token deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
-
-        except User.DoesNotExist:
-            return Response({"error": "User id not found"}, status=status.HTTP_404_NOT_FOUND)
 
         except Token.DoesNotExist:
             return Response({"error": "Token not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -242,6 +243,54 @@ class SupplierViewSet(ViewSet):
 
         except Supplier.DoesNotExist:
             return Response({"error": "Supplier not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ProductViewSet(ViewSet):
+    def list(self, request):
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            print(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, pk=None):
+        try:
+            product = Product.objects.get(id=pk)
+            serializer = ProductSerializer(product)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Product.DoesNotExist:
+            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def destroy(self, request, pk=None):
+        try:
+            product = Product.objects.get(id=pk)
+            product.delete()
+            return Response({"message": "Product deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Product.DoesNotExist:
+            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def partial_update(self, request, pk=None):
+        try:
+            product = Product.objects.get(pk=pk)
+        except Product.DoesNotExist:
+            return Response({"error": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ProductSerializer(
+            product, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Product not Updated."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProductSupplierViewSet(ViewSet):

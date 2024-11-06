@@ -42,6 +42,12 @@ class SupplierSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class ProductSerializer(ModelSerializer):
+    class Meta(object):
+        model = Product
+        fields = '__all__'
+
+
 class ProductSupplierSerializer(ModelSerializer):
     class Meta(object):
         model = Product_Supplier
