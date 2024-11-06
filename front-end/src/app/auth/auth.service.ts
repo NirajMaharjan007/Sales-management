@@ -29,11 +29,14 @@ export class AuthService {
       );
   }
 
-  clearToken(id: any) {
-    this.httpClient.delete(`${this.baseUrl}/token/${id}/`);
+  clearToken(key: any) {
+    this.httpClient.delete(`${this.baseUrl}/token/${key}/`, {
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
   logout(): boolean {
+    this.clearToken(this.localStorageService.getItem('authtoken_token'));
     try {
       this.httpClient
         .post(`${this.baseUrl}/user/logout/`, {
@@ -43,6 +46,9 @@ export class AuthService {
         })
         .pipe(
           tap(() => {
+            this.clearToken(
+              this.localStorageService.getItem('authtoken_token')
+            );
             this.localStorageService.removeItem('auth_user');
             this.localStorageService.removeItem('authtoken_token');
             this.localStorageService.clear();
@@ -52,7 +58,7 @@ export class AuthService {
         )
         .subscribe({
           next: () => {
-            console.log('Logout successful');
+            console.log('Logout successful ');
           },
           error: (err) => {
             console.error('Logout failed:', err);
