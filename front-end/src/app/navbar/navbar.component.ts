@@ -32,7 +32,6 @@ export class NavbarComponent implements OnInit {
 
   logout(id: any): void {
     try {
-      this.authServer.clearToken(id);
       if (this.authServer.logout()) {
         this.router.navigate(['/login']);
         console.log('Logged out');
