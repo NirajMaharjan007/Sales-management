@@ -6,11 +6,18 @@ import { CategoriesService } from '../../services/categories.service';
 import { UnitsService } from '../../services/units.service';
 import { TaxService } from '../../services/tax.service';
 import { SuppilersService } from '../../services/suppliers.service';
+import { ProductsService } from '../../services/products.service';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'product-create',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf, NgFor],
+  imports: [RouterLink, NgFor, NgIf, ReactiveFormsModule],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css',
   animations: [
@@ -28,13 +35,32 @@ export class ProductCreateComponent implements OnInit {
   units: any;
   taxes: any;
   suppliers: any;
+  selectedFile: File | null = null;
+  productForm: FormGroup;
 
   constructor(
     private categoriesService: CategoriesService,
     private unitsService: UnitsService,
     private taxService: TaxService,
-    private suppilersService: SuppilersService
-  ) {}
+    private suppilersService: SuppilersService,
+    private productsService: ProductsService,
+    private fb: FormBuilder
+  ) {
+    this.productForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      serial_number: ['', Validators.required],
+      model: ['', Validators.required],
+      category_id: ['', [Validators.required]],
+      tax_id: ['', [Validators.required]],
+      unit_id: ['', [Validators.required]],
+      supplierId: ['', [Validators.required]],
+      sales_price: ['', [Validators.required, Validators.min(0)]],
+      qty: ['', [Validators.required, Validators.min(1)]],
+      image: ['', [Validators.required]],
+      supplier_id: ['', [Validators.required]],
+      purchase_price: ['', [Validators.required]],
+    });
+  }
   ngOnInit(): void {
     try {
       this.fetch();
@@ -73,7 +99,23 @@ export class ProductCreateComponent implements OnInit {
     return this.cards.length > 1;
   }
 
-  isNull(variable: any) {
-    return variable === null || variable === undefined;
+  onSubmit() {
+    console.log('Submit: ' + this.productForm.valid);
+
+    // if (this.productForm.valid) {
+
+    // } else {
+    //   alert('invalid input');
+    // }
+
+    this.productsService.createProduct(this.productForm.value).subscribe({
+      next: (response) => {
+        console.log(response);
+        alert(response);
+      },
+      error: (error) => {
+        alert('An error occurred. Please try again.');
+      },
+    });
   }
 }

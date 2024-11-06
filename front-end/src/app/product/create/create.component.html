@@ -5,13 +5,19 @@
     <div class="tile">
       <div class="tile-body">
         <p class="tile-title">Add new Product</p>
-        <form method="POST" action="" enctype="multipart/form-data">
+        <form
+          [formGroup]="productForm"
+          (ngSubmit)="onSubmit()"
+          [attr.enctype]="'multipart/form-data'"
+          method="post"
+        >
           <div class="row">
             <!-- Product Name -->
             <div class="form-group col-md-6">
               <label class="control-label">Product</label>
               <input
                 name="name"
+                formControlName="name"
                 class="form-control"
                 type="text"
                 placeholder="Product Name"
@@ -23,6 +29,7 @@
               <label class="control-label">Serial Number</label>
               <input
                 name="serial_number"
+                formControlName="serial_number"
                 class="form-control"
                 type="text"
                 placeholder="Enter Serial Number"
@@ -35,6 +42,7 @@
               <input
                 name="model"
                 class="form-control"
+                formControlName="model"
                 type="text"
                 placeholder="Enter Model"
               />
@@ -43,20 +51,21 @@
             <!-- Category -->
             <div class="form-group col-md-6">
               <label class="control-label">Category</label>
-              <span *ngIf="isNull(categories); else notNull">
-                <div class="form-control">No Data</div>
-              </span>
-              <ng-template #notNull>
-                <select name="category_id" class="form-control">
-                  <option value="">---Select Category---</option>
-                  <option
-                    *ngFor="let category of categories"
-                    [value]="category.id"
-                  >
-                    {{ category.name }}
-                  </option>
-                </select>
-              </ng-template>
+              <select
+                name="category_id"
+                class="form-control"
+                formControlName="category_id"
+              >
+                <option value="" class="form-control" disabled selected>
+                  --- Select the Categoies ---
+                </option>
+                <option
+                  *ngFor="let category of categories"
+                  [ngValue]="category.id"
+                >
+                  {{ category.name }}
+                </option>
+              </select>
             </div>
 
             <!-- Selling Price -->
@@ -65,6 +74,7 @@
               <input
                 name="sales_price"
                 class="form-control"
+                formControlName="sales_price"
                 type="number"
                 step="0.01"
                 placeholder="Enter Selling Price"
@@ -77,6 +87,7 @@
               <input
                 name="qty"
                 class="form-control"
+                formControlName="qty"
                 type="number"
                 placeholder="Enter Quantity"
               />
@@ -84,44 +95,53 @@
             <!-- Unit -->
             <div class="form-group col-md-6">
               <label class="control-label">Unit</label>
-              <span *ngIf="isNull(units); else notNullUnits">
-                <div class="form-control">No Data</div>
-              </span>
-              <ng-template #notNullUnits>
-                <select name="unit_id" class="form-control">
-                  <option value="">---Select Unit---</option>
-                  <option *ngFor="let unit of units" [value]="unit.id">
-                    {{ unit.name }}
-                  </option>
-                </select>
-              </ng-template>
+              <select
+                name="unit_id"
+                class="form-control"
+                formControlName="unit_id"
+              >
+                <option value="" class="form-control" disabled selected>
+                  --- Select the Units ---
+                </option>
+                <option *ngFor="let unit of units" [ngValue]="unit.id">
+                  {{ unit.name }}
+                </option>
+              </select>
             </div>
 
             <!-- Image -->
             <div class="form-group col-md-6">
               <label class="control-label">Image</label>
-              <input name="image" class="form-control" type="file" />
+              <input
+                name="image"
+                class="form-control"
+                formControlName="image"
+                type="file"
+              />
             </div>
 
             <!-- Tax -->
             <div class="form-group col-md-6">
               <label class="control-label">Tax</label>
-              <span *ngIf="isNull(taxes); else notNullTaxes">
-                <div class="form-control">No Data</div>
-              </span>
-              <ng-template #notNullTaxes>
-                <select name="tax_id" class="form-control">
-                  <option value="">---Select Tax---</option>
-                  <option *ngFor="let tax of taxes" [value]="tax.id">
-                    {{ tax.id }}
-                  </option>
-                </select>
-              </ng-template>
+
+              <select
+                name="tax_id"
+                class="form-control"
+                formControlName="tax_id"
+              >
+                <option value="" class="form-control" disabled selected>
+                  --- Select the Tax ---
+                </option>
+                <option *ngFor="let tax of taxes" [ngValue]="tax.id">
+                  {{ tax.id }}
+                </option>
+              </select>
             </div>
           </div>
 
           <!-- Suppliers Section -->
           <div class="mt-md-4">
+            <label for="supplier">Supplier</label>
             <div
               id="example-2"
               class="content py-2"
@@ -130,11 +150,17 @@
             >
               <div class="row group">
                 <div class="form-group col-md-4">
-                  <select name="supplier_id[]" class="form-control">
-                    <option value="">---Select Supplier---</option>
+                  <select
+                    name="supplier_id"
+                    class="form-control"
+                    formControlName="supplier_id"
+                  >
+                    <option value="" class="form-control" disabled selected>
+                      --- Suppliers ---
+                    </option>
                     <option
                       *ngFor="let supplier of suppliers"
-                      [value]="supplier.id"
+                      [ngValue]="supplier.id"
                     >
                       {{ supplier.name }}
                     </option>
@@ -143,8 +169,9 @@
 
                 <div class="form-group col-md-4">
                   <input
-                    name="supplier_price[]"
+                    name="supplier_price"
                     class="form-control"
+                    formControlName="purchase_price"
                     type="number"
                     step="0.01"
                     placeholder="Purchase Price"
