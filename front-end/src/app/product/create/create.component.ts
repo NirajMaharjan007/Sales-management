@@ -114,7 +114,7 @@ export class ProductCreateComponent implements OnInit {
         .subscribe({
           next: (response) => {
             console.log(response);
-            alert(response);
+            alert('DONE');
           },
           error: (error) => {
             alert('An error occurred. Please try again.');

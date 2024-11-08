@@ -25,10 +25,8 @@ export class ProductsService {
     formData.append('unit_id', data.unit_id.toString());
     formData.append('tax_id', data.tax_id.toString());
 
-    // Append the image file, if there is one
-    if (file) {
-      formData.append('image', file, file.name);
-    }
+    formData.append('image', file, file.name);
+
     return this.http.post(this.api, formData);
   }
 
