@@ -17,7 +17,7 @@ import {
 @Component({
   selector: 'product-create',
   standalone: true,
-  imports: [RouterLink, NgFor, ReactiveFormsModule],
+  imports: [RouterLink, NgFor, ReactiveFormsModule, NgIf],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css',
   animations: [
@@ -56,12 +56,9 @@ export class ProductCreateComponent implements OnInit {
       sales_price: ['', [Validators.required, Validators.min(0)]],
       qty: ['', [Validators.required, Validators.min(1)]],
       image: [null, [Validators.required]],
-    });
-
-    /**
-     * TODO:  supplier_id: ['', [Validators.required]],
+      supplier_id: ['', [Validators.required]],
       purchase_price: ['', [Validators.required]],
-     */
+    });
   }
   ngOnInit(): void {
     try {
