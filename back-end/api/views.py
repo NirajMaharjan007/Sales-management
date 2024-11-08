@@ -5,6 +5,7 @@ from rest_framework import permissions
 from django.contrib import auth
 from django.contrib.auth.models import User
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.viewsets import ViewSet
 from rest_framework.authtoken.models import Token
 from drf_yasg.views import get_schema_view
@@ -246,6 +247,8 @@ class SupplierViewSet(ViewSet):
 
 
 class ProductViewSet(ViewSet):
+    parser_classes = (MultiPartParser, FormParser)
+
     def list(self, request):
         products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
