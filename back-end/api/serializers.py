@@ -1,5 +1,4 @@
-from rest_framework.serializers import ModelSerializer
-from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer, ValidationError
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
@@ -47,6 +46,12 @@ class ProductSerializer(ModelSerializer):
     class Meta(object):
         model = Product
         fields = '__all__'
+
+    def validate_serial_number(self, value):
+        if Product.objects.filter(serial_number=value).exists():
+            raise ValidationError(
+                "A product with this serial number already exists.")
+        return value
 
 
 class ProductSupplierSerializer(ModelSerializer):

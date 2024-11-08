@@ -114,10 +114,18 @@ export class ProductCreateComponent implements OnInit {
         .subscribe({
           next: (response) => {
             console.log(response);
-            alert('DONE');
+            alert('Product created successfully');
           },
           error: (error) => {
-            alert('An error occurred. Please try again.');
+            if (
+              error?.error?.serial_number &&
+              error.error.serial_number[0] ===
+                'A product with this serial number already exists.'
+            ) {
+              alert('Error: A product with this serial number already exists.');
+            } else {
+              alert('An error occurred. Please try again.');
+            }
           },
         });
     } else {

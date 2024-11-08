@@ -254,16 +254,34 @@ class ProductViewSet(ViewSet):
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @action(detail=True, methods=['get'], url_path='serial/(?P<serial_number>[^/.]+)')
+    def get_by_serial(self, request, serial_number=None):
+        try:
+            product = Product.objects.get(serial_number=serial_number)
+            serializer = ProductSerializer(product)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Product.DoesNotExist:
+            return Response({"error": "Product's Serial number not found"}, status=status.HTTP_404_NOT_FOUND)
+
     def create(self, request):
         serializer = ProductSerializer(data=request.data)
 
-        if serializer.is_valid():
+        try:
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except ValidationError as exc:
+            return Response({"message": exc.detail}, status=status.HTTP_409_CONFLICT)
+
+        """  if serializer.is_valid():
             serializer.save()
             print(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             print(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) """
 
     def retrieve(self, request, pk=None):
         try:

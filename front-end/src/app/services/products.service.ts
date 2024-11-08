@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -28,6 +29,12 @@ export class ProductsService {
     formData.append('image', file, file.name);
 
     return this.http.post(this.api, formData);
+  }
+
+  getProductBySerial(serial: string): Observable<any> {
+    return this.http
+      .get<boolean>(`${this.api}/product/serial//${serial}/`)
+      .pipe(catchError(() => of(false)));
   }
 
   createProductSupplier(data: any) {
