@@ -12,11 +12,14 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1366px) {
   .container {
     position: relative;
-    overflow: auto;
-    min-width: 75% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    min-width: fit-content !important;
+    width: 80% !important;
+    padding-right: 1rem;
     margin-left: 16rem;
   }
 }
@@ -28,7 +31,7 @@
   }
 
   .container {
-    overflow: auto;
+    /* overflow: auto; */
     min-width: 100% !important;
     margin-top: 0.64rem;
     margin-left: 0; /* No margin on mobile */

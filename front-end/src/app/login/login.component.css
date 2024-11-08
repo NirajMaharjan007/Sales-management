@@ -1,0 +1,23 @@
+.bg-gray {
+  background-color: #f0f2f5;
+  height: 100vh;
+}
+
+input::placeholder {
+  color: rgb(190, 186, 186) !important;
+  font-size: 0.8em;
+}
+
+.card {
+  max-width: fit-content;
+  min-width: 50%;
+  margin-top: 50%;
+  margin-bottom: 50%;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

@@ -7,14 +7,19 @@
       <div class="tile">
         <h3 class="tile-title">Category</h3>
         <div class="tile-body">
-          <form method="POST" action="">
+          <form
+            [formGroup]="categoryForm"
+            (ngSubmit)="onSubmit()"
+            method="post"
+          >
             <div class="form-group col-md-12">
               <label class="control-label">Category Name</label>
               <input
+                placeholder="Enter Category Name"
+                formControlName="name"
                 name="name"
                 class="form-control"
                 type="text"
-                placeholder="Enter Category Name"
               />
 
               <!-- <span class="invalid-feedback" role="alert">

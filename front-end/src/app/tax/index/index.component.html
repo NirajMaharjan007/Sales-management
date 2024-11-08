@@ -7,61 +7,54 @@
 
     <div class="row mt-2">
       <div class="col-md-12">
-        <div class="tile">
-          <div class="title-body">
-            <table mat-table [dataSource]="dataSource">
-              <!-- Position Column -->
-              <ng-container matColumnDef="position">
-                <th mat-header-cell *matHeaderCellDef>No.</th>
-                <td mat-cell *matCellDef="let element">
-                  {{ element.position }}
-                </td>
-              </ng-container>
+        <div class="title-body mt-2">
+          <table mat-table [dataSource]="source">
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef class="text-center">Tax</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                {{ element.id }}%
+              </td>
+            </ng-container>
 
-              <!-- Name Column -->
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-              </ng-container>
+            <ng-container matColumnDef="created_at">
+              <th mat-header-cell *matHeaderCellDef class="text-center">
+                Created at
+              </th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                {{ element.created_at }}
+              </td>
+            </ng-container>
 
-              <!-- Weight Column -->
-              <ng-container matColumnDef="weight">
-                <th mat-header-cell *matHeaderCellDef>Weight</th>
-                <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
-              </ng-container>
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef class="text-center">
+                Actions
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                class="auto_visible text-center"
+              >
+                <button
+                  class="btn btn-danger"
+                  type="button"
+                  (click)="onDelete(element.id)"
+                >
+                  <i class="fa fa-trash fa-fw me-2"></i>
+                  Delete
+                </button>
+              </td>
+            </ng-container>
 
-              <!-- Symbol Column -->
-              <ng-container matColumnDef="symbol">
-                <th mat-header-cell *matHeaderCellDef>Symbol</th>
-                <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
-              </ng-container>
+            <tr mat-header-row *matHeaderRowDef="cols"></tr>
+            <tr mat-row *matRowDef="let row; columns: cols"></tr>
+          </table>
 
-              <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef>Actions</th>
-                <td mat-cell *matCellDef="let element" class="auto_visible">
-                  <a
-                    class="btn btn-primary"
-                    routerLink="/tax/edit/{{ element.position }}"
-                  >
-                    <i class="fa fa-edit"></i>
-                  </a>
-                  <button class="btn btn-danger mx-2">
-                    <i class="fa fa-trash"></i>
-                  </button>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-            </table>
-
-            <mat-paginator
-              [pageSizeOptions]="[5, 10]"
-              showFirstLastButtons
-              aria-label="Select page of periodic elements"
-            >
-            </mat-paginator>
-          </div>
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 15, 20]"
+            showFirstLastButtons
+            aria-label="Select page of periodic elements"
+          >
+          </mat-paginator>
         </div>
       </div>
     </div>

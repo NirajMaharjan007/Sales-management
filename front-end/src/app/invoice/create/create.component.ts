@@ -24,4 +24,12 @@ export class InvoiceCreateComponent {
   addCard() {
     this.cards.push({ id: 'card' + this.cards.length });
   }
+
+  removeCard(index: number) {
+    this.cards.splice(index, 1);
+  }
+
+  hasMoreCard(): boolean {
+    return this.cards.length > 1;
+  }
 }

@@ -3,25 +3,30 @@
     <div class="clearix"></div>
     <div class="col-md-12">
       <div class="tile">
-        <p class="tile-title h2">Edit Categories Form</p>
-        <p>{{ id }}</p>
+        <p class="tile-title h2">Edit Units Form</p>
         <div class="tile-body">
-          <form class="row" method="POST">
-            <div class="form-group col-8">
-              <label class="control-label">Categories</label>
+          <form [formGroup]="unitForm" (ngSubmit)="onSubmit()" method="post">
+            <div class="form-group col-md-12">
+              <label class="control-label">Unit Name</label>
               <input
                 name="name"
+                formControlName="name"
                 class="form-control"
                 type="text"
-                placeholder="Enter Categories name"
+                placeholder="Enter Unit Name"
               />
+
+              <!-- <span class="invalid-feedback" role="alert">
+                <strong></strong>
+              </span> -->
             </div>
-            <div class="form-group col-4 align-self-end">
+
+            <div class="form-group col-md-12 mt-4">
               <button class="btn btn-success" type="submit">
-                <i class="fa fa-fw fa-lg fa-check-circle pe-2"></i>Update
+                <i class="fa fa-fw fa-lg fa-check-circle me-2"></i>Done
               </button>
-              <a class="btn-primary btn mx-2" routerLink="/units/manage">
-                <i class="fa fa-arrow-left pe-2" aria-hidden="true"></i> Back
+              <a routerLink="/units/manage" class="btn-primary btn mx-md-2">
+                <i class="fa fa-arrow-left fa-fw me-2"></i>Back
               </a>
             </div>
           </form>

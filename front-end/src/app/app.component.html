@@ -1,5 +1,21 @@
-<app-sidebar></app-sidebar>
-<main class="container">
-  <app-navbar [content]="htmlContent"></app-navbar>
-  <router-outlet></router-outlet>
-</main>
+<!-- Check if the current route is '/login' -->
+<div *ngIf="isRoute('/login'); else mainAppContent">
+  <!-- Display the login component directly without router-outlet -->
+  <app-login></app-login>
+</div>
+
+<!-- Main app content with router-outlet -->
+<ng-template #mainAppContent>
+  <span *ngIf="!isRoute('/404'); else pageNotFound">
+    <app-sidebar></app-sidebar>
+    <main class="container">
+      <app-navbar [content]="htmlContent"></app-navbar>
+      <router-outlet></router-outlet>
+    </main>
+  </span>
+</ng-template>
+
+<!-- No Page Found content -->
+<ng-template #pageNotFound>
+  <app-page-not-found></app-page-not-found>
+</ng-template>

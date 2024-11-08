@@ -1,9 +1,26 @@
 html,
 body {
-  min-height: 100% !important;
-  min-width: 100% !important;
+  height: 100%;
+  width: 100%;
   background-color: #fcfcfc;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+article,
+aside,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section {
+  display: block;
+}
+
+@-ms-viewport {
+  width: device-width;
 }
 
 body {
@@ -248,4 +265,25 @@ table {
 
 .auto_visible:not(:hover) {
   transition: opacity 0.32s ease-out;
+}
+
+.form-group {
+  margin-bottom: 0.75rem;
+}
+
+.mat-mdc-table {
+  background-color: #fefefe;
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.mat-mdc-row:hover {
+  background-color: rgba(244, 244, 244, 0.45);
+}
+.mat-mdc-cell {
+  position: relative;
+  border: 0 !important;
+  margin: 0;
+  padding: 0.75rem;
 }

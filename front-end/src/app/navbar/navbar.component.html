@@ -1,3 +1,19 @@
+<mat-menu #appMenu="matMenu" class="bg-white m-0 p-0">
+  <ng-template matMenuContent>
+    <button mat-menu-item class="py-2">
+      <i class="fa fa-cog fa-fw me-2" aria-hidden="true"></i>Settings
+    </button>
+    <button
+      mat-menu-item
+      class="py-2 danger"
+      type="button"
+      (click)="logout(user.id)"
+    >
+      <i class="fa fa-sign-out fa-fw me-2" aria-hidden="true"></i> Logout
+    </button>
+  </ng-template>
+</mat-menu>
+
 <mat-toolbar-row class="d-flex justify-content-between align-items-center mt-2">
   <div>
     <mat-card-header
@@ -6,20 +22,24 @@
       <span [innerHTML]="content"></span>
     </mat-card-header>
   </div>
-  <div
-    class="d-flex justify-content-around align-items-center bg-white pe-4 widget-small"
+  <button
+    class="d-flex btn justify-content-between align-items-center widget-small p-0 round"
+    mat-icon-button
+    [matMenuTriggerFor]="appMenu"
   >
     <img
       mat-card-image
-      class="round me-2"
+      class="round me-3"
       src="img/tom.jpg"
       alt="user pic"
-      width="52"
-      height="52"
+      width="50"
+      height="50"
     />
 
-    <mat-card-content>
-      <div class="text-center text-black">User's Name</div>
-    </mat-card-content>
-  </div>
+    <div *ngIf="user" class="pe-4">
+      <mat-card-content class="text-center text-black">
+        {{ user.username }}
+      </mat-card-content>
+    </div>
+  </button>
 </mat-toolbar-row>

@@ -7,11 +7,12 @@
       <div class="tile">
         <h3 class="tile-title">New Tax Form</h3>
         <div class="tile-body">
-          <form method="POST" action="">
+          <form [formGroup]="taxForm" (ngSubmit)="onSubmit()" method="post">
             <div class="form-group col-md-12">
               <label class="control-label">Tax Amount</label>
               <input
-                name="name"
+                id="id"
+                formControlName="id"
                 class="form-control"
                 type="number"
                 placeholder="Enter Tax Amount"
