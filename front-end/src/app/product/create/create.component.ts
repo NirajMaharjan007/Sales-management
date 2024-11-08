@@ -35,6 +35,7 @@ export class ProductCreateComponent implements OnInit {
   units: any;
   taxes: any;
   suppliers: any;
+  selectedFile: File | null = null;
   productForm: FormGroup;
 
   constructor(
@@ -54,7 +55,7 @@ export class ProductCreateComponent implements OnInit {
       unit_id: ['', [Validators.required]],
       sales_price: ['', [Validators.required, Validators.min(0)]],
       qty: ['', [Validators.required, Validators.min(1)]],
-      image: ['', [Validators.required]],
+      image: [null, [Validators.required]],
     });
 
     /**
@@ -100,19 +101,25 @@ export class ProductCreateComponent implements OnInit {
     return this.cards.length > 1;
   }
 
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
   onSubmit() {
     console.log(JSON.stringify(this.productForm.value, null, 2));
 
-    if (this.productForm.valid) {
-      this.productsService.createProduct(this.productForm.value).subscribe({
-        next: (response) => {
-          console.log(response);
-          alert(response);
-        },
-        error: (error) => {
-          alert('An error occurred. Please try again.');
-        },
-      });
+    if (this.productForm.valid && this.selectedFile) {
+      this.productsService
+        .createProduct(this.productForm.value, this.selectedFile)
+        .subscribe({
+          next: (response) => {
+            console.log(response);
+            alert(response);
+          },
+          error: (error) => {
+            alert('An error occurred. Please try again.');
+          },
+        });
     } else {
       alert('invalid input');
     }

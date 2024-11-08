@@ -113,10 +113,11 @@
             <div class="form-group col-md-6">
               <label class="control-label">Image</label>
               <input
+                type="file"
                 name="image"
                 class="form-control"
                 formControlName="image"
-                type="file"
+                (change)="onFileSelected($event)"
               />
             </div>
 

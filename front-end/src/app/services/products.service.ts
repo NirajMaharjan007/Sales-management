@@ -12,15 +12,10 @@ export class ProductsService {
     this.api = this.authService.baseUrl + '/product/';
   }
 
-  createProduct(data: any) {
-    const headers = new HttpHeaders({
-      'Content-Type':
-        'multipart/form-data; boundary=<calculated when request is sent>',
-    });
-
+  createProduct(data: any, file: File) {
     const formData = new FormData();
 
-    // Append form fields
+    // Append each form field
     formData.append('name', data.name);
     formData.append('serial_number', data.serial_number);
     formData.append('model', data.model);
@@ -30,12 +25,11 @@ export class ProductsService {
     formData.append('unit_id', data.unit_id.toString());
     formData.append('tax_id', data.tax_id.toString());
 
-    // Append file (ensure data.image is a File object)
-    if (data.image) {
-      formData.append('image', data.image, data.image.name);
+    // Append the image file, if there is one
+    if (file) {
+      formData.append('image', file, file.name);
     }
-
-    return this.http.post(this.api, formData, { headers });
+    return this.http.post(this.api, formData);
   }
 
   createProductSupplier(data: any) {
