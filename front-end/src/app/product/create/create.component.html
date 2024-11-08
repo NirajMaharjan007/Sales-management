@@ -5,12 +5,7 @@
     <div class="tile">
       <div class="tile-body">
         <p class="tile-title">Add new Product</p>
-        <form
-          [formGroup]="productForm"
-          (ngSubmit)="onSubmit()"
-          [attr.enctype]="'multipart/form-data'"
-          method="post"
-        >
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()" method="post">
           <div class="row">
             <!-- Product Name -->
             <div class="form-group col-md-6">
