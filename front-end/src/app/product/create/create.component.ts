@@ -35,7 +35,6 @@ export class ProductCreateComponent implements OnInit {
   units: any;
   taxes: any;
   suppliers: any;
-  selectedFile: File | null = null;
   productForm: FormGroup;
 
   constructor(
@@ -53,13 +52,15 @@ export class ProductCreateComponent implements OnInit {
       category_id: ['', [Validators.required]],
       tax_id: ['', [Validators.required]],
       unit_id: ['', [Validators.required]],
-      supplierId: ['', [Validators.required]],
       sales_price: ['', [Validators.required, Validators.min(0)]],
       qty: ['', [Validators.required, Validators.min(1)]],
       image: ['', [Validators.required]],
-      supplier_id: ['', [Validators.required]],
-      purchase_price: ['', [Validators.required]],
     });
+
+    /**
+     * TODO:  supplier_id: ['', [Validators.required]],
+      purchase_price: ['', [Validators.required]],
+     */
   }
   ngOnInit(): void {
     try {
@@ -100,22 +101,20 @@ export class ProductCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Submit: ' + this.productForm.valid);
+    console.log(JSON.stringify(this.productForm.value, null, 2));
 
-    // if (this.productForm.valid) {
-
-    // } else {
-    //   alert('invalid input');
-    // }
-
-    this.productsService.createProduct(this.productForm.value).subscribe({
-      next: (response) => {
-        console.log(response);
-        alert(response);
-      },
-      error: (error) => {
-        alert('An error occurred. Please try again.');
-      },
-    });
+    if (this.productForm.valid) {
+      this.productsService.createProduct(this.productForm.value).subscribe({
+        next: (response) => {
+          console.log(response);
+          alert(response);
+        },
+        error: (error) => {
+          alert('An error occurred. Please try again.');
+        },
+      });
+    } else {
+      alert('invalid input');
+    }
   }
 }

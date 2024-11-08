@@ -253,6 +253,7 @@ class ProductViewSet(ViewSet):
 
     def create(self, request):
         serializer = ProductSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
             print(serializer.data)
