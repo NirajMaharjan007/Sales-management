@@ -275,14 +275,6 @@ class ProductViewSet(ViewSet):
         except ValidationError as exc:
             return Response({"message": exc.detail}, status=status.HTTP_409_CONFLICT)
 
-        """  if serializer.is_valid():
-            serializer.save()
-            print(serializer.data)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            print(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) """
-
     def retrieve(self, request, pk=None):
         try:
             product = Product.objects.get(id=pk)
@@ -323,10 +315,16 @@ class ProductSupplierViewSet(ViewSet):
 
     def create(self, request):
         serializer = ProductSupplierSerializer(data=request.data)
+
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            if not Product_Supplier.objects.filter(supplier_id=request.data["supplier_id"]).exists():
+                serializer.save()
+                print(serializer.data)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
         else:
+            print(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request):

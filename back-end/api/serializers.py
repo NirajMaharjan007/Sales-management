@@ -42,7 +42,18 @@ class SupplierSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class ProductSupplierSerializer(ModelSerializer):
+    supplier_id = IntegerField()
+    purchase_price = IntegerField()
+
+    class Meta:
+        model = Product_Supplier
+        fields = '__all__'
+
+
 class ProductSerializer(ModelSerializer):
+    suppliers = ProductSupplierSerializer(many=True)
+
     class Meta(object):
         model = Product
         fields = '__all__'
@@ -53,8 +64,14 @@ class ProductSerializer(ModelSerializer):
                 "A product with this serial number already exists.")
         return value
 
+    def create(self, validated_data):
+        suppliers_data = validated_data.pop('suppliers')
+        product = Product.objects.create(**validated_data)
 
-class ProductSupplierSerializer(ModelSerializer):
-    class Meta(object):
-        model = Product_Supplier
-        fields = '__all__'
+        for supplier_data in suppliers_data:
+            Product_Supplier.objects.create(
+                product=product,
+                supplier_id=supplier_data['supplier_id'],
+                purchase_price=supplier_data['purchase_price']
+            )
+        return product

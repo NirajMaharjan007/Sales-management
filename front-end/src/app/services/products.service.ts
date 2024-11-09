@@ -25,8 +25,9 @@ export class ProductsService {
     formData.append('category_id', data.category_id.toString());
     formData.append('unit_id', data.unit_id.toString());
     formData.append('tax_id', data.tax_id.toString());
-
     formData.append('image', file, file.name);
+    formData.append('supplier_id', data.supplier_id.toString());
+    formData.append('purchase_price', data.purchase_price.toString());
 
     return this.http.post(this.api, formData);
   }
@@ -38,11 +39,9 @@ export class ProductsService {
   }
 
   createProductSupplier(data: any) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(
       `${this.authService.baseUrl}/product_supplier/`,
-      data,
-      { headers }
+      data
     );
   }
 }

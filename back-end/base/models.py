@@ -84,9 +84,10 @@ class Product(Model):
 
 class Product_Supplier(Model):
     id = AutoField(primary_key=True)
-    product_fk = ForeignKey(Product, on_delete=CASCADE, db_column='product_id')
-    supplier_fk = ForeignKey(
+    product_id = ForeignKey(Product, on_delete=CASCADE, db_column='product_id')
+    supplier_id = ForeignKey(
         Supplier, on_delete=CASCADE, db_column='supplier_id')
+    purchase_price = IntegerField(default=0)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 

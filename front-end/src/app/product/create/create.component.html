@@ -142,10 +142,10 @@
             <div
               id="example-2"
               class="content py-2"
-              *ngFor="let card of cards; let i = index"
-              [@fadeInOut]
+              *ngFor="let supplier of dealer.controls; let i = index"
+              [formGroupName]="i"
             >
-              <div class="row group">
+              <div class="row group" *ngFor="let card of cards" [@fadeInOut]>
                 <div class="form-group col-md-4">
                   <select
                     name="supplier_id"
