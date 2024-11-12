@@ -7,8 +7,8 @@ import { UnitsService } from '../../services/units.service';
 import { TaxService } from '../../services/tax.service';
 import { SuppilersService } from '../../services/suppliers.service';
 import { ProductsService } from '../../services/products.service';
+
 import {
-  FormArray,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
@@ -40,6 +40,12 @@ export class ProductCreateComponent implements OnInit {
   cards: { title: string }[] = [{ title: 'Card 1' }];
   productForm: FormGroup;
 
+  get getRandomNumber(): number {
+    const min = 1,
+      max = 1024;
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+
   constructor(
     private categoriesService: CategoriesService,
     private unitsService: UnitsService,
@@ -49,6 +55,7 @@ export class ProductCreateComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.productForm = this.fb.group({
+      id: [this.getRandomNumber],
       name: ['', [Validators.required, Validators.minLength(3)]],
       serial_number: ['', Validators.required],
       model: ['', Validators.required],
@@ -89,25 +96,17 @@ export class ProductCreateComponent implements OnInit {
     });
   }
 
-  get dealer(): FormArray {
-    return this.productForm.get('suppliers') as FormArray;
-  }
-
   addCard(): void {
-    this.suppliers.push(
-      this.fb.group({
-        supplier_id: ['', Validators.required],
-        purchase_price: ['', [Validators.required, Validators.min(0)]],
-      })
-    );
     this.cards.push({
       title: `Card ${this.cards.length + 1}`,
     });
+
+    console.info(this.cards.length);
   }
 
   removeCard(index: number): void {
-    this.dealer.removeAt(index);
     this.cards.splice(index, 1);
+    console.info(this.cards.length);
   }
 
   hasMoreCard(): boolean {
@@ -157,5 +156,7 @@ export class ProductCreateComponent implements OnInit {
     } else {
       alert('invalid input');
     }
+
+    this.productForm.patchValue({ id: this.getRandomNumber });
   }
 }
