@@ -94,19 +94,12 @@ export class ProductCreateComponent implements OnInit {
   }
 
   addCard(): void {
-    this.suppliers.push(
-      this.fb.group({
-        supplier_id: ['', Validators.required],
-        purchase_price: ['', [Validators.required, Validators.min(0)]],
-      })
-    );
     this.cards.push({
       title: `Card ${this.cards.length + 1}`,
     });
   }
 
   removeCard(index: number): void {
-    this.dealer.removeAt(index);
     this.cards.splice(index, 1);
   }
 
