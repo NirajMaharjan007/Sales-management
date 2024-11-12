@@ -13,7 +13,7 @@ import { ProductsService } from '../../services/products.service';
 })
 export class ProductManageComponent implements AfterViewInit {
   displayedColumns: string[] = [
-    'id',
+    'serial',
     'name',
     'created_at',
     'updated_at',

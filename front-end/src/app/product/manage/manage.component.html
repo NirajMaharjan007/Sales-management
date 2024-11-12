@@ -10,12 +10,12 @@
           <div class="col-md-12">
             <div class="title-body mt-2">
               <table mat-table [dataSource]="dataSource">
-                <ng-container matColumnDef="id">
+                <ng-container matColumnDef="serial">
                   <th mat-header-cell *matHeaderCellDef class="text-center">
-                    Id.
+                    Serial no.
                   </th>
                   <td mat-cell *matCellDef="let element" class="text-center">
-                    {{ element.id }}
+                    {{ element.serial_number }}
                   </td>
                 </ng-container>
 

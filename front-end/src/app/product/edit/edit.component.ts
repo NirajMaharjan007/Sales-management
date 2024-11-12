@@ -1,12 +1,11 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'product-edit',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf],
+  imports: [RouterLink],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.css',
   animations: [
