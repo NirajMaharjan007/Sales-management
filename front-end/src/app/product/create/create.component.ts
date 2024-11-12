@@ -8,6 +8,7 @@ import { TaxService } from '../../services/tax.service';
 import { SuppilersService } from '../../services/suppliers.service';
 import { ProductsService } from '../../services/products.service';
 import {
+  FormArray,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
@@ -17,7 +18,7 @@ import {
 @Component({
   selector: 'product-create',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf, ReactiveFormsModule],
+  imports: [RouterLink, NgFor, ReactiveFormsModule, NgIf],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css',
   animations: [
@@ -36,6 +37,7 @@ export class ProductCreateComponent implements OnInit {
   taxes: any;
   suppliers: any;
   selectedFile: File | null = null;
+  cards: { title: string }[] = [{ title: 'Card 1' }];
   productForm: FormGroup;
 
   constructor(
@@ -53,12 +55,15 @@ export class ProductCreateComponent implements OnInit {
       category_id: ['', [Validators.required]],
       tax_id: ['', [Validators.required]],
       unit_id: ['', [Validators.required]],
-      supplierId: ['', [Validators.required]],
       sales_price: ['', [Validators.required, Validators.min(0)]],
       qty: ['', [Validators.required, Validators.min(1)]],
-      image: ['', [Validators.required]],
-      supplier_id: ['', [Validators.required]],
-      purchase_price: ['', [Validators.required]],
+      image: [null, [Validators.required]],
+      suppliers: this.fb.array([
+        this.fb.group({
+          supplier_id: ['', Validators.required],
+          purchase_price: ['', [Validators.required]],
+        }),
+      ]),
     });
   }
   ngOnInit(): void {
@@ -84,14 +89,24 @@ export class ProductCreateComponent implements OnInit {
     });
   }
 
-  cards: { title: string }[] = [{ title: 'Card 1' }];
+  get dealer(): FormArray {
+    return this.productForm.get('suppliers') as FormArray;
+  }
+
   addCard(): void {
+    this.suppliers.push(
+      this.fb.group({
+        supplier_id: ['', Validators.required],
+        purchase_price: ['', [Validators.required, Validators.min(0)]],
+      })
+    );
     this.cards.push({
       title: `Card ${this.cards.length + 1}`,
     });
   }
 
   removeCard(index: number): void {
+    this.dealer.removeAt(index);
     this.cards.splice(index, 1);
   }
 
@@ -99,23 +114,48 @@ export class ProductCreateComponent implements OnInit {
     return this.cards.length > 1;
   }
 
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
   onSubmit() {
-    console.log('Submit: ' + this.productForm.valid);
+    console.log(JSON.stringify(this.productForm.value, null, 2));
 
-    // if (this.productForm.valid) {
+    if (this.productForm.valid && this.selectedFile) {
+      this.productsService
+        .createProduct(this.productForm.value, this.selectedFile)
+        .subscribe({
+          next: (response: any) => {
+            // const supplierData = {
+            //   product_id: response.id,
+            //   supplier_id: response.supplier_id,
+            //   purchase_price: response.purchase_price,
+            // };
+            const data = new FormData();
+            data.append('product_id', response.id);
+            data.append('supplier_id', response.supplier_id);
+            data.append('purchase_price', response.purchase_price);
+            console.log(JSON.stringify(data, null, 2));
 
-    // } else {
-    //   alert('invalid input');
-    // }
-
-    this.productsService.createProduct(this.productForm.value).subscribe({
-      next: (response) => {
-        console.log(response);
-        alert(response);
-      },
-      error: (error) => {
-        alert('An error occurred. Please try again.');
-      },
-    });
+            this.productsService.createProductSupplier(data).subscribe({
+              next: () => alert('Product and suppliers added successfully!'),
+              error: () => alert('Failed to add suppliers'),
+            });
+          },
+          error: (error) => {
+            if (
+              error?.error?.serial_number &&
+              error.error.serial_number[0] ===
+                'A product with this serial number already exists.'
+            ) {
+              alert('Error: A product with this serial number already exists.');
+            } else {
+              alert('An error occurred. Please try again.');
+            }
+          },
+        });
+    } else {
+      alert('invalid input');
+    }
   }
 }

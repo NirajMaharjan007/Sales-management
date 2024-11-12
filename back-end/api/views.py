@@ -5,6 +5,7 @@ from rest_framework import permissions
 from django.contrib import auth
 from django.contrib.auth.models import User
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.viewsets import ViewSet
 from rest_framework.authtoken.models import Token
 from drf_yasg.views import get_schema_view
@@ -246,20 +247,33 @@ class SupplierViewSet(ViewSet):
 
 
 class ProductViewSet(ViewSet):
+    parser_classes = (MultiPartParser, FormParser)
+
     def list(self, request):
         products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @action(detail=True, methods=['get'], url_path='serial/(?P<serial_number>[^/.]+)')
+    def get_by_serial(self, request, serial_number=None):
+        try:
+            product = Product.objects.get(serial_number=serial_number)
+            serializer = ProductSerializer(product)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Product.DoesNotExist:
+            return Response({"error": "Product's Serial number not found"}, status=status.HTTP_404_NOT_FOUND)
+
     def create(self, request):
         serializer = ProductSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            print(serializer.data)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            print(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except ValidationError as exc:
+            return Response({"message": exc.detail}, status=status.HTTP_409_CONFLICT)
 
     def retrieve(self, request, pk=None):
         try:
@@ -301,10 +315,16 @@ class ProductSupplierViewSet(ViewSet):
 
     def create(self, request):
         serializer = ProductSupplierSerializer(data=request.data)
+
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            if not Product_Supplier.objects.filter(supplier_id=request.data["supplier_id"]).exists():
+                serializer.save()
+                print(serializer.data)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
         else:
+            print(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request):

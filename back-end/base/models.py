@@ -63,13 +63,14 @@ class Product(Model):
     name = CharField(max_length=255)
     serial_number = CharField(max_length=128, unique=True)
     model = CharField(max_length=100)
-    category_fk = ForeignKey(
+    category_id = ForeignKey(
         Category, on_delete=CASCADE, db_column='category_id')
     sales_price = IntegerField(default=0)
     qty = IntegerField(default=0)
-    unit_fk = ForeignKey(Unit, on_delete=CASCADE, db_column='unit_id')
-    image = ImageField(upload_to='image/product/')
-    tax_fk = ForeignKey(Tax, on_delete=SET_NULL, null=True, db_column='tax_id')
+    unit_id = ForeignKey(Unit, on_delete=CASCADE, db_column='unit_id')
+    image = ImageField(upload_to='item_images', null=True,
+                       blank=True, max_length=None)
+    tax_id = ForeignKey(Tax, on_delete=SET_NULL, null=True, db_column='tax_id')
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 
@@ -83,9 +84,10 @@ class Product(Model):
 
 class Product_Supplier(Model):
     id = AutoField(primary_key=True)
-    product_fk = ForeignKey(Product, on_delete=CASCADE, db_column='product_id')
-    supplier_fk = ForeignKey(
+    product_id = ForeignKey(Product, on_delete=CASCADE, db_column='product_id')
+    supplier_id = ForeignKey(
         Supplier, on_delete=CASCADE, db_column='supplier_id')
+    purchase_price = IntegerField(default=0)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 

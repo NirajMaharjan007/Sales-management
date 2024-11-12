@@ -2,7 +2,7 @@
 
 
 back-end/base/migrations
-back-end/media/
+back-end/media/item_images
 
 ### OSX ###
 .DS_Store

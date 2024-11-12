@@ -5,12 +5,7 @@
     <div class="tile">
       <div class="tile-body">
         <p class="tile-title">Add new Product</p>
-        <form
-          [formGroup]="productForm"
-          (ngSubmit)="onSubmit()"
-          [attr.enctype]="'multipart/form-data'"
-          method="post"
-        >
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()" method="post">
           <div class="row">
             <!-- Product Name -->
             <div class="form-group col-md-6">
@@ -53,8 +48,8 @@
               <label class="control-label">Category</label>
               <select
                 name="category_id"
-                class="form-control"
                 formControlName="category_id"
+                class="form-control"
               >
                 <option value="" class="form-control" disabled selected>
                   --- Select the Categoies ---
@@ -113,10 +108,11 @@
             <div class="form-group col-md-6">
               <label class="control-label">Image</label>
               <input
+                type="file"
                 name="image"
                 class="form-control"
                 formControlName="image"
-                type="file"
+                (change)="onFileSelected($event)"
               />
             </div>
 
@@ -140,15 +136,16 @@
           </div>
 
           <!-- Suppliers Section -->
+
           <div class="mt-md-4">
             <label for="supplier">Supplier</label>
             <div
               id="example-2"
               class="content py-2"
-              *ngFor="let card of cards; let i = index"
-              [@fadeInOut]
+              *ngFor="let supplier of dealer.controls; let i = index"
+              [formGroupName]="i"
             >
-              <div class="row group">
+              <div class="row group" *ngFor="let card of cards" [@fadeInOut]>
                 <div class="form-group col-md-4">
                   <select
                     name="supplier_id"
