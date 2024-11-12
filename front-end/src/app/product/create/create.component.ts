@@ -18,7 +18,7 @@ import {
 @Component({
   selector: 'product-create',
   standalone: true,
-  imports: [RouterLink, NgFor, ReactiveFormsModule, NgIf],
+  imports: [RouterLink, NgFor, ReactiveFormsModule],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css',
   animations: [
@@ -65,12 +65,6 @@ export class ProductCreateComponent implements OnInit {
       sales_price: ['', [Validators.required, Validators.min(0)]],
       qty: ['', [Validators.required, Validators.min(1)]],
       image: [null, [Validators.required]],
-      suppliers: this.fb.array([
-        this.fb.group({
-          supplier_id: ['', Validators.required],
-          purchase_price: ['', [Validators.required]],
-        }),
-      ]),
     });
   }
   ngOnInit(): void {
@@ -125,21 +119,8 @@ export class ProductCreateComponent implements OnInit {
         .createProduct(this.productForm.value, this.selectedFile)
         .subscribe({
           next: (response: any) => {
-            // const supplierData = {
-            //   product_id: response.id,
-            //   supplier_id: response.supplier_id,
-            //   purchase_price: response.purchase_price,
-            // };
-            const data = new FormData();
-            data.append('product_id', response.id);
-            data.append('supplier_id', response.supplier_id);
-            data.append('purchase_price', response.purchase_price);
-            console.log(JSON.stringify(data, null, 2));
-
-            this.productsService.createProductSupplier(data).subscribe({
-              next: () => alert('Product and suppliers added successfully!'),
-              error: () => alert('Failed to add suppliers'),
-            });
+            alert('Product and suppliers added successfully!');
+            this.productForm.reset();
           },
           error: (error) => {
             if (

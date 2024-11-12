@@ -136,11 +136,25 @@
             </div>
           </div>
 
-          <!-- Suppliers Section -->
+          <div class="form-group col-md-12 align-self-end">
+            <button class="btn btn-success" type="submit">
+              <i class="fa fa-fw fa-lg fa-check-circle"></i> Add Product
+            </button>
+            <a routerLink="/products/manage" class="btn-primary btn mx-md-2">
+              <i class="fa fa-edit"></i> Manage Products
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
-          <div class="mt-md-4">
+<!-- 
+TODO:FIX ME
+
+<div class="mt-md-4">
             <label for="supplier">Supplier</label>
-            <!-- *ngFor="let supplier of dealer.controls; let i = index"[formGroupName]="i" -->
             <div id="example-2" class="content py-2">
               <div
                 class="row group"
@@ -149,11 +163,6 @@
               >
                 <div class="form-group col-md-4">
                   <select name="supplier_id" class="form-control">
-                    <!-- formControlName="supplier_id" -->
-                    <option value="" class="form-control" disabled selected>
-                      --- Suppliers ---
-                    </option>
-                    <option
                       *ngFor="let supplier of suppliers"
                       [ngValue]="supplier.id"
                     >
@@ -163,12 +172,11 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                  <!-- formControlName="purchase_price" -->
+                  formControlName="purchase_price"
                   <input
-                    name="supplier_price"
+                    name="purchase_price"
                     class="form-control"
                     type="number"
-                    step="0.01"
                     placeholder="Purchase Price"
                   />
                 </div>
@@ -196,16 +204,8 @@
             </div>
           </div>
 
-          <div class="form-group col-md-12 align-self-end">
-            <button class="btn btn-success" type="submit">
-              <i class="fa fa-fw fa-lg fa-check-circle"></i> Add Product
-            </button>
-            <a routerLink="/products/manage" class="btn-primary btn mx-md-2">
-              <i class="fa fa-edit"></i> Manage Products
-            </a>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+
+
+
+
+-->

@@ -52,26 +52,7 @@ class ProductSupplierSerializer(ModelSerializer):
 
 
 class ProductSerializer(ModelSerializer):
-    suppliers = ProductSupplierSerializer(many=True)
 
     class Meta(object):
         model = Product
         fields = '__all__'
-
-    def validate_serial_number(self, value):
-        if Product.objects.filter(serial_number=value).exists():
-            raise ValidationError(
-                "A product with this serial number already exists.")
-        return value
-
-    def create(self, validated_data):
-        suppliers_data = validated_data.pop('suppliers')
-        product = Product.objects.create(**validated_data)
-
-        for supplier_data in suppliers_data:
-            Product_Supplier.objects.create(
-                product=product,
-                supplier_id=supplier_data['supplier_id'],
-                purchase_price=supplier_data['purchase_price']
-            )
-        return product

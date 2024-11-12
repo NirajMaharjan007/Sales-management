@@ -10,7 +10,7 @@ export class ProductsService {
   private api: string;
 
   constructor(private http: HttpClient, private authService: AuthService) {
-    this.api = this.authService.baseUrl + '/product/';
+    this.api = this.authService.baseUrl + '/product';
   }
 
   createProduct(data: any, file: File) {
@@ -26,15 +26,13 @@ export class ProductsService {
     formData.append('unit_id', data.unit_id.toString());
     formData.append('tax_id', data.tax_id.toString());
     formData.append('image', file, file.name);
-    formData.append('supplier_id', data.supplier_id.toString());
-    formData.append('purchase_price', data.purchase_price.toString());
 
-    return this.http.post(this.api, formData);
+    return this.http.post(`${this.api}/`, formData);
   }
 
   getProductBySerial(serial: string): Observable<any> {
     return this.http
-      .get<boolean>(`${this.api}/product/serial//${serial}/`)
+      .get<boolean>(`${this.api}/serial//${serial}/`)
       .pipe(catchError(() => of(false)));
   }
 
@@ -43,5 +41,13 @@ export class ProductsService {
       `${this.authService.baseUrl}/product_supplier/`,
       data
     );
+  }
+
+  getProducts(): Observable<any> {
+    return this.http.get(`${this.authService.baseUrl}/product/`);
+  }
+
+  deleteProduct(id: number) {
+    return this.http.delete(`${this.api}/${id}`);
   }
 }
