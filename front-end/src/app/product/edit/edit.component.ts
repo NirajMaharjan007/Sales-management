@@ -30,7 +30,7 @@ export class ProductEditComponent implements OnInit {
     });
   }
 
-  addCard(): void {
+  /* addCard(): void {
     this.cards.push({
       title: `Card ${this.cards.length + 1}`,
     });
@@ -42,5 +42,5 @@ export class ProductEditComponent implements OnInit {
 
   hasMoreCard(): boolean {
     return this.cards.length > 1;
-  }
+  } */
 }
