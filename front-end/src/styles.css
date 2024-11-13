@@ -148,7 +148,7 @@ table {
   display: flex;
   border-radius: 8px;
   color: #000;
-  margin-bottom: 32px;
+  margin-bottom: 0.24rem;
   box-shadow: 4px 2px 12px #eaeaea;
 }
 

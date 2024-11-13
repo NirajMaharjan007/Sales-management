@@ -1,13 +1,14 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { ProductsService } from '../../services/products.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'product-manage',
   standalone: true,
-  imports: [RouterLink, MatPaginator, MatTableModule, MatPaginatorModule],
+  imports: [NgIf, RouterLink, MatPaginator, MatTableModule, MatPaginatorModule],
   templateUrl: './manage.component.html',
   styleUrl: './manage.component.css',
 })
@@ -25,6 +26,7 @@ export class ProductManageComponent implements OnInit {
   ];
 
   dataSource = new MatTableDataSource<any>();
+  imageUrl: string | null = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -33,6 +35,17 @@ export class ProductManageComponent implements OnInit {
     this.productsService.getProducts().subscribe((data) => {
       this.dataSource.data = data;
       this.dataSource.paginator = this.paginator; // Set paginator here after data loads
+    });
+  }
+
+  loadImage(id: number) {
+    this.productsService.getProductImage(id).subscribe({
+      next: (imageBlob: Blob) => {
+        return URL.createObjectURL(imageBlob);
+      },
+      error: (err) => {
+        return err;
+      },
     });
   }
 

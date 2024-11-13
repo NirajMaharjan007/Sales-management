@@ -1,3 +1,5 @@
+import mimetypes
+from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -254,7 +256,22 @@ class ProductViewSet(ViewSet):
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['get'], url_path='serial/(?P<serial_number>[^/.]+)')
+    @action(detail=False, methods=['get'], url_path='image/(?P<id>[^/.]+)')
+    def get_image_by_id(self, request, *args, **kwargs):
+        try:
+            product_id = self.kwargs.get('id')
+            product = Product.objects.get(id=product_id)
+            content_type, _ = mimetypes.guess_type(product.image.path)
+
+            if product.image:
+                return FileResponse(product.image.open(), content_type=content_type, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": "Image not available for this product"}, status=status.HTTP_404_NOT_FOUND)
+
+        except Product.DoesNotExist:
+            return Response({"error": "Product's Serial number not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    @action(detail=False, methods=['get'], url_path='serial/(?P<serial_number>[^/.]+)')
     def get_by_serial(self, request, serial_number=None):
         try:
             product = Product.objects.get(serial_number=serial_number)

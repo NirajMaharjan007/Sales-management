@@ -30,9 +30,15 @@ export class ProductsService {
     return this.http.post(`${this.api}/`, formData);
   }
 
+  getProductImage(id: any): Observable<any> {
+    return this.http.get(`${this.api}/image/${id}/`, {
+      responseType: 'blob',
+    });
+  }
+
   getProductBySerial(serial: string): Observable<any> {
     return this.http
-      .get<boolean>(`${this.api}/serial//${serial}/`)
+      .get<boolean>(`${this.api}/serial/${serial}/`)
       .pipe(catchError(() => of(false)));
   }
 
