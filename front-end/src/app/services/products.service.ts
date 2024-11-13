@@ -53,6 +53,12 @@ export class ProductsService {
     return this.http.get(`${this.authService.baseUrl}/product/`);
   }
 
+  getProductAllImage(): Observable<any> {
+    return this.http.get(`${this.api}/image/`, {
+      responseType: 'blob',
+    });
+  }
+
   deleteProduct(id: number) {
     return this.http.delete(`${this.api}/${id}`);
   }

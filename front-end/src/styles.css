@@ -281,9 +281,14 @@ table {
 .mat-mdc-row:hover {
   background-color: rgba(244, 244, 244, 0.45);
 }
+
 .mat-mdc-cell {
   position: relative;
   border: 0 !important;
   margin: 0;
-  padding: 0.75rem;
+}
+
+.mdc-data-table__cell {
+  padding: 0.75rem 0.5rem !important;
+  margin: 0;
 }

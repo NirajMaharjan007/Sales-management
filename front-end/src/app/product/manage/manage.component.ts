@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -19,9 +19,9 @@ export class ProductManageComponent implements OnInit {
     'model',
     'price',
     'quantity',
-    'image',
     'created_at',
     'updated_at',
+    'image',
     'actions',
   ];
 
@@ -34,6 +34,10 @@ export class ProductManageComponent implements OnInit {
   ngOnInit() {
     this.productsService.getProducts().subscribe((data) => {
       this.dataSource.data = data;
+      this.dataSource.data.forEach((product: any) => {
+        this.loadImage(product.id);
+        console.info('this->id: ' + product.id + ' url: ' + this.imageUrl);
+      });
       this.dataSource.paginator = this.paginator; // Set paginator here after data loads
     });
   }
@@ -41,10 +45,11 @@ export class ProductManageComponent implements OnInit {
   loadImage(id: number) {
     this.productsService.getProductImage(id).subscribe({
       next: (imageBlob: Blob) => {
-        return URL.createObjectURL(imageBlob);
+        this.imageUrl = URL.createObjectURL(imageBlob);
+        // product.imageUrl = URL.createObjectURL(imageBlob);
       },
       error: (err) => {
-        return err;
+        console.error('Error: fetching Image' + err);
       },
     });
   }
