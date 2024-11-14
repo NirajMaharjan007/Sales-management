@@ -35,7 +35,9 @@ export class ProductsService {
       responseType: 'blob',
     });
   }
-
+  getProductById(id: any): Observable<any> {
+    return this.http.get(`${this.api}/${id}/`);
+  }
   getProductBySerial(serial: string): Observable<any> {
     return this.http
       .get<boolean>(`${this.api}/serial/${serial}/`)

@@ -22,6 +22,7 @@ import { LoginComponent } from './login/login.component';
 import { authGuard } from './auth/auth.guard';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SupplierEditComponent } from './suppliers/edit/edit.component';
+import { ProductDetailComponent } from './product/detail/detail.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '404', pathMatch: 'full' },
@@ -47,6 +48,7 @@ export const routes: Routes = [
       { path: 'products/create', component: ProductCreateComponent },
       { path: 'products/manage', component: ProductManageComponent },
       { path: 'products/edit/:id', component: ProductEditComponent },
+      { path: 'products/detail/:id', component: ProductDetailComponent },
       { path: 'units/create', component: UnitCreateComponent },
       { path: 'units/manage', component: UnitManageComponent },
       { path: 'units/edit/:id', component: UnitEditComponent },
