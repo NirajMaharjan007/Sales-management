@@ -87,12 +87,6 @@ export class ProductManageComponent implements OnInit {
     });
   }
 
-  // getCategoryName(id: number) {
-  //   const category = this.categoriesService.getCategoryById(id);
-  //   const data = category.find((cat) => cat.id === id);
-  //   return category ? category.name : 'Unknown';
-  // }
-
   onDelete(id: number) {
     const confirmed = window.confirm(
       'Are you sure you want to delete this item?'

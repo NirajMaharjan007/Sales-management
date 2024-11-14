@@ -1,0 +1,30 @@
+<div>
+  <p class="h3">Product's Details</p>
+  <div class="tile card p-0" *ngIf="data">
+    <div class="tile-body d-flex justify-content-between align-items-stretch">
+      <img
+        class="card-img-top img-fluid w-25"
+        [src]="imageUrls[data.id]"
+        alt="Card image cap"
+        width="100"
+        height="100"
+      />
+      <div class="card-body">
+        <p class="h4 tile-title card-title">{{ data.name }}</p>
+        <p class="card-text">
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </p>
+        <p class="card-text">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
+          cumque assumenda accusantium consectetur obcaecati cum dolorum
+          blanditiis repellendus nisi, perferendis id temporibus excepturi
+          voluptatem tempora, repellat repudiandae deleniti possimus tempore.
+        </p>
+        <a routerLink="/products/manage/" class="btn btn-primary">
+          <i class="fa fa-fw fa-lg fa-arrow-alt-circle-left pe-2"></i> Back
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
