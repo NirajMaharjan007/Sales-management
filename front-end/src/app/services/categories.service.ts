@@ -22,7 +22,7 @@ export class CategoriesService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.get(this.api, { headers });
   }
-  getCategoryById(id: any) {
+  getCategoryById(id: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.get(`${this.api}${id}/`, { headers });
   }

@@ -40,12 +40,6 @@ export class ProductCreateComponent implements OnInit {
   cards: { title: string }[] = [{ title: 'Card 1' }];
   productForm: FormGroup;
 
-  get getRandomNumber(): number {
-    const min = 1,
-      max = 1024;
-    return Math.floor(Math.random() * (max - min) + min);
-  }
-
   constructor(
     private categoriesService: CategoriesService,
     private unitsService: UnitsService,
@@ -55,7 +49,6 @@ export class ProductCreateComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.productForm = this.fb.group({
-      id: [this.getRandomNumber],
       name: ['', [Validators.required, Validators.minLength(3)]],
       serial_number: ['', Validators.required],
       model: ['', Validators.required],
@@ -119,7 +112,7 @@ export class ProductCreateComponent implements OnInit {
         .createProduct(this.productForm.value, this.selectedFile)
         .subscribe({
           next: (response: any) => {
-            alert('Product and suppliers added successfully!');
+            alert('Product added successfully!');
             this.productForm.reset();
           },
           error: (error) => {
@@ -137,7 +130,5 @@ export class ProductCreateComponent implements OnInit {
     } else {
       alert('invalid input');
     }
-
-    this.productForm.patchValue({ id: this.getRandomNumber });
   }
 }

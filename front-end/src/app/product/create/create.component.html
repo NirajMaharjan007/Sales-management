@@ -6,7 +6,6 @@
       <div class="tile-body">
         <p class="tile-title">Add new Product</p>
         <form [formGroup]="productForm" (ngSubmit)="onSubmit()" method="post">
-          <input type="hidden" name="id" formControlName="id" />
           <div class="row">
             <!-- Product Name -->
             <div class="form-group col-md-6">
