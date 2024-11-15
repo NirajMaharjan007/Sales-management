@@ -9,21 +9,65 @@
         width="100"
         height="100"
       />
-      <div class="card-body">
-        <p class="h4 tile-title card-title">{{ data.name }}</p>
-        <p class="card-text">
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </p>
-        <p class="card-text">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
-          cumque assumenda accusantium consectetur obcaecati cum dolorum
-          blanditiis repellendus nisi, perferendis id temporibus excepturi
-          voluptatem tempora, repellat repudiandae deleniti possimus tempore.
-        </p>
-        <a routerLink="/products/manage/" class="btn btn-primary">
-          <i class="fa fa-fw fa-lg fa-arrow-alt-circle-left pe-2"></i> Back
-        </a>
+      <div
+        class="card-body d-flex flex-column justify-content-between align-items-stretch"
+      >
+        <span>
+          <p class="h4 tile-title card-title">
+            <strong>{{ data.id }}. {{ data.name }} </strong>
+          </p>
+
+          <div class="row mb-3">
+            <span class="card-text col-md-3">
+              Serial Number: <strong>{{ data.serial_number }}</strong>
+            </span>
+            <span class="card-text col-md-3">
+              Model: <strong>{{ data.model }}</strong>
+            </span>
+            <div class="card-text col-md-3">
+              Sales Price: <strong>Rs {{ data.sales_price }}</strong>
+            </div>
+            <div class="card-text col-md-3">
+              Quantity: <strong>{{ data.qty }}</strong>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <span class="card-text col-md-3">
+              Category: <strong>{{ categories_name[data.category_id] }}</strong>
+            </span>
+            <span class="card-text col-md-3">
+              Unit: <strong>{{ unit_name[data.unit_id] }}</strong>
+            </span>
+            <div class="card-text col-md-3">
+              Purchase Price: <strong>N/A </strong>
+            </div>
+            <div class="card-text col-md-3">
+              Tax : <strong>{{ data.tax_id }}%</strong>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <span class="card-text col-6">
+              Created at: <strong>{{ data.created_at }}</strong>
+            </span>
+            <span class="card-text col-6">
+              Updated at: <strong>{{ data.updated_at }}</strong>
+            </span>
+          </div>
+
+          <div class="row mb-3">
+            <span class="card-text col-12">
+              Suppliers: <strong>N/A</strong>
+            </span>
+          </div>
+        </span>
+
+        <div>
+          <a routerLink="/products/manage/" class="btn btn-primary">
+            <i class="fa fa-fw fa-lg fa-arrow-alt-circle-left pe-2"></i> Back
+          </a>
+        </div>
       </div>
     </div>
   </div>
