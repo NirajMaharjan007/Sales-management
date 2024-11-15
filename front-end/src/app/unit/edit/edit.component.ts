@@ -51,6 +51,7 @@ export class UnitEditComponent {
       },
       error: (error) => {
         console.error('Error getting unit', error);
+        this.router.navigate(['/404/']);
       },
     });
   }

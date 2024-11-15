@@ -50,6 +50,7 @@ export class CategoryEditComponent {
       },
       error: (error) => {
         console.error('Error getting category', error);
+        this.router.navigate(['/404/']);
       },
     });
   }

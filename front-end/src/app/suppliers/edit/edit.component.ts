@@ -63,20 +63,26 @@ export class SupplierEditComponent {
   }
 
   fetch() {
-    this.suppilersService.getSupplierById(this.id).subscribe((data: any) => {
-      this.name = data.name;
-      this.mobile = data.mobile;
-      this.address = data.address;
-      this.previous_balance = data.previous_balance;
-      this.details = data.details;
+    this.suppilersService.getSupplierById(this.id).subscribe({
+      next: (data: any) => {
+        this.name = data.name;
+        this.mobile = data.mobile;
+        this.address = data.address;
+        this.previous_balance = data.previous_balance;
+        this.details = data.details;
 
-      this.supplierForm.patchValue({
-        name: data.name,
-        mobile: data.mobile,
-        address: data.address,
-        previous_balance: data.previous_balance,
-        details: data.details,
-      });
+        this.supplierForm.patchValue({
+          name: data.name,
+          mobile: data.mobile,
+          address: data.address,
+          previous_balance: data.previous_balance,
+          details: data.details,
+        });
+      },
+      error: (error) => {
+        console.error(error);
+        this.router.navigate(['/404/']);
+      },
     });
   }
 
