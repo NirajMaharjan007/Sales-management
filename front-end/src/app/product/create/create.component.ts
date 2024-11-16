@@ -5,7 +5,6 @@ import { RouterLink } from '@angular/router';
 import { CategoriesService } from '../../services/categories.service';
 import { UnitsService } from '../../services/units.service';
 import { TaxService } from '../../services/tax.service';
-import { SuppilersService } from '../../services/suppliers.service';
 import { ProductsService } from '../../services/products.service';
 
 import {
@@ -44,7 +43,6 @@ export class ProductCreateComponent implements OnInit {
     private categoriesService: CategoriesService,
     private unitsService: UnitsService,
     private taxService: TaxService,
-    private suppilersService: SuppilersService,
     private productsService: ProductsService,
     private fb: FormBuilder
   ) {
@@ -77,9 +75,6 @@ export class ProductCreateComponent implements OnInit {
     });
     this.taxService.getTaxes().subscribe((taxes) => {
       this.taxes = taxes;
-    });
-    this.suppilersService.getSuppliers().subscribe((suppliers) => {
-      this.suppliers = suppliers;
     });
   }
 
