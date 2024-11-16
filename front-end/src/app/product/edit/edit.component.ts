@@ -1,11 +1,14 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ProductEditComponent } from './product-edit/product-edit.component';
+import { ProductSupplierEditComponent } from './product-supplier-edit/product-supplier-edit.component';
+import { NgIf } from '@angular/common';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
-  selector: 'product-edit',
+  selector: 'product-outter-edit',
   standalone: true,
-  imports: [RouterLink],
+  imports: [ProductEditComponent, ProductSupplierEditComponent, NgIf],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.css',
   animations: [
@@ -18,9 +21,10 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
     ]),
   ],
 })
-export class ProductEditComponent implements OnInit {
+export class ProductOutterEditComponent implements OnInit {
   id: string | null = null;
-  cards: { title: string }[] = [{ title: 'Card 1' }];
+
+  stage = true;
 
   constructor(private route: ActivatedRoute) {}
   ngOnInit(): void {
@@ -29,17 +33,8 @@ export class ProductEditComponent implements OnInit {
     });
   }
 
-  /* addCard(): void {
-    this.cards.push({
-      title: `Card ${this.cards.length + 1}`,
-    });
+  change() {
+    this.stage = !this.stage;
+    console.info(this.stage);
   }
-
-  removeCard(index: number): void {
-    this.cards.splice(index, 1);
-  }
-
-  hasMoreCard(): boolean {
-    return this.cards.length > 1;
-  } */
 }
