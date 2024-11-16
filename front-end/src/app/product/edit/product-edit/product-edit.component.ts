@@ -52,7 +52,7 @@ export class ProductEditComponent implements OnInit {
       unit_id: ['', [Validators.required]],
       sales_price: ['', [Validators.required, Validators.min(0)]],
       qty: ['', [Validators.required, Validators.min(1)]],
-      image: [null, [Validators.required]],
+      image: [null],
     });
   }
   ngOnInit(): void {
@@ -60,6 +60,8 @@ export class ProductEditComponent implements OnInit {
 
     this.productsService.getProductById(this.id).subscribe({
       next: (data) => {
+        console.info(JSON.stringify(data, null, 2));
+
         this.productForm.patchValue({
           name: data.name,
           serial_number: data.serial_number,
