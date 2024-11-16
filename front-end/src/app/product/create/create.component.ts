@@ -36,7 +36,6 @@ export class ProductCreateComponent implements OnInit {
   taxes: any;
   suppliers: any;
   selectedFile: File | null = null;
-  cards: { title: string }[] = [{ title: 'Card 1' }];
   productForm: FormGroup;
 
   constructor(
@@ -76,23 +75,6 @@ export class ProductCreateComponent implements OnInit {
     this.taxService.getTaxes().subscribe((taxes) => {
       this.taxes = taxes;
     });
-  }
-
-  addCard(): void {
-    this.cards.push({
-      title: `Card ${this.cards.length + 1}`,
-    });
-
-    console.info(this.cards.length);
-  }
-
-  removeCard(index: number): void {
-    this.cards.splice(index, 1);
-    console.info(this.cards.length);
-  }
-
-  hasMoreCard(): boolean {
-    return this.cards.length > 1;
   }
 
   onFileSelected(event: any) {

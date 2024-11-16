@@ -1,3 +1,47 @@
-<form>
-    <div></div>
-</form>
+<div class="mt-md-2">
+    <form>
+        <label for="supplier">Supplier</label>
+        <div id="example-2" class="content py-2">
+            <div class="row group" *ngFor="let card of cards; let i = index" [@fadeInOut]>
+                <div class="form-group col-md-4">
+                    <select name="supplier_id" class="form-control">
+                        <option value="" disabled selected>
+                            --- Select the Supplier ---
+                        </option>
+                        <option *ngFor="let supplier of suppliers" [ngValue]="supplier.id">
+                            {{ supplier.name }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <input name="purchase_price" class="form-control" type="number" placeholder="Purchase Price" />
+                </div>
+
+                <div class="form-group col-md-4">
+                    <button (click)="addCard()" type="button" id="btnAdd-2"
+                        class="btn btn-success btn-sm mx-2 float-right">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <span *ngIf="hasMoreCard()" [@fadeInOut]>
+                        <button (click)="removeCard(i)" type="button"
+                            class="btn btn-danger btn-sm mx-2 btnRemove float-right">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12 align-self-end">
+            <button class="btn btn-success" type="submit">
+                <i class="fa fa-fw fa-check-circle pe-4"></i>
+                Update
+            </button>
+
+            <a routerLink="/products/manage" class="btn-primary btn mx-md-2">
+                <i class="fa fa-fw fa-arrow-circle-left m-0 pe-4"></i> Back
+            </a>
+        </div>
+    </form>
+</div>
