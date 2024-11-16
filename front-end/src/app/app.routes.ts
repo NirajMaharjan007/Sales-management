@@ -6,8 +6,6 @@ import { TaxIndexComponent } from './tax/index/index.component';
 import { CategoryManageComponent } from './categories/manage/manage.component';
 import { CategoryCreateComponent } from './categories/create/create.component';
 import { CategoryEditComponent } from './categories/edit/edit.component';
-// import { ProductCreateComponent } from './product/create/create.component';
-import { ProductEditComponent } from './product/edit/edit.component';
 import { ProductManageComponent } from './product/manage/manage.component';
 import { ProductCreateComponent } from './product/create/create.component';
 import { UnitCreateComponent } from './unit/create/create.component';
@@ -23,6 +21,7 @@ import { authGuard } from './auth/auth.guard';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SupplierEditComponent } from './suppliers/edit/edit.component';
 import { ProductDetailComponent } from './product/detail/detail.component';
+import { ProductOutterEditComponent } from './product/edit/edit.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '404', pathMatch: 'full' },
@@ -47,7 +46,7 @@ export const routes: Routes = [
       { path: 'categories/edit/:id', component: CategoryEditComponent },
       { path: 'products/create', component: ProductCreateComponent },
       { path: 'products/manage', component: ProductManageComponent },
-      { path: 'products/edit/:id', component: ProductEditComponent },
+      { path: 'products/edit/:id', component: ProductOutterEditComponent },
       { path: 'products/detail/:id', component: ProductDetailComponent },
       { path: 'units/create', component: UnitCreateComponent },
       { path: 'units/manage', component: UnitManageComponent },
