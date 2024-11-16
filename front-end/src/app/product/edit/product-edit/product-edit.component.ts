@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { RouterLink, Router } from '@angular/router';
 import { ProductsService } from '../../../services/products.service';
 import {
   FormBuilder,
@@ -33,6 +33,8 @@ export class ProductEditComponent implements OnInit {
 
   productForm: FormGroup;
 
+  router = inject(Router);
+
   constructor(
     private categoriesService: CategoriesService,
     private unitsService: UnitsService,
@@ -55,6 +57,24 @@ export class ProductEditComponent implements OnInit {
   }
   ngOnInit(): void {
     this.fetch();
+
+    this.productsService.getProductById(this.id).subscribe({
+      next: (data) => {
+        this.productForm.patchValue({
+          name: data.name,
+          serial_number: data.serial_number,
+          model: data.model,
+          category_id: data.category_id,
+          tax_id: data.tax_id,
+          unit_id: data.unit_id,
+          sales_price: data.sales_price,
+          qty: data.qty,
+        });
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 
   fetch() {
@@ -75,5 +95,21 @@ export class ProductEditComponent implements OnInit {
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
-  onSubmit() {}
+  onSubmit() {
+    if (this.productForm.valid && this.selectedFile) {
+      this.productsService
+        .updatedProduct(this.id, this.productForm.value, this.selectedFile)
+        .subscribe({
+          next: () => {
+            alert('Updated Products details');
+            this.router.navigate(['/products/manage']);
+          },
+          error: () => {
+            alert('Failed to Updated the product');
+          },
+        });
+    } else {
+      alert('Please fill all the required fields');
+    }
+  }
 }

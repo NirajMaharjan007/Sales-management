@@ -35,6 +35,6 @@ export class ProductOutterEditComponent implements OnInit {
 
   change() {
     this.stage = !this.stage;
-    console.info(this.stage);
+    // console.info(this.stage);
   }
 }

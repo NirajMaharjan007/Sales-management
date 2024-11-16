@@ -29,6 +29,22 @@ export class ProductsService {
 
     return this.http.post(`${this.api}/`, formData);
   }
+  updatedProduct(id: any, data: any, file: File) {
+    const formData = new FormData();
+
+    // Append each form field
+    formData.append('name', data.name);
+    formData.append('serial_number', data.serial_number);
+    formData.append('model', data.model);
+    formData.append('sales_price', data.sales_price.toString());
+    formData.append('qty', data.qty.toString());
+    formData.append('category_id', data.category_id.toString());
+    formData.append('unit_id', data.unit_id.toString());
+    formData.append('tax_id', data.tax_id.toString());
+    formData.append('image', file, file.name);
+
+    return this.http.patch(`${this.api}/${id}/`, formData);
+  }
 
   getProductImage(id: any): Observable<any> {
     return this.http.get(`${this.api}/image/${id}/`, {
