@@ -342,19 +342,20 @@ class ProductSupplierViewSet(ViewSet):
         serializer = ProductSupplierSerializer(product_suppliers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def create(self, request):
-        serializer = ProductSupplierSerializer(data=request.data)
+    def update(self, request, pk=None):
+        try:
+            product_supplier = Product_Supplier.objects.get(pk=pk)
+        except Product.DoesNotExist:
+            return Response({"error": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ProductSerializer(
+            product_supplier, data=request.data, partial=False)
 
         if serializer.is_valid():
-            if not Product_Supplier.objects.filter(supplier_id=request.data["supplier_id"]).exists():
-                serializer.save()
-                print(serializer.data)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            print(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Product not Updated."}, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request):
         try:
