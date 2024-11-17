@@ -94,6 +94,7 @@ class Product_Supplier(Model):
     class Meta:
         db_table = 'product_supplier'
         ordering = ['-created_at', '-updated_at']
+        unique_together = ('product_id', 'supplier_id')
 
     def __str__(self):
         return self.name

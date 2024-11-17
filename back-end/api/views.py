@@ -344,24 +344,29 @@ class ProductSupplierViewSet(ViewSet):
 
     def update(self, request, pk=None):
         try:
-            product_supplier = Product_Supplier.objects.get(pk=pk)
-        except Product.DoesNotExist:
-            return Response({"error": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = ProductSerializer(
-            product_supplier, data=request.data, partial=False)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response({"error": "Product not Updated."}, status=status.HTTP_400_BAD_REQUEST)
+            # Check if the payload is a list
+            if isinstance(request.data, list):
+                # Validate and save each object in the list
+                serializer = ProductSupplierSerializer(
+                    data=request.data, many=True)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                # If the payload is a single object, process as usual
+                serializer = ProductSupplierSerializer(data=request.data)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({"error": serializer.errors},
+                            status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request):
         try:
             product_supplier = Product_Supplier.objects.get(
                 id=request.data.get('id'))
             product_supplier.delete()
-            return Response({"message": "Product Supplier deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+            return Response({"message": "Product's Supplier deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
         except Product_Supplier.DoesNotExist:
-            return Response({"error": "Product Supplier not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Product's Supplier not found"}, status=status.HTTP_404_NOT_FOUND)
