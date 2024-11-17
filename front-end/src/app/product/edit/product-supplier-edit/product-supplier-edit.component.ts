@@ -1,6 +1,11 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ProductsService } from '../../../services/products.service';
 import { SuppilersService } from '../../../services/suppliers.service';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -28,10 +33,18 @@ export class ProductSupplierEditComponent implements OnInit {
 
   suppliers: any;
 
+  form: FormGroup;
+
   constructor(
     private suppilersService: SuppilersService,
-    private productsService: ProductsService
-  ) {}
+    private productsService: ProductsService,
+    private fb: FormBuilder
+  ) {
+    this.form = this.fb.group({
+      supplier_id: ['', Validators.required],
+      purchase_price: ['', Validators.required],
+    });
+  }
   ngOnInit(): void {
     this.fetch();
   }
@@ -57,5 +70,9 @@ export class ProductSupplierEditComponent implements OnInit {
 
   hasMoreCard(): boolean {
     return this.cards.length > 1;
+  }
+
+  onSubmit(): void {
+    console.info(JSON.stringify(this.form.value, null, 2));
   }
 }

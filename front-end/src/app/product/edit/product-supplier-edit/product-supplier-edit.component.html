@@ -1,10 +1,10 @@
 <div class="mt-md-2">
-    <form>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" method="put">
         <label for="supplier">Supplier</label>
         <div id="example-2" class="content py-2">
             <div class="row group" *ngFor="let card of cards; let i = index" [@fadeInOut]>
                 <div class="form-group col-md-4">
-                    <select name="supplier_id" class="form-control">
+                    <select name="supplier_id" class="form-control" formControlName="supplier_id">
                         <option value="" disabled selected>
                             --- Select the Supplier ---
                         </option>
@@ -14,8 +14,9 @@
                     </select>
                 </div>
 
-                <div class="form-group col-md-4">
-                    <input name="purchase_price" class="form-control" type="number" placeholder="Purchase Price" />
+                <div class=" form-group col-md-4">
+                    <input name="purchase_price" formControlName="purchase_price" class="form-control" type="number"
+                        placeholder="Purchase Price" />
                 </div>
 
                 <div class="form-group col-md-4">
