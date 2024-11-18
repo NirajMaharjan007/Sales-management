@@ -337,6 +337,22 @@ class ProductViewSet(ViewSet):
 
 
 class ProductSupplierViewSet(ViewSet):
+    @action(detail=False, methods=['get'], url_path='product_id/(?P<product_id>[^/.]+)')
+    def get_product_id(self, request, product_id=None):
+        try:
+            # Fetch all product suppliers with the given product_id
+            product_suppliers = Product_Supplier.objects.filter(
+                product_id=product_id)
+            if not product_suppliers.exists():
+                return Response({"message": "No suppliers found for this product."}, status=status.HTTP_404_NOT_FOUND)
+
+            # Serialize the data
+            serializer = ProductSupplierSerializer(
+                product_suppliers, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
     def list(self, request):
         product_suppliers = Product_Supplier.objects.all()
         serializer = ProductSupplierSerializer(product_suppliers, many=True)

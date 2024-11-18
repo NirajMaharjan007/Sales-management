@@ -61,10 +61,15 @@ export class ProductsService {
   }
 
   createProductSupplier(id: any, data: any) {
-    console.info('Product supplier:' + JSON.stringify(data));
     return this.http.put(
       `${this.authService.baseUrl}/product_supplier/${id}/`,
       data
+    );
+  }
+
+  getProductSuppliers(productId: any): Observable<any> {
+    return this.http.get(
+      `${this.authService.baseUrl}/product_supplier/product_id/${productId}/`
     );
   }
 

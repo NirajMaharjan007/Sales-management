@@ -1,14 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductsService } from '../../services/products.service';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { CategoriesService } from '../../services/categories.service';
 import { UnitsService } from '../../services/units.service';
+import { SuppilersService } from '../../services/suppliers.service';
 @Component({
   selector: 'product-detail',
   standalone: true,
-  imports: [RouterLink, NgIf],
+  imports: [RouterLink, NgIf, NgFor],
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.css',
 })
@@ -18,12 +19,18 @@ export class ProductDetailComponent {
   imageUrls: { [key: number]: string } = {};
   categories_name: { [key: number]: string } = {};
   unit_name: { [key: number]: string } = {};
+
+  supplier_data: any;
+  supplier_name: { [key: number]: string } = {};
+  purchase_price: any[] = [];
+
   router = inject(Router);
   constructor(
     private route: ActivatedRoute,
     private productsService: ProductsService,
     private categoriesService: CategoriesService,
-    private unitsService: UnitsService
+    private unitsService: UnitsService,
+    private suppilersService: SuppilersService
   ) {}
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -44,6 +51,22 @@ export class ProductDetailComponent {
       },
       error: (err) => {
         this.router.navigate(['/404/']);
+      },
+    });
+
+    this.productsService.getProductSuppliers(this.id).subscribe({
+      next: (data: any) => {
+        this.supplier_data = data;
+        for (let index = 0; index < data.length; index++) {
+          console.log(JSON.stringify(data[index].supplier_id, null, 2));
+          this.getSuppliersName(Number(data[index].supplier_id));
+          this.purchase_price[data[index].supplier_id] = Number(
+            data[index].purchase_price
+          );
+        }
+      },
+      error: (err) => {
+        console.error('Error: fetching Suppliers' + err);
       },
     });
   }
@@ -67,6 +90,17 @@ export class ProductDetailComponent {
       },
       error: (err) => {
         console.error('Error: fetching Unit Name' + err);
+      },
+    });
+  }
+
+  getSuppliersName(id: number) {
+    this.suppilersService.getSupplierById(id).subscribe({
+      next: (supplier: any) => {
+        this.supplier_name[id] = supplier.name;
+      },
+      error: (err) => {
+        console.error('Error: fetching Supplier Name' + err);
       },
     });
   }

@@ -6,9 +6,15 @@
         height="100" />
       <div class="card-body d-flex flex-column justify-content-between align-items-stretch">
         <span>
-          <p class="h4 tile-title card-title">
-            <strong>{{ data.id }}. {{ data.name }} </strong>
-          </p>
+          <div class="tile-title card-title d-flex justify-content-between">
+            <p class="h4">
+              <strong>{{ data.id }}. {{ data.name }} </strong>
+            </p>
+            <a routerLink="/products/manage/" class="btn btn-primary">
+              <i class="fa fa-fw fa-lg fa-arrow-alt-circle-left pe-2"></i> Back
+            </a>
+
+          </div>
 
           <div class="row mb-3">
             <span class="card-text col-md-3">
@@ -32,9 +38,7 @@
             <span class="card-text col-md-3">
               Unit: <strong>{{ unit_name[data.unit_id] }}</strong>
             </span>
-            <div class="card-text col-md-3">
-              Purchase Price: <strong>N/A </strong>
-            </div>
+
             <div class="card-text col-md-3">
               Tax : <strong>{{ data.tax_id }}%</strong>
             </div>
@@ -49,18 +53,36 @@
             </span>
           </div>
 
-          <div class="row mb-3">
-            <span class="card-text col-12">
-              Suppliers: <strong>N/A</strong>
-            </span>
+          <div class="row my-4">
+            <div class="card-text col-12 ">
+              <span *ngIf="supplier_data else notFound">
+                Suppliers:
+                <div *ngFor="let data of supplier_data" class="mb-2">
+                  <div class="d-flex align-items-stretch justify-content-start">
+                    <div class="mx-2">
+                      Supplier Name:
+                      <strong>
+                        {{ supplier_name[data.supplier_id] }}
+                      </strong>
+                    </div>
+
+                    <div class="mx-4 d-flex justify-content-between">
+                      Purchase Price: <strong>
+                        {{ purchase_price[data.supplier_id] }}
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+              </span>
+
+              <ng-template #notFound>
+                Suppliers: <strong>N/A</strong>
+              </ng-template>
+            </div>
           </div>
         </span>
 
-        <div>
-          <a routerLink="/products/manage/" class="btn btn-primary">
-            <i class="fa fa-fw fa-lg fa-arrow-alt-circle-left pe-2"></i> Back
-          </a>
-        </div>
+
       </div>
     </div>
   </div>
