@@ -60,7 +60,8 @@ export class ProductsService {
       .pipe(catchError(() => of(false)));
   }
 
-  createProductSupplier(id: number, data: any) {
+  createProductSupplier(id: any, data: any) {
+    console.info('Product supplier:' + JSON.stringify(data));
     return this.http.put(
       `${this.authService.baseUrl}/product_supplier/${id}/`,
       data

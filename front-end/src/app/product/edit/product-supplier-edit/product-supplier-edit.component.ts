@@ -41,12 +41,7 @@ export class ProductSupplierEditComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
-      suppliers: this.fb.array([
-        this.fb.group({
-          supplier_id: ['', Validators.required],
-          purchase_price: ['', Validators.required],
-        }),
-      ]),
+      suppliers: this.fb.array([]),
     });
   }
 
@@ -55,6 +50,15 @@ export class ProductSupplierEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      suppliers: this.fb.array([
+        this.fb.group({
+          supplier_id: ['', Validators.required],
+          purchase_price: ['', Validators.required],
+          product_id: this.id,
+        }),
+      ]),
+    });
     this.fetch();
   }
 
@@ -68,6 +72,7 @@ export class ProductSupplierEditComponent implements OnInit {
     const supplierGroup = this.fb.group({
       supplier_id: ['', Validators.required],
       purchase_price: ['', Validators.required],
+      product_id: this.id,
     });
 
     this.suppliers.push(supplierGroup);
@@ -82,20 +87,20 @@ export class ProductSupplierEditComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.info(JSON.stringify(this.form.value, null, 2));
     if (this.form.valid) {
-      this.productsService
-        .createProductSupplier(this.id, this.form.value)
-        .subscribe({
-          next: (response: any) => {
-            alert('Product supplier updated successfully!');
-            this.form.reset();
-          },
-          error: (error) => {
-            console.error(error.message);
-            alert('Failed to update product supplier.');
-          },
-        });
+      const payload = this.form.value.suppliers;
+
+      console.info(JSON.stringify(payload, null, 2));
+      this.productsService.createProductSupplier(this.id, payload).subscribe({
+        next: (response: any) => {
+          alert('Product supplier updated successfully!');
+          console.log(response);
+        },
+        error: (error) => {
+          console.error(error.message);
+          alert('Failed to update product supplier.');
+        },
+      });
     } else {
       alert('Please fill all required fields.');
     }
