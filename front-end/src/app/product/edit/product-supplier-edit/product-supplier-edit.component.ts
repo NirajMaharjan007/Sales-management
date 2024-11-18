@@ -30,9 +30,8 @@ import { RouterLink } from '@angular/router';
 })
 export class ProductSupplierEditComponent implements OnInit {
   @Input() id: any;
-  cards = [{ title: 'Card 1' }];
 
-  suppliers: any;
+  data: any;
 
   form: FormGroup;
 
@@ -42,38 +41,63 @@ export class ProductSupplierEditComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
-      supplier_id: ['', Validators.required],
-      purchase_price: ['', Validators.required],
+      suppliers: this.fb.array([
+        this.fb.group({
+          supplier_id: ['', Validators.required],
+          purchase_price: ['', Validators.required],
+        }),
+      ]),
     });
   }
+
+  get suppliers(): FormArray {
+    return this.form.get('suppliers') as FormArray;
+  }
+
   ngOnInit(): void {
     this.fetch();
   }
 
   fetch() {
     this.suppilersService.getSuppliers().subscribe((data: any) => {
-      this.suppliers = data;
+      this.data = data;
     });
   }
 
-  addCard(): void {
-    this.cards.push({
-      title: `Card ${this.cards.length + 1}`,
+  addSupplier() {
+    const supplierGroup = this.fb.group({
+      supplier_id: ['', Validators.required],
+      purchase_price: ['', Validators.required],
     });
 
-    console.info(this.cards.length);
+    this.suppliers.push(supplierGroup);
   }
 
-  removeCard(index: number): void {
-    this.cards.splice(index, 1);
-    console.info(this.cards.length);
+  removeSupplier(index: number) {
+    this.suppliers.removeAt(index);
   }
 
-  hasMoreCard(): boolean {
-    return this.cards.length > 1;
+  hasMoreSupplier(): boolean {
+    return this.suppliers.length > 1;
   }
 
   onSubmit(): void {
     console.info(JSON.stringify(this.form.value, null, 2));
+    if (this.form.valid) {
+      this.productsService
+        .createProductSupplier(this.id, this.form.value)
+        .subscribe({
+          next: (response: any) => {
+            alert('Product supplier updated successfully!');
+            this.form.reset();
+          },
+          error: (error) => {
+            console.error(error.message);
+            alert('Failed to update product supplier.');
+          },
+        });
+    } else {
+      alert('Please fill all required fields.');
+    }
   }
 }

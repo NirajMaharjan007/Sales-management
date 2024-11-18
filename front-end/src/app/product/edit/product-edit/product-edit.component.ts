@@ -60,8 +60,6 @@ export class ProductEditComponent implements OnInit {
 
     this.productsService.getProductById(this.id).subscribe({
       next: (data) => {
-        console.info(JSON.stringify(data, null, 2));
-
         this.productForm.patchValue({
           name: data.name,
           serial_number: data.serial_number,

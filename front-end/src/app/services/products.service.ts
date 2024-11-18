@@ -60,9 +60,9 @@ export class ProductsService {
       .pipe(catchError(() => of(false)));
   }
 
-  createProductSupplier(data: any) {
-    return this.http.post(
-      `${this.authService.baseUrl}/product_supplier/`,
+  createProductSupplier(id: number, data: any) {
+    return this.http.put(
+      `${this.authService.baseUrl}/product_supplier/${id}/`,
       data
     );
   }
