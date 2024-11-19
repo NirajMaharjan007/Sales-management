@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -10,7 +10,7 @@ import {
 import { ProductsService } from '../../../services/products.service';
 import { SuppilersService } from '../../../services/suppliers.service';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'product-supplier-edit',
@@ -32,6 +32,8 @@ export class ProductSupplierEditComponent implements OnInit {
   @Input() id: any;
 
   data: any;
+
+  router = inject(Router);
 
   form: FormGroup;
 
@@ -95,6 +97,7 @@ export class ProductSupplierEditComponent implements OnInit {
         next: (response: any) => {
           alert('Product supplier updated successfully!');
           console.log(response);
+          this.router.navigate(['/products/manage']);
         },
         error: (error) => {
           console.error(error.message);
