@@ -29,9 +29,10 @@ import {
 })
 export class InvoiceCreateComponent implements OnInit {
   products: any;
+
+  price: { [key: number]: number } = {};
+
   form: FormGroup;
-  price = 0;
-  quantity = 0;
 
   constructor(
     private productsService: ProductsService,
@@ -76,43 +77,43 @@ export class InvoiceCreateComponent implements OnInit {
     });
   }
 
+  get productArray() {
+    return this.form.get('product') as FormArray;
+  }
+
   addProduct() {
-    this.product.push(
+    this.productArray.push(
       this.fb.group({
-        id: ['', Validators.required],
-        sales_price: ['', Validators.required],
-        discount: ['', Validators.required],
-        total_price: ['', Validators.required],
-        tax_rate: ['', Validators.required],
-        qty: ['', Validators.required],
+        id: [''],
+        name: [''],
+        sales_price: [''],
+        qty: [''],
+        tax: [''],
       })
     );
   }
 
+  hasMoreProducts(): boolean {
+    return this.productArray.length > 1;
+  }
+
   removeProduct(index: number) {
-    this.product.removeAt(index);
+    this.productArray.removeAt(index);
   }
 
-  hasMoreProduct(): boolean {
-    return this.product.length > 1;
+  onSubmit() {
+    const payload = this.form.value.product;
+    console.info(JSON.stringify(payload, null, 2));
   }
 
-  click() {
-    console.info('onSubmit; ');
-  }
-
-  onProductChange(event: Event) {
+  onProductChange(event: Event, id: number) {
     const target = event.target as HTMLSelectElement;
     const productId = parseInt(target.value);
     const product = this.products.find(
       (product: ProductData) => product.id === productId
     );
-    this.price = product?.sales_price || 0;
-    this.quantity = product?.qty || 0;
-  }
 
-  onSubmit() {
-    console.info(JSON.stringify(this.form.value, null, 2));
+    this.price[id] = product?.sales_price;
   }
 }
 
