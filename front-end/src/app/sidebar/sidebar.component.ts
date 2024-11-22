@@ -6,12 +6,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 
-import {
-  NavigationEnd,
-  Router,
-  RouterLink,
-  RouterOutlet,
-} from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,7 +17,6 @@ import {
     MatButtonModule,
     MatSidenavModule,
     MatListModule,
-    RouterOutlet,
     RouterLink,
   ],
   templateUrl: './sidebar.component.html',
