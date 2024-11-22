@@ -3,11 +3,17 @@ import { RouterLink } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NgFor, NgIf } from '@angular/common';
 import { ProductsService } from '../../services/products.service';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 @Component({
   selector: 'invoice-create',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf],
+  imports: [RouterLink, NgFor, NgIf, ReactiveFormsModule],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css',
   animations: [
@@ -22,11 +28,32 @@ import { ProductsService } from '../../services/products.service';
 })
 export class InvoiceCreateComponent implements OnInit {
   products: any;
-  price = 0;
+  price: { [key: number]: number } = {};
 
-  constructor(private productsService: ProductsService) {}
+  form: FormGroup;
+
+  constructor(
+    private productsService: ProductsService,
+    private fb: FormBuilder
+  ) {
+    this.form = this.fb.group({
+      product: this.fb.array([]),
+    });
+  }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      product: this.fb.array([
+        this.fb.group({
+          id: [''],
+          name: [''],
+          sales_price: [''],
+          qty: [''],
+          tax: [''],
+        }),
+      ]),
+    });
+
     this.fetch();
   }
 
@@ -43,30 +70,42 @@ export class InvoiceCreateComponent implements OnInit {
     });
   }
 
-  cards = [{ id: 'card 1' }];
-  addCard() {
-    this.cards.push({ id: 'card' + this.cards.length });
+  get productArray() {
+    return this.form.get('product') as FormArray;
   }
 
-  removeCard(index: number) {
-    this.cards.splice(index, 1);
+  addProduct() {
+    this.productArray.push(
+      this.fb.group({
+        id: [''],
+        name: [''],
+        sales_price: [''],
+        qty: [''],
+        tax: [''],
+      })
+    );
   }
 
-  hasMoreCard(): boolean {
-    return this.cards.length > 1;
+  removeProducts(index: number) {
+    this.productArray.removeAt(index);
   }
 
-  click() {
-    console.info('onSubmit; ');
+  hasMoreProducts(): boolean {
+    return this.productArray.length > 1;
+  }
+  onSubmit() {
+    const payload = this.form.value.product;
+    console.info(JSON.stringify(payload, null, 2));
   }
 
-  onProductChange(event: Event) {
+  onProductChange(event: Event, id: number) {
     const target = event.target as HTMLSelectElement;
     const productId = parseInt(target.value);
     const product = this.products.find(
       (product: ProductData) => product.id === productId
     );
-    this.price = product?.sales_price || 0;
+
+    this.price[id] = product?.sales_price;
   }
 }
 

@@ -7,14 +7,23 @@
       <div class="tile">
         <p class="h3 tile-title">Invoice Form</p>
         <div class="tile-body">
-          <form class="form">
+          <form
+            class="form form-group"
+            [formGroup]="form"
+            (ngSubmit)="onSubmit()"
+            action="POST"
+          >
             <div class="form-group col-md-3">
               <label class="control-label">Customer Name </label>
               <p class="control-label">TODO:</p>
             </div>
             <div class="form-group col-md-3 mt-2">
               <label class="control-label">Date</label>
-              <input class="form-control" type="date" placeholder="Enter your email" />
+              <input
+                class="form-control"
+                type="date"
+                placeholder="Enter your email"
+              />
             </div>
 
             <table class="table-bordered table mt-4">
@@ -28,12 +37,21 @@
                   <th scope="col">Action</th>
                 </tr>
               </thead>
-              <tbody *ngFor="let card of cards; let i = index" [@fadeInOut]>
+              <tbody
+                *ngFor="let data of productArray.controls; let i = index"
+                [@fadeInOut]
+              >
                 <tr>
                   <td>
-                    <select class="form-control" (change)="onProductChange($event)">
+                    <select
+                      class="form-control"
+                      (change)="onProductChange($event, i)"
+                    >
                       <option selected disabled>Select Product</option>
-                      <option *ngFor="let product of products" [value]="product.id">
+                      <option
+                        *ngFor="let product of products"
+                        [value]="product.id"
+                      >
                         {{ product.name }}
                       </option>
                     </select>
@@ -41,10 +59,15 @@
                   <td>
                     <input type="text" class="form-control" />
                   </td>
-                  <td *ngIf="price !== null">
-                    <!-- <input type="text" class="form-control" /> -->
-                    {{ price }}
+
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [value]="price[i] || 0"
+                    />
                   </td>
+
                   <td>
                     <input type="text" class="form-control" />
                   </td>
@@ -52,12 +75,20 @@
                     <input type="text" class="form-control" />
                   </td>
                   <td class="d-flex justify-content-evenly align-items-stretch">
-                    <button class="btn btn-primary mx-sm-2 mx-lg-0" (click)="addCard()" type="button">
-                      <i class="fa fa-add fa-fw "></i>
+                    <button
+                      class="btn btn-primary me-2"
+                      (click)="addProduct()"
+                      type="button"
+                    >
+                      <i class="fa fa-add fa-fw"></i>
                     </button>
 
-                    <span *ngIf="hasMoreCard()" [@fadeInOut]>
-                      <button class="btn btn-danger mx-sm-2 mx-lg-0" type="button" (click)="removeCard(i)">
+                    <span *ngIf="hasMoreProducts()" [@fadeInOut]>
+                      <button
+                        class="btn btn-danger"
+                        type="button"
+                        (click)="removeProducts(i)"
+                      >
                         <i class="fa fa-trash fa-fw"></i>
                       </button>
                     </span>
@@ -78,10 +109,12 @@
 
             <div class="d-flex justify-content-between">
               <button class="btn btn-primary" routerLink="/invoices/manage">
-                <i class="fa fa-history fa-fw me-2" aria-hidden="true"></i>Invoice's Log
+                <i class="fa fa-history fa-fw me-2" aria-hidden="true"></i
+                >Invoice's Log
               </button>
-              <button class="btn btn-success" (click)="click()">
-                <i class="fa fa-check-circle fa-fw me-2" aria-hidden="true"></i>Submit
+              <button class="btn btn-success" type="submit">
+                <i class="fa fa-check-circle fa-fw me-2" aria-hidden="true"></i
+                >Submit
               </button>
             </div>
           </form>
