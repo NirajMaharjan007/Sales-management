@@ -6,8 +6,9 @@
     <div class="col-md-12">
       <div class="tile">
         <p class="h3 tile-title">Invoice Form</p>
-        <div class="tile-body">
-          <form class="form">
+
+        <form class="form-group" [formGroup]="form" method="Post" (ngSubmit)="onSubmit()">
+          <div class="tile-body">
             <div class="form-group col-md-3">
               <label class="control-label">Customer Name </label>
               <p class="control-label">TODO:</p>
@@ -16,7 +17,6 @@
               <label class="control-label">Date</label>
               <input class="form-control" type="date" placeholder="Enter your email" />
             </div>
-
             <table class="table-bordered table mt-4">
               <thead>
                 <tr>
@@ -28,22 +28,28 @@
                   <th scope="col">Action</th>
                 </tr>
               </thead>
-              <tbody *ngFor="let card of cards; let i = index" [@fadeInOut]>
+              <tbody *ngFor="let x of product.controls; let i = index" [@fadeInOut]>
                 <tr>
                   <td>
                     <select class="form-control" (change)="onProductChange($event)">
                       <option selected disabled>Select Product</option>
-                      <option *ngFor="let product of products" [value]="product.id">
-                        {{ product.name }}
+                      <option *ngFor=" let data of products" [value]="data.id">
+                        {{ data.name }}
                       </option>
                     </select>
                   </td>
                   <td>
-                    <input type="text" class="form-control" />
+                    <span class="d-flex justify-content-between align-items-center">
+                      <input type="text" class="form-control" />
+
+                      <div class="ms-4">
+                        {{quantity}}
+                      </div>
+                    </span>
+
                   </td>
-                  <td *ngIf="price !== null">
-                    <!-- <input type="text" class="form-control" /> -->
-                    {{ price }}
+                  <td *ngIf="price !== null" class="d-flex justify-content-center align-items-center">
+                    <input type="text" class="form-control " [value]="price" />
                   </td>
                   <td>
                     <input type="text" class="form-control" />
@@ -52,12 +58,12 @@
                     <input type="text" class="form-control" />
                   </td>
                   <td class="d-flex justify-content-evenly align-items-stretch">
-                    <button class="btn btn-primary mx-sm-2 mx-lg-0" (click)="addCard()" type="button">
+                    <button class="btn btn-primary mx-sm-2 mx-lg-0" (click)="addProduct()" type="button">
                       <i class="fa fa-add fa-fw "></i>
                     </button>
 
-                    <span *ngIf="hasMoreCard()" [@fadeInOut]>
-                      <button class="btn btn-danger mx-sm-2 mx-lg-0" type="button" (click)="removeCard(i)">
+                    <span *ngIf="hasMoreProduct()" [@fadeInOut]>
+                      <button class="btn btn-danger mx-sm-2 mx-lg-0" type="button" (click)="removeProduct(i)">
                         <i class="fa fa-trash fa-fw"></i>
                       </button>
                     </span>
@@ -76,16 +82,19 @@
               </tfoot>
             </table>
 
+
             <div class="d-flex justify-content-between">
               <button class="btn btn-primary" routerLink="/invoices/manage">
                 <i class="fa fa-history fa-fw me-2" aria-hidden="true"></i>Invoice's Log
               </button>
-              <button class="btn btn-success" (click)="click()">
+              <button class="btn btn-success" type="submit">
                 <i class="fa fa-check-circle fa-fw me-2" aria-hidden="true"></i>Submit
               </button>
             </div>
-          </form>
-        </div>
+
+          </div>
+        </form>
+
       </div>
     </div>
   </div>
