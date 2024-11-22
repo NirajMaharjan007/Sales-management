@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { ProductsService } from '../../services/products.service';
 import {
   FormArray,
@@ -14,7 +14,7 @@ import {
 @Component({
   selector: 'invoice-create',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf, ReactiveFormsModule],
+  imports: [RouterLink, NgFor, NgIf, NgClass, ReactiveFormsModule],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css',
   animations: [
@@ -30,7 +30,19 @@ import {
 export class InvoiceCreateComponent implements OnInit {
   products: any;
 
-  price: { [key: number]: number } = {};
+  dataArray = {
+    id: ['', Validators.required],
+    product_id: ['', Validators.required],
+    sales_price: ['', Validators.required],
+    discount: ['', Validators.required],
+    total_price: ['', Validators.required],
+    tax_rate: [0, Validators.required],
+    qty: [0, Validators.required],
+    isEnough: [true],
+  };
+
+  // price: { [key: number]: number } = {};
+  qty: { [key: number]: number } = {};
 
   form: FormGroup;
 
@@ -45,23 +57,10 @@ export class InvoiceCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      product: this.fb.array([
-        this.fb.group({
-          id: ['', Validators.required],
-          sales_price: ['', Validators.required],
-          discount: ['', Validators.required],
-          total_price: ['', Validators.required],
-          tax_rate: ['', Validators.required],
-          qty: ['', Validators.required],
-        }),
-      ]),
+      product: this.fb.array([this.fb.group(this.dataArray)]),
     });
 
     this.fetch();
-  }
-
-  get product(): FormArray {
-    return this.form.get('product') as FormArray;
   }
 
   fetch() {
@@ -71,6 +70,7 @@ export class InvoiceCreateComponent implements OnInit {
           id: product.id,
           name: product.name,
           sales_price: product.sales_price,
+          tax: product.tax_id,
           qty: product.qty,
         };
       });
@@ -82,15 +82,18 @@ export class InvoiceCreateComponent implements OnInit {
   }
 
   addProduct() {
-    this.productArray.push(
-      this.fb.group({
-        id: [''],
-        name: [''],
-        sales_price: [''],
-        qty: [''],
-        tax: [''],
-      })
-    );
+    const item = this.fb.group(this.dataArray);
+
+    item.get('quantity')?.valueChanges.subscribe((quantity) => {
+      const index = this.productArray.controls.indexOf(item);
+      const availableQuantity = this.qty[index] || 0;
+
+      // Update the isEnough status
+      const isEnough = quantity <= availableQuantity;
+      item.patchValue({ isEnough: isEnough });
+    });
+
+    this.productArray.push(item);
   }
 
   hasMoreProducts(): boolean {
@@ -112,8 +115,19 @@ export class InvoiceCreateComponent implements OnInit {
     const product = this.products.find(
       (product: ProductData) => product.id === productId
     );
+    const productGroup = this.productArray.at(id) as FormGroup;
 
-    this.price[id] = product?.sales_price;
+    productGroup.patchValue({
+      sales_price: product ? product.sales_price : 0,
+      // sales_price: this.price[id],
+    });
+
+    this.qty[id] = product ? product.qty : 0;
+  }
+
+  isEnough(index: number): boolean {
+    const item = this.productArray.at(index);
+    return item.get('isEnough')?.value;
   }
 }
 
@@ -121,5 +135,6 @@ interface ProductData {
   id: number;
   name: string;
   qty: number;
+  tax_id: number;
   sales_price: number;
 }
