@@ -63,10 +63,8 @@
                   </td>
                   <td>
                     <span
-                      class="d-flex justify-content-between align-items-center"
+                      class="d-flex flex-column justify-content-between align-items-sm-stretch"
                     >
-                      <!-- [ngClass]="{ 'was-validated': isExceedQuantity(i) }" -->
-
                       <input
                         type="text"
                         class="form-control"
@@ -74,7 +72,13 @@
                         formControlName="qty"
                       />
 
-                      <div class="text-info-emphasis ms-2">{{ qty[i] }}</div>
+                      <small class="text-danger mt-2" *ngIf="!isEnough(i)">
+                        Quantity exceeds available stock!
+                      </small>
+
+                      <small class="text-info-emphasis"
+                        >Total Quantity: {{ qty[i] }}</small
+                      >
                     </span>
                   </td>
 
@@ -87,14 +91,28 @@
                   </td>
 
                   <td>
-                    <input type="text" class="form-control" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="discount"
+                    />
                   </td>
 
                   <td>
-                    <input type="text" class="form-control" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="tax_rate"
+                      readonly
+                    />
                   </td>
                   <td>
-                    <input type="text" class="form-control" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="total_price"
+                      readonly
+                    />
                   </td>
                   <td class="d-flex justify-content-evenly align-items-stretch">
                     <button
@@ -122,9 +140,11 @@
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td><b>Total</b></td>
-                  <td><b class="total"></b></td>
                   <td></td>
+                  <td><b>Total</b></td>
+                  <td>
+                    <b class="total"> GG </b>
+                  </td>
                 </tr>
               </tfoot>
             </table>

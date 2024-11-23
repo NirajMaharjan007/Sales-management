@@ -33,16 +33,17 @@ export class InvoiceCreateComponent implements OnInit {
   dataArray = {
     id: ['', Validators.required],
     product_id: ['', Validators.required],
-    sales_price: ['', Validators.required],
-    discount: ['', Validators.required],
-    total_price: ['', Validators.required],
+    sales_price: [0, Validators.required],
+    discount: [0, Validators.required],
     tax_rate: [0, Validators.required],
     qty: [0, Validators.required],
+    total_price: [0, Validators.required],
     isEnough: [true],
   };
 
   // price: { [key: number]: number } = {};
   qty: { [key: number]: number } = {};
+  price: { [key: number]: number } = {};
 
   form: FormGroup;
 
@@ -56,9 +57,7 @@ export class InvoiceCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      product: this.fb.array([this.fb.group(this.dataArray)]),
-    });
+    this.addProduct();
 
     this.fetch();
   }
@@ -70,7 +69,7 @@ export class InvoiceCreateComponent implements OnInit {
           id: product.id,
           name: product.name,
           sales_price: product.sales_price,
-          tax: product.tax_id,
+          tax_id: product.tax_id,
           qty: product.qty,
         };
       });
@@ -81,16 +80,37 @@ export class InvoiceCreateComponent implements OnInit {
     return this.form.get('product') as FormArray;
   }
 
+  onProductChange(event: Event, id: number) {
+    const target = event.target as HTMLSelectElement;
+    const productId = parseInt(target.value);
+    const product = this.products.find(
+      (product: ProductData) => product.id === productId
+    );
+
+    const productGroup = this.productArray.at(id) as FormGroup;
+
+    this.qty[id] = product ? product.qty : 0;
+    this.price[id] = product ? product.sales_price : 0;
+
+    productGroup.patchValue({
+      sales_price: product ? product.sales_price : 0,
+      tax_rate: product ? product.tax_id : 0,
+    });
+  }
+
   addProduct() {
     const item = this.fb.group(this.dataArray);
 
-    item.get('quantity')?.valueChanges.subscribe((quantity) => {
+    item.get('qty')?.valueChanges.subscribe((qty) => {
       const index = this.productArray.controls.indexOf(item);
       const availableQuantity = this.qty[index] || 0;
+      const price = this.price[index] || 0;
 
-      // Update the isEnough status
-      const isEnough = quantity <= availableQuantity;
-      item.patchValue({ isEnough: isEnough });
+      if (qty) {
+        const isEnough = qty <= availableQuantity;
+        const totalPrice = qty * price;
+        item.patchValue({ isEnough: isEnough, total_price: totalPrice });
+      }
     });
 
     this.productArray.push(item);
@@ -107,22 +127,6 @@ export class InvoiceCreateComponent implements OnInit {
   onSubmit() {
     const payload = this.form.value.product;
     console.info(JSON.stringify(payload, null, 2));
-  }
-
-  onProductChange(event: Event, id: number) {
-    const target = event.target as HTMLSelectElement;
-    const productId = parseInt(target.value);
-    const product = this.products.find(
-      (product: ProductData) => product.id === productId
-    );
-    const productGroup = this.productArray.at(id) as FormGroup;
-
-    productGroup.patchValue({
-      sales_price: product ? product.sales_price : 0,
-      // sales_price: this.price[id],
-    });
-
-    this.qty[id] = product ? product.qty : 0;
   }
 
   isEnough(index: number): boolean {
