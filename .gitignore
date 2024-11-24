@@ -1,7 +1,7 @@
 # Created by https://www.gitignore.io
 
 
-back-end/base/migrations
+back-end/api/migrations
 back-end/media/item_images
 
 ### OSX ###
