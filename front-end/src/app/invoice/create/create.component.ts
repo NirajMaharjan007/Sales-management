@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { ProductsService } from '../../services/products.service';
 import {
   FormArray,
@@ -14,7 +14,7 @@ import {
 @Component({
   selector: 'invoice-create',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf, ReactiveFormsModule],
+  imports: [RouterLink, NgFor, NgIf, NgClass, ReactiveFormsModule],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css',
   animations: [
@@ -30,7 +30,21 @@ import {
 export class InvoiceCreateComponent implements OnInit {
   products: any;
 
+  dataArray = {
+    id: ['', Validators.required],
+    product_id: ['', Validators.required],
+    sales_price: [0, Validators.required],
+    discount: [0, Validators.required],
+    tax_rate: [0, Validators.required],
+    qty: [0, Validators.required],
+    total_price: [0, Validators.required],
+    isEnough: [true],
+  };
+
+  // price: { [key: number]: number } = {};
+  qty: { [key: number]: number } = {};
   price: { [key: number]: number } = {};
+  discout: { [key: number]: number } = {};
 
   form: FormGroup;
 
@@ -44,24 +58,9 @@ export class InvoiceCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      product: this.fb.array([
-        this.fb.group({
-          id: ['', Validators.required],
-          sales_price: ['', Validators.required],
-          discount: ['', Validators.required],
-          total_price: ['', Validators.required],
-          tax_rate: ['', Validators.required],
-          qty: ['', Validators.required],
-        }),
-      ]),
-    });
+    this.addProduct();
 
     this.fetch();
-  }
-
-  get product(): FormArray {
-    return this.form.get('product') as FormArray;
   }
 
   fetch() {
@@ -71,6 +70,7 @@ export class InvoiceCreateComponent implements OnInit {
           id: product.id,
           name: product.name,
           sales_price: product.sales_price,
+          tax_id: product.tax_id,
           qty: product.qty,
         };
       });
@@ -81,16 +81,54 @@ export class InvoiceCreateComponent implements OnInit {
     return this.form.get('product') as FormArray;
   }
 
-  addProduct() {
-    this.productArray.push(
-      this.fb.group({
-        id: [''],
-        name: [''],
-        sales_price: [''],
-        qty: [''],
-        tax: [''],
-      })
+  onProductChange(event: Event, id: number) {
+    const target = event.target as HTMLSelectElement;
+    const productId = parseInt(target.value);
+    const product = this.products.find(
+      (product: ProductData) => product.id === productId
     );
+
+    const productGroup = this.productArray.at(id) as FormGroup;
+
+    this.qty[id] = product ? product.qty : 0;
+    this.price[id] = product ? product.sales_price : 0;
+
+    productGroup.patchValue({
+      sales_price: product ? product.sales_price : 0,
+      tax_rate: product ? product.tax_id : 0,
+    });
+  }
+
+  addProduct() {
+    const item = this.fb.group(this.dataArray);
+
+    item.get('qty')?.valueChanges.subscribe((qty) => {
+      const index = this.productArray.controls.indexOf(item);
+      const availableQuantity = this.qty[index] || 0;
+      const price = this.price[index] || 0;
+
+      if (qty) {
+        const isEnough = qty <= availableQuantity;
+        item.patchValue({ isEnough: isEnough, discount: 0 });
+
+        if (isEnough) {
+          const totalPrice = qty * price;
+          item.patchValue({ total_price: totalPrice });
+
+          item.get('discount')?.valueChanges.subscribe((discount) => {
+            if (discount) {
+              const totalPrice = qty * price - (qty * price * discount) / 100;
+              const formattedTotalPrice = parseFloat(totalPrice.toFixed(4));
+              item.patchValue({
+                total_price: formattedTotalPrice < 0 ? 0 : formattedTotalPrice,
+              });
+            }
+          });
+        } else item.patchValue({ total_price: 0 });
+      }
+    });
+
+    this.productArray.push(item);
   }
 
   hasMoreProducts(): boolean {
@@ -106,14 +144,15 @@ export class InvoiceCreateComponent implements OnInit {
     console.info(JSON.stringify(payload, null, 2));
   }
 
-  onProductChange(event: Event, id: number) {
-    const target = event.target as HTMLSelectElement;
-    const productId = parseInt(target.value);
-    const product = this.products.find(
-      (product: ProductData) => product.id === productId
-    );
+  isEnough(index: number): boolean {
+    const item = this.productArray.at(index);
+    return item.get('isEnough')?.value;
+  }
 
-    this.price[id] = product?.sales_price;
+  isInvalidDiscount(index: number): boolean {
+    const item = this.productArray.at(index);
+    const discount = item.get('discount')?.value;
+    return discount >= 100;
   }
 }
 
@@ -121,5 +160,6 @@ interface ProductData {
   id: number;
   name: string;
   qty: number;
+  tax_id: number;
   sales_price: number;
 }
