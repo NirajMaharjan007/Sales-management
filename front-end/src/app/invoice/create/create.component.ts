@@ -8,6 +8,7 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 
 @Component({
@@ -28,6 +29,7 @@ import {
 })
 export class InvoiceCreateComponent implements OnInit {
   products: any;
+
   price: { [key: number]: number } = {};
 
   form: FormGroup;
@@ -45,16 +47,21 @@ export class InvoiceCreateComponent implements OnInit {
     this.form = this.fb.group({
       product: this.fb.array([
         this.fb.group({
-          id: [''],
-          name: [''],
-          sales_price: [''],
-          qty: [''],
-          tax: [''],
+          id: ['', Validators.required],
+          sales_price: ['', Validators.required],
+          discount: ['', Validators.required],
+          total_price: ['', Validators.required],
+          tax_rate: ['', Validators.required],
+          qty: ['', Validators.required],
         }),
       ]),
     });
 
     this.fetch();
+  }
+
+  get product(): FormArray {
+    return this.form.get('product') as FormArray;
   }
 
   fetch() {
@@ -86,13 +93,14 @@ export class InvoiceCreateComponent implements OnInit {
     );
   }
 
-  removeProducts(index: number) {
-    this.productArray.removeAt(index);
-  }
-
   hasMoreProducts(): boolean {
     return this.productArray.length > 1;
   }
+
+  removeProduct(index: number) {
+    this.productArray.removeAt(index);
+  }
+
   onSubmit() {
     const payload = this.form.value.product;
     console.info(JSON.stringify(payload, null, 2));

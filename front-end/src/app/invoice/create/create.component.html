@@ -6,6 +6,7 @@
     <div class="col-md-12">
       <div class="tile">
         <p class="h3 tile-title">Invoice Form</p>
+
         <div class="tile-body">
           <form
             class="form form-group"
@@ -25,7 +26,6 @@
                 
               />
             </div>
-
             <table class="table-bordered table mt-4">
               <thead>
                 <tr>
@@ -37,6 +37,7 @@
                   <th scope="col">Action</th>
                 </tr>
               </thead>
+
               <tbody
                 *ngFor="let data of productArray.controls; let i = index"
                 [@fadeInOut]
@@ -48,6 +49,7 @@
                       (change)="onProductChange($event, i)"
                     >
                       <option selected disabled>Select Product</option>
+
                       <option
                         *ngFor="let product of products"
                         [value]="product.id"
@@ -57,7 +59,11 @@
                     </select>
                   </td>
                   <td>
-                    <input type="text" class="form-control" />
+                    <span
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <input type="text" class="form-control" />
+                    </span>
                   </td>
 
                   <td>
@@ -87,7 +93,7 @@
                       <button
                         class="btn btn-danger"
                         type="button"
-                        (click)="removeProducts(i)"
+                        (click)="removeProduct(i)"
                       >
                         <i class="fa fa-trash fa-fw"></i>
                       </button>
