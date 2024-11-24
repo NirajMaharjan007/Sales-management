@@ -44,6 +44,7 @@ export class InvoiceCreateComponent implements OnInit {
   // price: { [key: number]: number } = {};
   qty: { [key: number]: number } = {};
   price: { [key: number]: number } = {};
+  discout: { [key: number]: number } = {};
 
   form: FormGroup;
 
@@ -108,8 +109,22 @@ export class InvoiceCreateComponent implements OnInit {
 
       if (qty) {
         const isEnough = qty <= availableQuantity;
-        const totalPrice = qty * price;
-        item.patchValue({ isEnough: isEnough, total_price: totalPrice });
+        item.patchValue({ isEnough: isEnough, discount: 0 });
+
+        if (isEnough) {
+          const totalPrice = qty * price;
+          item.patchValue({ total_price: totalPrice });
+
+          item.get('discount')?.valueChanges.subscribe((discount) => {
+            if (discount) {
+              const totalPrice = qty * price - (qty * price * discount) / 100;
+              const formattedTotalPrice = parseFloat(totalPrice.toFixed(4));
+              item.patchValue({
+                total_price: formattedTotalPrice < 0 ? 0 : formattedTotalPrice,
+              });
+            }
+          });
+        } else item.patchValue({ total_price: 0 });
       }
     });
 
@@ -132,6 +147,12 @@ export class InvoiceCreateComponent implements OnInit {
   isEnough(index: number): boolean {
     const item = this.productArray.at(index);
     return item.get('isEnough')?.value;
+  }
+
+  isInvalidDiscount(index: number): boolean {
+    const item = this.productArray.at(index);
+    const discount = item.get('discount')?.value;
+    return discount >= 100;
   }
 }
 

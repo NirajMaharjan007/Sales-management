@@ -87,15 +87,23 @@
                       type="text"
                       formControlName="sales_price"
                       class="form-control"
+                      readonly
                     />
                   </td>
 
                   <td>
                     <input
                       type="text"
+                      [ngClass]="{ 'is-invalid': isInvalidDiscount(i) }"
                       class="form-control"
                       formControlName="discount"
                     />
+                    <small
+                      class="text-danger mt-2"
+                      *ngIf="isInvalidDiscount(i)"
+                    >
+                      Invalid discount
+                    </small>
                   </td>
 
                   <td>
