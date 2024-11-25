@@ -98,3 +98,36 @@ class Product_Supplier(Model):
 
     def __str__(self):
         return self.name
+
+
+class Invoice(Model):
+    id = AutoField(primary_key=True)
+    customer_code = CharField(unique=True, max_length=7)
+    total = FloatField()
+    created_at = DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'invoices'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.name
+
+
+class Sales(Model):
+    id = AutoField(primary_key=True)
+    invoice_id = ForeignKey(Invoice, on_delete=CASCADE, db_column='invoice_id')
+    product_id = ForeignKey(Product, on_delete=CASCADE, db_column='product_id')
+    qty = IntegerField()
+    price = IntegerField()
+    discount = IntegerField(default=0)
+    amount = IntegerField()
+    created_at = DateField(auto_now_add=True)
+    updated_at = DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'sales'
+        ordering = ['-created_at']

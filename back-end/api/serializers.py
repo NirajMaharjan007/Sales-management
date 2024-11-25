@@ -56,3 +56,15 @@ class ProductSerializer(ModelSerializer):
     class Meta(object):
         model = Product
         fields = '__all__'
+
+
+class InvoiceSerializer(ModelSerializer):
+    class Meta(object):
+        model = Invoice
+        fields = '__all__'
+
+
+class SaleSerializer(ModelSerializer):
+    class Meta(object):
+        model = Sales
+        fields = '__all__'

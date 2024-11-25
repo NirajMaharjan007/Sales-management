@@ -386,3 +386,36 @@ class ProductSupplierViewSet(ViewSet):
             return Response({"message": "Product's Supplier deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
         except Product_Supplier.DoesNotExist:
             return Response({"error": "Product's Supplier not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class InvoiceViewSet(ViewSet):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def list(self, request):
+        invoices = Invoice.objects.all()
+        serializer = InvoiceSerializer(invoices, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        serializer = InvoiceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, pk=None):
+        try:
+            invoice = Invoice.objects.get(id=pk)
+            serializer = InvoiceSerializer(invoice)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Invoice.DoesNotExist:
+            return Response({"error": "Invoice not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def destroy(self, request, pk=None):
+        try:
+            invoice = Invoice.objects.get(id=pk)
+            invoice.delete()
+            return Response({"message": "Invoice deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Invoice.DoesNotExist:
+            return Response({"error": "Invoice not found"}, status=status.HTTP_404_NOT_FOUND)

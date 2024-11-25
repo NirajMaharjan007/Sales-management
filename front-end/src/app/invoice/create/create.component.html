@@ -14,17 +14,9 @@
             (ngSubmit)="onSubmit()"
             method="POST"
           >
-            <div class="form-group col-md-3">
-              <label class="control-label">Customer Code: </label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="customer"
-              />
-            </div>
-            <div class="form-group col-md-3 mt-2">
-              <label class="control-label">Date</label>
-              <input class="form-control" type="date" />
+            <div class="form-group d-flex align-items-stretch">
+              <label class="control-label me-2">Customer Code: </label>
+              <input type="text" class="page-link" formControlName="customer" />
             </div>
             <table class="table-bordered table mt-4" formArrayName="product">
               <thead>

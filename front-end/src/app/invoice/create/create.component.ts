@@ -31,7 +31,6 @@ export class InvoiceCreateComponent implements OnInit {
   products: any;
 
   dataArray = {
-    id: ['', Validators.required],
     product_id: ['', Validators.required],
     sales_price: [0, Validators.required],
     discount: [0, Validators.required],
