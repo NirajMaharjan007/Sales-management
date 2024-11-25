@@ -46,6 +46,8 @@ export class InvoiceCreateComponent implements OnInit {
   price: { [key: number]: number } = {};
   discout: { [key: number]: number } = {};
 
+  total = 0;
+
   form: FormGroup;
 
   constructor(
@@ -53,6 +55,7 @@ export class InvoiceCreateComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
+      customer: [this.generateRandomHex],
       product: this.fb.array([]),
     });
   }
@@ -63,7 +66,16 @@ export class InvoiceCreateComponent implements OnInit {
     this.fetch();
   }
 
-  fetch() {
+  private get generateRandomHex(): string {
+    return (
+      '#' +
+      Math.floor(Math.random() * 0xffffff)
+        .toString(16)
+        .padStart(6, '0')
+    );
+  }
+
+  private fetch() {
     this.productsService.getProducts().subscribe((data) => {
       this.products = data.map((product: ProductData) => {
         return {
@@ -99,6 +111,17 @@ export class InvoiceCreateComponent implements OnInit {
     });
   }
 
+  private updateGrandTotal() {
+    const grandTotal = this.productArray.controls.reduce(
+      (sum: any, item: any) => {
+        const totalPrice = item.get('total_price')?.value || 0;
+        return sum + totalPrice;
+      },
+      0
+    );
+    this.total = parseFloat(grandTotal.toFixed(4));
+  }
+
   addProduct() {
     const item = this.fb.group(this.dataArray);
 
@@ -114,6 +137,7 @@ export class InvoiceCreateComponent implements OnInit {
         if (isEnough) {
           const totalPrice = qty * price;
           item.patchValue({ total_price: totalPrice });
+          this.updateGrandTotal();
 
           item.get('discount')?.valueChanges.subscribe((discount) => {
             if (discount) {
@@ -122,9 +146,13 @@ export class InvoiceCreateComponent implements OnInit {
               item.patchValue({
                 total_price: formattedTotalPrice < 0 ? 0 : formattedTotalPrice,
               });
+              this.updateGrandTotal();
             }
           });
-        } else item.patchValue({ total_price: 0 });
+        } else {
+          item.patchValue({ total_price: 0 });
+          this.updateGrandTotal();
+        }
       }
     });
 
@@ -137,11 +165,17 @@ export class InvoiceCreateComponent implements OnInit {
 
   removeProduct(index: number) {
     this.productArray.removeAt(index);
+    this.updateGrandTotal();
   }
 
   onSubmit() {
     const payload = this.form.value.product;
-    console.info(JSON.stringify(payload, null, 2));
+    const customer = this.form.value.customer;
+    console.info(
+      JSON.stringify(payload, null, 2),
+      '\nCustomer code:',
+      customer
+    );
   }
 
   isEnough(index: number): boolean {
