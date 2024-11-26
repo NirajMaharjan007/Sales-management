@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { ProductsService } from '../../services/products.service';
+import { InvoicesService } from '../../services/invoices.service';
 import {
   FormArray,
   FormBuilder,
@@ -51,6 +52,7 @@ export class InvoiceCreateComponent implements OnInit {
 
   constructor(
     private productsService: ProductsService,
+    private invoicesService: InvoicesService,
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
@@ -74,6 +76,10 @@ export class InvoiceCreateComponent implements OnInit {
     );
   }
 
+  get productArray() {
+    return this.form.get('product') as FormArray;
+  }
+
   private fetch() {
     this.productsService.getProducts().subscribe((data) => {
       this.products = data.map((product: ProductData) => {
@@ -86,10 +92,6 @@ export class InvoiceCreateComponent implements OnInit {
         };
       });
     });
-  }
-
-  get productArray() {
-    return this.form.get('product') as FormArray;
   }
 
   onProductChange(event: Event, id: number) {
@@ -168,13 +170,48 @@ export class InvoiceCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    const payload = this.form.value.product;
     const customer = this.form.value.customer;
-    console.info(
-      JSON.stringify(payload, null, 2),
-      '\nCustomer code:',
-      customer
-    );
+    const totalAmount = this.total.toLocaleString();
+
+    if (this.form.valid) {
+      const formData = new FormData();
+      formData.append('customer_code', customer);
+      formData.append('total', totalAmount);
+
+      this.invoicesService.createInvoice(formData).subscribe({
+        next: (data: any) => {
+          const id = data?.id;
+          const payload = this.form.value.product;
+
+          const formData = new FormData();
+          payload.forEach((product: any) => {
+            formData.append('qty', product.qty);
+            formData.append('price', product.sales_price);
+            formData.append('discount', product.discount);
+            formData.append('amount', product.total_price);
+            formData.append('product_id', product.product_id);
+            formData.append('invoice_id', id);
+            console.info(JSON.stringify(formData, null, 2), id);
+          });
+          this.invoicesService.createSales(formData).subscribe({
+            next: () => {
+              alert('Invoice created successfully!');
+              this.form.reset();
+            },
+            error: (error) => {
+              console.error('Error creating sales:', error);
+              alert('Error creating sales!');
+            },
+          });
+        },
+        error: (error) => {
+          console.error('Error creating invoice:', error);
+          alert('Error creating invoice!');
+        },
+      });
+    } else {
+      alert('Invalid invoice form');
+    }
   }
 
   isEnough(index: number): boolean {
