@@ -170,20 +170,18 @@ export class InvoiceCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    const customer = this.form.value.customer;
-    const totalAmount = this.total.toLocaleString();
-
     if (this.form.valid) {
+      this.updateGrandTotal();
       const formData = new FormData();
-      formData.append('customer_code', customer);
-      formData.append('total', totalAmount);
+      formData.append('customer_code', this.form.value.customer);
+      formData.append('total', this.total + '');
 
       this.invoicesService.createInvoice(formData).subscribe({
         next: (data: any) => {
           const id = data?.id;
           const payload = this.form.value.product;
-
           const formData = new FormData();
+
           payload.forEach((product: any) => {
             formData.append('qty', product.qty);
             formData.append('price', product.sales_price);
@@ -193,10 +191,10 @@ export class InvoiceCreateComponent implements OnInit {
             formData.append('invoice_id', id);
             console.info(JSON.stringify(formData, null, 2), id);
           });
+
           this.invoicesService.createSales(formData).subscribe({
             next: () => {
               alert('Invoice created successfully!');
-              this.form.reset();
             },
             error: (error) => {
               console.error('Error creating sales:', error);

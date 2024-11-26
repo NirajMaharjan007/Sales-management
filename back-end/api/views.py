@@ -389,7 +389,6 @@ class ProductSupplierViewSet(ViewSet):
 
 
 class InvoiceViewSet(ViewSet):
-    parser_classes = (MultiPartParser, FormParser)
 
     def list(self, request):
         invoices = Invoice.objects.all()
@@ -399,11 +398,17 @@ class InvoiceViewSet(ViewSet):
     def create(self, request):
         serializer = InvoiceSerializer(data=request.data)
 
+        # serializer.is_valid()
+        # print(serializer.data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
+            print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, pk=None):
         try:
@@ -423,6 +428,8 @@ class InvoiceViewSet(ViewSet):
 
 
 class SalesViewSet(ViewSet):
+    parser_classes = (MultiPartParser, FormParser)
+
     def list(self, request):
         sales = Sales.objects.all()
         serializer = SaleSerializer(sales, many=True)
