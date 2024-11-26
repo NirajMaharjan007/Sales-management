@@ -398,6 +398,7 @@ class InvoiceViewSet(ViewSet):
 
     def create(self, request):
         serializer = InvoiceSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -419,3 +420,47 @@ class InvoiceViewSet(ViewSet):
             return Response({"message": "Invoice deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
         except Invoice.DoesNotExist:
             return Response({"error": "Invoice not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class SalesViewSet(ViewSet):
+    def list(self, request):
+        sales = Sales.objects.all()
+        serializer = SaleSerializer(sales, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        try:
+            # Check if the payload is a list
+            if isinstance(request.data, list):
+                # Validate and save each object in the list
+                serializer = SaleSerializer(
+                    data=request.data, many=True)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                # If the payload is a single object, process as usual
+                serializer = SaleSerializer(data=request.data)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            print(str(e))
+            return Response({"error": str(e)},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, pk=None):
+        try:
+            sale = Sales.objects.get(id=pk)
+            serializer = SaleSerializer(sale)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Sales.DoesNotExist:
+            return Response({"error": "Sale not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def destroy(self, request, pk=None):
+        try:
+            sale = Sales.objects.get(id=pk)
+            sale.delete()
+            return Response({"message": "Sale deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Sales.DoesNotExist:
+            return Response({"error": "Sale not found"}, status=status.HTTP_404_NOT_FOUND)

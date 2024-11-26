@@ -14,6 +14,7 @@ router.register(r'unit', views.UnitViewSet, basename='unit')
 router.register(r'supplier', views.SupplierViewSet, basename='supplier')
 router.register(r'product', views.ProductViewSet, basename='product')
 router.register(r'invoices', views.InvoiceViewSet, basename='invoice')
+router.register(r'sales', views.SalesViewSet, basename='sale')
 router.register(r'product_supplier', views.ProductSupplierViewSet,
                 basename='product_supplier')
 
