@@ -36,7 +36,13 @@ export class InvoiceCreateComponent implements OnInit {
     sales_price: [0, Validators.required],
     discount: [0, Validators.required],
     tax_rate: [0, Validators.required],
-    qty: [0, Validators.required],
+    qty: [
+      0,
+      [
+        Validators.required,
+        (control: any) => (control.value === 0 ? { nonZero: true } : null),
+      ],
+    ],
     total_price: [0, Validators.required],
     isEnough: [true],
   };
@@ -76,7 +82,7 @@ export class InvoiceCreateComponent implements OnInit {
     );
   }
 
-  get productArray() {
+  get productArray(): FormArray {
     return this.form.get('product') as FormArray;
   }
 
@@ -179,32 +185,35 @@ export class InvoiceCreateComponent implements OnInit {
       this.invoicesService.createInvoice(formData).subscribe({
         next: (data: any) => {
           const id = data?.id;
-          const payload = this.form.value.product;
+          // const payload = this.form.value.product;
           const formData = new FormData();
-
-          payload.forEach((product: any) => {
+          for (let index = 0; index < this.productArray.length; index++) {
+            const product = this.productArray.at(index).value;
             formData.append('qty', product.qty);
             formData.append('price', product.sales_price);
             formData.append('discount', product.discount);
             formData.append('amount', product.total_price);
             formData.append('product_id', product.product_id);
             formData.append('invoice_id', id);
-            console.info(JSON.stringify(formData, null, 2), id);
-          });
 
-          this.invoicesService.createSales(formData).subscribe({
-            next: () => {
-              alert('Invoice created successfully!');
-            },
-            error: (error) => {
-              console.error('Error creating sales:', error);
-              alert('Error creating sales!');
-            },
-          });
+            this.invoicesService.createSales(formData).subscribe({
+              next: (response) => {
+                console.log('Invoice created successfully!', response);
+              },
+              error: (error) => {
+                console.error('Error creating sales:', error);
+                alert('Error creating sales!');
+              },
+            });
+          }
         },
         error: (error) => {
           console.error('Error creating invoice:', error);
           alert('Error creating invoice!');
+        },
+        complete: () => {
+          alert('Invoice created successfully!');
+          window.location.reload();
         },
       });
     } else {
