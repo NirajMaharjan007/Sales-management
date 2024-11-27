@@ -14,12 +14,15 @@ export class InvoicesService {
 
   createSales(data: any) {
     const salesApi = this.authService.baseUrl + '/sales/';
-
     return this.http.post(salesApi, data);
   }
 
   createInvoice(data: any) {
     return this.http.post(this.api, data);
+  }
+
+  deleteInvoice(id: any) {
+    return this.http.delete(`${this.api}${id}/`);
   }
 
   getInvoiceByCustomerId(customerId: string) {

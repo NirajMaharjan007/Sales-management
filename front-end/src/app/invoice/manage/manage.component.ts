@@ -3,7 +3,6 @@ import { RouterLink } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { ProductsService } from '../../services/products.service';
-import { NgIf } from '@angular/common';
 import { InvoicesService } from '../../services/invoices.service';
 
 @Component({
@@ -41,11 +40,9 @@ export class InvoiceManageComponent implements AfterViewInit {
       'Are you sure you want to delete this invoice?'
     );
     if (confirmed) {
-      /*  this.invoicesService.deleteInvoice(id).subscribe(() => {
-        this.dataSource.data = this.dataSource.data.filter(
-          (row) => row.invoice_id!== id
-        );
-      }); */
+      this.invoicesService.deleteInvoice(id).subscribe(() => {
+        this.ngAfterViewInit();
+      });
     }
   }
 }

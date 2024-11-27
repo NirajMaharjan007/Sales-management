@@ -46,6 +46,12 @@ export class ProductsService {
     return this.http.patch(`${this.api}/${id}/`, formData);
   }
 
+  updateQuatity(id: any, qty: number) {
+    const data = new FormData();
+    data.append('qty', qty.toString());
+    return this.http.patch(`${this.api}/${id}/`, data);
+  }
+
   getProductImage(id: any): Observable<any> {
     return this.http.get(`${this.api}/image/${id}/`, {
       responseType: 'blob',

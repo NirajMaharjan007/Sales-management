@@ -178,6 +178,7 @@ export class InvoiceCreateComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       this.updateGrandTotal();
+
       const formData = new FormData();
       formData.append('customer_code', this.form.value.customer);
       formData.append('total', this.total + '');
@@ -198,10 +199,23 @@ export class InvoiceCreateComponent implements OnInit {
 
             this.invoicesService.createSales(formData).subscribe({
               next: (response) => {
-                console.log('Invoice created successfully!', response);
+                console.log(
+                  'Invoice and Sales created successfully:',
+                  JSON.stringify(response, null, 2)
+                );
+
+                const calculatedQty = this.qty[index] - product.qty;
+                this.productsService
+                  .updateQuatity(product.product_id, calculatedQty)
+                  .subscribe((response) => {
+                    console.log('Invoice created successfully!', response);
+                  });
               },
               error: (error) => {
-                console.error('Error creating sales:', error);
+                console.error(
+                  'Error creating sales:',
+                  JSON.stringify(error, null, 2)
+                );
                 alert('Error creating sales!');
               },
             });

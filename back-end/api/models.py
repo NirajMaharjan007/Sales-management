@@ -121,7 +121,7 @@ class Sales(Model):
     qty = IntegerField()
     price = IntegerField()
     discount = IntegerField(default=0)
-    amount = IntegerField()
+    amount = DecimalField(max_digits=10, decimal_places=4, default=0.0000)
     created_at = DateField(auto_now_add=True)
     updated_at = DateField(auto_now_add=True)
 
