@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class InvoicesService {
     this.http.get(`${salesApi}${customerId}`);
   }
 
-  getInvoices() {
+  getInvoices(): Observable<any> {
     return this.http.get(this.api);
   }
 
