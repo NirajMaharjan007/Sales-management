@@ -2,35 +2,88 @@
   <div class="row">
     <div class="clearix"></div>
     <div class="col-md-12">
-      <div class="tile">
-        <p class="h3 tile-title">Sales</p>
-        <div class="tile-body">
-          <table class="table table-hover table-bordered" id="sampleTable">
-            <thead>
-              <tr>
-                <th scope="col">Product</th>
-                <th scope="col">Qty</th>
-                <th scope="col">Price</th>
-                <th scope="col">Total</th>
-                <th scope="col">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>name</td>
-                <td>qty</td>
-                <td>price</td>
-                <td>total</td>
-                <td>date</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="d-flex flex-row-reverse">
-            <button routerLink="/invoices/create" class="btn btn-primary">
-              <i class="fas fa-file-invoice me-2 fa-fw"></i>Create Invoice
-            </button>
-          </div>
-        </div>
+      <div class="d-flex my-md-3">
+        <button routerLink="/invoices/create" class="btn btn-primary">
+          <i class="fas fa-file-invoice me-2 fa-fw"></i>Create Invoice
+        </button>
+      </div>
+      <div class="tile-body">
+        <table mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef class="text-center">IDs</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{ element.id }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="product_id">
+            <th mat-header-cell *matHeaderCellDef class="text-center">
+              Product Name
+            </th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{ product_name[element.product_id] }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="invoice_id">
+            <th mat-header-cell *matHeaderCellDef class="text-center">
+              Invoice ID
+            </th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{ element.invoice_id }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="qty">
+            <th mat-header-cell *matHeaderCellDef class="text-center">
+              Quantity
+            </th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{ element.qty }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Price</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{ element.price }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="discount">
+            <th mat-header-cell *matHeaderCellDef class="text-center">
+              Discount %
+            </th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{ element.discount }}%
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef class="text-center">
+              Amount
+            </th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{ element.amount }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="created_at">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Date</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{ element.created_at }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 15, 20]"
+          showFirstLastButtons
+          aria-label="Select page of periodic elements"
+        >
+        </mat-paginator>
       </div>
     </div>
   </div>

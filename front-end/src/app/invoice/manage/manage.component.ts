@@ -2,7 +2,6 @@ import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { ProductsService } from '../../services/products.service';
 import { InvoicesService } from '../../services/invoices.service';
 
 @Component({
@@ -30,7 +29,6 @@ export class InvoiceManageComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.invoicesService.getInvoices().subscribe((data: any) => {
       this.dataSource.data = data;
-      console.info(JSON.stringify(data, null, 2));
       this.dataSource.paginator = this.paginator; // Set paginator here after data loads
     });
   }
