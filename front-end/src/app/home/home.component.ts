@@ -36,7 +36,8 @@ export class HomeComponent implements AfterViewInit {
   invoice_count = 0;
   sales_count = 0;
 
-  product_sold: { [key: number]: number } = {};
+  product_sold: number[] = [];
+  productName: string[] = [];
 
   constructor(
     private productsService: ProductsService,
@@ -46,18 +47,56 @@ export class HomeComponent implements AfterViewInit {
   ) {}
   ngAfterViewInit(): void {
     this.fetch();
-    this.renderChart();
   }
 
-  private renderChart() {}
+  private renderChart() {
+    const ctx = this.chartCanvas.nativeElement.getContext('2d');
+    if (!ctx) return;
+
+    this.chart = new Chart(ctx, {
+      type: 'bar', // Chart type ('bar', 'line', etc.)
+      data: {
+        labels: this.productName, // Labels for X-axis
+        datasets: [
+          {
+            label: 'Product Sold',
+            data: this.product_sold, // Data values
+            backgroundColor: ['rgba(75, 192, 192, 0.2)'],
+            borderColor: ['rgba(75, 192, 192, 1)'],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  }
 
   fetch() {
     this.productsService.getProducts().subscribe((products) => {
       this.product_count = products.length;
-      console.log(JSON.stringify(products, null, 2));
-      // this.productSoldCount(products.id);
-      products.forEach((product: any) => {
-        this.productSoldCount(product.id);
+      const promises: Promise<void>[] = [];
+      products.forEach((product: any, index: number) => {
+        this.productName.push(product.name);
+        const promise = new Promise<void>((resolve) => {
+          this.salesService
+            .getSalesByProductId(product.id)
+            .subscribe((data) => {
+              this.product_sold[index] = data.length;
+              resolve();
+            });
+        });
+
+        promises.push(promise);
+      });
+      Promise.all(promises).then(() => {
+        this.renderChart(); // Create chart once data is ready
       });
     });
 
@@ -71,12 +110,6 @@ export class HomeComponent implements AfterViewInit {
 
     this.salesService.getSales().subscribe((sales) => {
       this.sales_count = sales.length;
-    });
-  }
-
-  private productSoldCount(index: number) {
-    this.salesService.getSalesByProductId(index).subscribe((data) => {
-      this.product_sold[index] = data.length;
     });
   }
 }
