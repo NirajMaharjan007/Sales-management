@@ -26,6 +26,7 @@
     "@material-tailwind/html": "^2.3.2",
     "@schematics/angular": "^18.2.9",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.6",
     "datatables.net-bs5": "^2.1.8",
     "express": "^4.21.1",
     "ngx-webstorage-service": "^5.0.0",

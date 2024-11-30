@@ -471,3 +471,18 @@ class SalesViewSet(ViewSet):
             return Response({"message": "Sale deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
         except Sales.DoesNotExist:
             return Response({"error": "Sale not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    @action(detail=False, methods=['get'], url_path='product_id/(?P<pk>[^/.]+)')
+    def get_by_product_id(self, request, pk=None):
+        try:
+            sales = Sales.objects.filter(product_id=pk)
+            serializer = SaleSerializer(sales, many=True)
+
+            if not sales.exists():
+                return Response(serializer.error, status=status.HTTP_404_NOT_FOUND)
+            else:
+                return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            print("error", str(e))
+            return Response({'Error': str(e)}, status=status.HTTP_400_BAD_REQUEST)

@@ -17,8 +17,8 @@
         <i class="icon fa fa-shopping-cart fa-3x"></i>
         <div class="info">
           <h4>Sales</h4>
-          <p>
-            <b>0</b>
+          <p [@fadeInOut]>
+            <b>{{ sales_count }}</b>
           </p>
         </div>
       </div>
@@ -39,16 +39,22 @@
         <i class="icon fa fa-file-invoice fa-3x"></i>
         <div class="info">
           <h4>Invoices</h4>
-          <p>
-            <b>0</b>
+          <p [@fadeInOut]>
+            <b>{{ invoice_count }}</b>
           </p>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<script
-  type="text/javascript"
-  src="https://www.gstatic.com/charts/loader.js"
-></script>
+  <div class="row tile-body mt-4">
+    <div class="col-md-5 widget-small">
+      <div class="title-body mt-2 p-2">
+        <h4>Sales</h4>
+        <div id="salesChart">
+          <canvas #chartCanvas width="600px"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
