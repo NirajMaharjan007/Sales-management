@@ -29,7 +29,7 @@ export class HomeComponent {
   constructor(
     private productsService: ProductsService,
     private suppilersService: SuppilersService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.fetch();
   }
