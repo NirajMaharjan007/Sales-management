@@ -31,9 +31,12 @@ import { fadeInItems } from '@angular/material/menu';
 export class HomeComponent implements AfterViewInit {
   @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('lineCanvas') lineCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('stackedBarCanvas')
+  stackedBarCanvas!: ElementRef<HTMLCanvasElement>;
 
   chart: Chart<any> | undefined;
   lineChart: Chart<any> | undefined;
+  stackedBarChart: Chart<any> | undefined;
 
   product_count = 0;
   supplier_count = 0;
@@ -43,6 +46,8 @@ export class HomeComponent implements AfterViewInit {
   product_sold: number[] = [];
   productName: string[] = [];
   totalAmount: number[] = [];
+  dates: Date[] = [];
+  totalCustomer: number[] = [];
 
   constructor(
     private productsService: ProductsService,
@@ -54,53 +59,78 @@ export class HomeComponent implements AfterViewInit {
     this.fetch();
   }
 
-  private renderLineChart() {
-    const ctx = this.lineCanvas.nativeElement.getContext('2d');
+  private renderStackedChart() {
+    const ctx = this.stackedBarCanvas.nativeElement.getContext('2d');
     if (!ctx) return;
-    else if (this.lineChart) this.lineChart.destroy();
+    else if (this.stackedBarChart) this.stackedBarChart.destroy();
 
-    const options = {
-      //   title: 'Monthly Sales',
-      curveType: 'function',
-      responsive: true,
-      maintainAspectRatio: false,
-      legend: { position: 'bottom' },
-      backgroundColor: 'transparent',
-      titleTextStyle: {
-        color: '#212529',
-        fontSize: 24,
-        bold: true,
-      },
-      hAxis: {
-        title: 'Month',
-        titleTextStyle: { color: '#212529' },
-        textStyle: { color: '#212529' },
-      },
-      vAxis: {
-        title: 'Sales Figure',
-        titleTextStyle: { color: '#212529' },
-        textStyle: { color: '#212529' },
-        gridlines: { color: '#e0e0e0' },
-      },
-      series: {
-        0: { color: '#28a745' },
-      },
-    };
-
-    this.lineChart = new Chart(ctx, {
-      type: 'line',
+    this.stackedBarChart = new Chart(ctx, {
+      type: 'bar',
       data: {
+        labels: ['GG'], // X-axis categories
         datasets: [
           {
-            label: 'Sales',
-            data: this.totalAmount, // Data values
-            fill: false,
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1,
+            label: 'Yesterday',
+            data: ['GG'],
+            backgroundColor: 'rgba(75, 192, 192, 0.7)',
+          },
+          {
+            label: 'Today',
+            data: ['GG'],
+            backgroundColor: 'rgba(153, 102, 255, 0.7)',
           },
         ],
       },
-      options: options,
+      options: {
+        responsive: true,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (context) =>
+                `${context.dataset.label}: ${context.raw} units`,
+            },
+          },
+        },
+        scales: {
+          x: {
+            stacked: true,
+          },
+          y: {
+            stacked: true,
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Sales Units',
+            },
+          },
+        },
+      },
+    });
+  }
+
+  private renderLineChart() {
+    const ctx = this.lineCanvas.nativeElement.getContext('2d');
+    if (!ctx) return;
+
+    // Destroy the existing chart instance if it exists
+    if (this.lineChart) this.lineChart.destroy();
+
+    // Initialize the Chart.js instance
+    this.lineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: this.dates, // Array of month labels
+        datasets: [
+          {
+            label: 'Sales',
+            data: this.totalAmount, // Data array
+            fill: false,
+            borderColor: 'rgba(75, 192, 192, 1)', // Line color
+            borderWidth: 2,
+            tension: 0.2, // Smooth curve
+          },
+        ],
+      },
     });
   }
 
@@ -164,6 +194,8 @@ export class HomeComponent implements AfterViewInit {
         const promise = new Promise<void>((resolve) => {
           this.invoicesService.getInvoiceById(invoice.id).subscribe((data) => {
             this.totalAmount[index] = invoice.total;
+            this.dates[index] = invoice.created_at.split('T')[0];
+
             resolve();
           });
         });
@@ -176,6 +208,20 @@ export class HomeComponent implements AfterViewInit {
 
     this.salesService.getSales().subscribe((sales) => {
       this.sales_count = sales.length;
+
+      const promises: Promise<void>[] = [];
+      sales.forEach((sale: any, index: number) => {
+        const promise = new Promise<void>((resolve) => {
+          this.salesService.getSalesById(sale.id).subscribe((data) => {
+            console.log(JSON.stringify(data, null, 2));
+            resolve();
+          });
+        });
+        promises.push(promise);
+        Promise.all(promises).then(() => {
+          this.renderStackedChart(); // Create chart once data is ready
+        });
+      });
     });
   }
 }

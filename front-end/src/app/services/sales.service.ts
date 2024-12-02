@@ -18,4 +18,8 @@ export class SalesService {
   getSalesByProductId(index: number): Observable<any> {
     return this.http.get<any>(`${this.api}product_id/${index}`);
   }
+
+  getSalesById(id: any): Observable<any> {
+    return this.http.get<any>(`${this.api}${id}/`);
+  }
 }
