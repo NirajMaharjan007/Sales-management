@@ -12,6 +12,7 @@ import {
   transition,
   animate,
 } from '@angular/animations';
+import { fadeInItems } from '@angular/material/menu';
 
 @Component({
   selector: 'app-home',
@@ -61,6 +62,8 @@ export class HomeComponent implements AfterViewInit {
     const options = {
       //   title: 'Monthly Sales',
       curveType: 'function',
+      responsive: true,
+      maintainAspectRatio: false,
       legend: { position: 'bottom' },
       backgroundColor: 'transparent',
       titleTextStyle: {
@@ -122,6 +125,7 @@ export class HomeComponent implements AfterViewInit {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
       },
     });
   }

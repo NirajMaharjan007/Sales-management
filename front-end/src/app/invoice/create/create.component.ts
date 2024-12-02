@@ -199,10 +199,7 @@ export class InvoiceCreateComponent implements OnInit {
 
             this.invoicesService.createSales(formData).subscribe({
               next: (response) => {
-                console.log(
-                  'Invoice and Sales created successfully:',
-                  JSON.stringify(response, null, 2)
-                );
+                console.log('Invoice and Sales created successfully:');
 
                 const calculatedQty = this.qty[index] - product.qty;
                 this.productsService
@@ -212,10 +209,7 @@ export class InvoiceCreateComponent implements OnInit {
                   });
               },
               error: (error) => {
-                console.error(
-                  'Error creating sales:',
-                  JSON.stringify(error, null, 2)
-                );
+                console.error('Error creating sales:', error);
                 alert('Error creating sales!');
               },
             });
