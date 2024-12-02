@@ -47,12 +47,23 @@
     </div>
   </div>
 
-  <div class="row tile-body mt-4">
-    <div class="col-md-5 widget-small">
-      <div class="title-body mt-2 p-2">
+  <div
+    class="d-flex flex-sm-column flex-lg-row align-items-stretch tile-body mt-4"
+  >
+    <div class="widget-small mx-2 my-lg-0 my-sm-4">
+      <div class="title-body p-4">
         <h4>Sales</h4>
         <div id="salesChart">
-          <canvas #chartCanvas width="600px"></canvas>
+          <canvas #chartCanvas width="520px"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="widget-small mx-2 my-lg-0 my-sm-4">
+      <div class="title-body p-4 mx-2">
+        <h4>Sales</h4>
+        <div id="lineChart">
+          <canvas #lineCanvas width="760px" height="520px"></canvas>
         </div>
       </div>
     </div>

@@ -29,7 +29,10 @@ import {
 })
 export class HomeComponent implements AfterViewInit {
   @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
-  chart: Chart | undefined;
+  @ViewChild('lineCanvas') lineCanvas!: ElementRef<HTMLCanvasElement>;
+
+  chart: Chart<any> | undefined;
+  lineChart: Chart<any> | undefined;
 
   product_count = 0;
   supplier_count = 0;
@@ -38,6 +41,7 @@ export class HomeComponent implements AfterViewInit {
 
   product_sold: number[] = [];
   productName: string[] = [];
+  totalAmount: number[] = [];
 
   constructor(
     private productsService: ProductsService,
@@ -45,35 +49,80 @@ export class HomeComponent implements AfterViewInit {
     private invoicesService: InvoicesService,
     private salesService: SalesService
   ) {}
+
   ngAfterViewInit(): void {
     this.fetch();
+  }
+
+  private renderLineChart() {
+    const ctx = this.lineCanvas.nativeElement.getContext('2d');
+    if (!ctx) return;
+    else if (this.lineChart) this.lineChart.destroy();
+
+    const options = {
+      //   title: 'Monthly Sales',
+      curveType: 'function',
+      legend: { position: 'bottom' },
+      backgroundColor: 'transparent',
+      titleTextStyle: {
+        color: '#212529',
+        fontSize: 24,
+        bold: true,
+      },
+      hAxis: {
+        title: 'Month',
+        titleTextStyle: { color: '#212529' },
+        textStyle: { color: '#212529' },
+      },
+      vAxis: {
+        title: 'Sales Figure',
+        titleTextStyle: { color: '#212529' },
+        textStyle: { color: '#212529' },
+        gridlines: { color: '#e0e0e0' },
+      },
+      series: {
+        0: { color: '#28a745' },
+      },
+    };
+
+    this.lineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: [
+          {
+            label: 'Sales',
+            data: this.totalAmount, // Data values
+            fill: false,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: options,
+    });
   }
 
   private renderChart() {
     const ctx = this.chartCanvas.nativeElement.getContext('2d');
     if (!ctx) return;
+    else if (this.chart) this.chart.destroy();
 
     this.chart = new Chart(ctx, {
-      type: 'bar', // Chart type ('bar', 'line', etc.)
+      type: 'doughnut', // Chart type ('bar', 'line', etc.)
       data: {
         labels: this.productName, // Labels for X-axis
         datasets: [
           {
             label: 'Product Sold',
             data: this.product_sold, // Data values
-            backgroundColor: ['rgba(75, 192, 192, 0.2)'],
-            borderColor: ['rgba(75, 192, 192, 1)'],
-            borderWidth: 1,
+            borderRadius: 1,
+            hoverOffset: 8,
+            spacing: 2,
           },
         ],
       },
       options: {
         responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
       },
     });
   }
@@ -106,6 +155,20 @@ export class HomeComponent implements AfterViewInit {
 
     this.invoicesService.getInvoices().subscribe((invoices) => {
       this.invoice_count = invoices.length;
+
+      const promises: Promise<void>[] = [];
+      invoices.forEach((invoice: any, index: number) => {
+        const promise = new Promise<void>((resolve) => {
+          this.invoicesService.getInvoiceById(invoice.id).subscribe((data) => {
+            this.totalAmount[index] = invoice.total;
+            resolve();
+          });
+        });
+        promises.push(promise);
+        Promise.all(promises).then(() => {
+          this.renderLineChart(); // Create chart once data is ready
+        });
+      });
     });
 
     this.salesService.getSales().subscribe((sales) => {
