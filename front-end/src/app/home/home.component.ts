@@ -45,12 +45,18 @@ export class HomeComponent implements AfterViewInit {
 
   constructor(
     private productsService: ProductsService,
+<<<<<<< HEAD
+    private suppilersService: SuppilersService
+  ) { }
+  ngOnInit(): void {
+=======
     private suppilersService: SuppilersService,
     private invoicesService: InvoicesService,
     private salesService: SalesService
   ) {}
 
   ngAfterViewInit(): void {
+>>>>>>> c74abe0da9e0f39e4aad669dfce5a9bc891e3e54
     this.fetch();
   }
 
