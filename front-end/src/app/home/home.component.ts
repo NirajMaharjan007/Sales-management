@@ -149,7 +149,7 @@ export class HomeComponent implements AfterViewInit {
             data: this.product_sold, // Data values
             borderRadius: 1,
             hoverOffset: 8,
-            spacing: 2,
+            spacing: 0,
           },
         ],
       },
