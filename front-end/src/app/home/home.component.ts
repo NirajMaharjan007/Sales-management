@@ -12,7 +12,6 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { fadeInItems } from '@angular/material/menu';
 
 @Component({
   selector: 'app-home',
@@ -46,7 +45,7 @@ export class HomeComponent implements AfterViewInit {
   product_sold: number[] = [];
   productName: string[] = [];
   totalAmount: number[] = [];
-  dates: Date[] = [];
+  dates: any[] = [];
   totalCustomer: number[] = [];
 
   constructor(
@@ -119,17 +118,38 @@ export class HomeComponent implements AfterViewInit {
     this.lineChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: this.dates, // Array of month labels
+        labels: this.dates, // Array of unique dates
         datasets: [
           {
             label: 'Sales',
-            data: this.totalAmount, // Data array
+            data: this.totalAmount, // Aggregated sales data
             fill: false,
-            borderColor: 'rgba(75, 192, 192, 1)', // Line color
+            // borderColor: 'rgba(75, 192, 192, 1)', // Line color
             borderWidth: 2,
             tension: 0.2, // Smooth curve
           },
         ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+          x: {
+            ticks: {
+              autoSkip: true, // Automatically skip labels if they overlap
+              maxRotation: 32, // Rotate labels by 45 degrees to avoid overlap
+              minRotation: 24, // Minimum rotation of the labels
+            },
+            reverse: true,
+            title: {
+              display: true,
+              text: 'Dates',
+            },
+          },
+        },
       },
     });
   }
@@ -188,40 +208,26 @@ export class HomeComponent implements AfterViewInit {
 
     this.invoicesService.getInvoices().subscribe((invoices) => {
       this.invoice_count = invoices.length;
-
-      const promises: Promise<void>[] = [];
-      invoices.forEach((invoice: any, index: number) => {
-        const promise = new Promise<void>((resolve) => {
-          this.invoicesService.getInvoiceById(invoice.id).subscribe((data) => {
-            this.totalAmount[index] = invoice.total;
-            this.dates[index] = invoice.created_at.split('T')[0];
-
-            resolve();
-          });
-        });
-        promises.push(promise);
-        Promise.all(promises).then(() => {
-          this.renderLineChart(); // Create chart once data is ready
-        });
-      });
     });
 
     this.salesService.getSales().subscribe((sales) => {
       this.sales_count = sales.length;
+      // Aggregate sales by date
+      const salesByDate = sales.reduce(
+        (acc: Record<string, number>, sale: any) => {
+          const date = new Date(sale.created_at).toISOString().split('T')[0]; // Extract date part
+          acc[date] = (acc[date] || 0) + Number(sale.amount);
+          return acc;
+        },
+        {}
+      );
 
-      const promises: Promise<void>[] = [];
-      sales.forEach((sale: any, index: number) => {
-        const promise = new Promise<void>((resolve) => {
-          this.salesService.getSalesById(sale.id).subscribe((data) => {
-            console.log(JSON.stringify(data, null, 2));
-            resolve();
-          });
-        });
-        promises.push(promise);
-        Promise.all(promises).then(() => {
-          this.renderStackedChart(); // Create chart once data is ready
-        });
-      });
+      // Extract unique dates and corresponding sales totals
+      this.dates = Object.keys(salesByDate); // Unique dates
+      this.totalAmount = Object.values(salesByDate); // Total sales per date
+
+      // Render the line chart with the unique dates
+      this.renderLineChart();
     });
   }
 }

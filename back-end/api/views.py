@@ -486,3 +486,18 @@ class SalesViewSet(ViewSet):
         except Exception as e:
             print("error", str(e))
             return Response({'Error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['get'], url_path='created_at/(?P<pk>[^/.]+)')
+    def get_by_date(self, request, pk=None):
+        try:
+            sales = Sales.objects.filter(created_at=pk)
+            serializer = SaleSerializer(sales, many=True)
+
+            if not sales.exists():
+                return Response(serializer.error, status=status.HTTP_404_NOT_FOUND)
+            else:
+                return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            print("error", str(e))
+            return Response({'Error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
