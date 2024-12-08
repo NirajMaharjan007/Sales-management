@@ -30,12 +30,11 @@ import {
 export class HomeComponent implements AfterViewInit {
   @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('lineCanvas') lineCanvas!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('stackedBarCanvas')
-  stackedBarCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('barCanvas') barCanvas!: ElementRef<HTMLCanvasElement>;
 
   chart: Chart<any> | undefined;
   lineChart: Chart<any> | undefined;
-  stackedBarChart: Chart<any> | undefined;
+  barChart: Chart<any> | undefined;
 
   product_count = 0;
   supplier_count = 0;
@@ -58,48 +57,41 @@ export class HomeComponent implements AfterViewInit {
     this.fetch();
   }
 
-  private renderStackedChart() {
-    const ctx = this.stackedBarCanvas.nativeElement.getContext('2d');
+  private renderBarChart() {
+    const ctx = this.barCanvas.nativeElement.getContext('2d');
     if (!ctx) return;
-    else if (this.stackedBarChart) this.stackedBarChart.destroy();
+    else if (this.barChart) this.barChart.destroy();
 
-    this.stackedBarChart = new Chart(ctx, {
+    this.barChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['GG'], // X-axis categories
+        labels: this.dates,
         datasets: [
           {
-            label: 'Yesterday',
-            data: ['GG'],
-            backgroundColor: 'rgba(75, 192, 192, 0.7)',
-          },
-          {
-            label: 'Today',
-            data: ['GG'],
-            backgroundColor: 'rgba(153, 102, 255, 0.7)',
+            label: 'Custormers',
+            data: this.totalCustomer,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
           },
         ],
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
-          tooltip: {
-            callbacks: {
-              label: (context) =>
-                `${context.dataset.label}: ${context.raw} units`,
-            },
+          legend: {
+            position: 'top',
           },
         },
         scales: {
-          x: {
-            stacked: true,
-          },
           y: {
-            stacked: true,
             beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Sales Units',
+            ticks: {
+              stepSize: 1, // Force steps of 1
+              callback: function (value: any) {
+                return Math.floor(value); // Convert to integer
+              },
             },
           },
         },
@@ -126,7 +118,7 @@ export class HomeComponent implements AfterViewInit {
             fill: false,
             // borderColor: 'rgba(75, 192, 192, 1)', // Line color
             borderWidth: 2,
-            tension: 0.2, // Smooth curve
+            tension: 0.24, // Smooth curve
           },
         ],
       },
@@ -144,10 +136,6 @@ export class HomeComponent implements AfterViewInit {
               minRotation: 24, // Minimum rotation of the labels
             },
             reverse: true,
-            title: {
-              display: true,
-              text: 'Dates',
-            },
           },
         },
       },
@@ -184,13 +172,15 @@ export class HomeComponent implements AfterViewInit {
     this.productsService.getProducts().subscribe((products) => {
       this.product_count = products.length;
       const promises: Promise<void>[] = [];
+      const productSales: { name: string; sales: number }[] = [];
+
       products.forEach((product: any, index: number) => {
         this.productName.push(product.name);
         const promise = new Promise<void>((resolve) => {
           this.salesService
             .getSalesByProductId(product.id)
             .subscribe((data) => {
-              this.product_sold[index] = data.length;
+              productSales.push({ name: product.name, sales: data.length });
               resolve();
             });
         });
@@ -198,6 +188,13 @@ export class HomeComponent implements AfterViewInit {
         promises.push(promise);
       });
       Promise.all(promises).then(() => {
+        const topProducts = productSales
+          .sort((a, b) => b.sales - a.sales)
+          .slice(0, 5); // Get the top 5 products
+
+        // Extract names and sales for the chart
+        this.productName = topProducts.map((p) => p.name);
+        this.product_sold = topProducts.map((p) => p.sales);
         this.renderChart(); // Create chart once data is ready
       });
     });
@@ -214,9 +211,16 @@ export class HomeComponent implements AfterViewInit {
       this.sales_count = sales.length;
       // Aggregate sales by date
       const salesByDate = sales.reduce(
-        (acc: Record<string, number>, sale: any) => {
+        (
+          acc: Record<string, { totalAmount: number; customers: Set<string> }>,
+          sale: any
+        ) => {
           const date = new Date(sale.created_at).toISOString().split('T')[0]; // Extract date part
-          acc[date] = (acc[date] || 0) + Number(sale.amount);
+          if (!acc[date]) {
+            acc[date] = { totalAmount: 0, customers: new Set() };
+          }
+          acc[date].totalAmount += Number(sale.amount); // Add sale amount
+          acc[date].customers.add(sale.invoice_id); // Track unique customers (assuming `customer_id` exists)
           return acc;
         },
         {}
@@ -224,10 +228,16 @@ export class HomeComponent implements AfterViewInit {
 
       // Extract unique dates and corresponding sales totals
       this.dates = Object.keys(salesByDate); // Unique dates
-      this.totalAmount = Object.values(salesByDate); // Total sales per date
+      this.totalAmount = this.dates.map(
+        (date) => salesByDate[date].totalAmount
+      ); // Total sales per date
+      this.totalCustomer = this.dates.map(
+        (date) => salesByDate[date].customers.size
+      ); // Total customers per date
 
       // Render the line chart with the unique dates
       this.renderLineChart();
+      this.renderBarChart();
     });
   }
 }

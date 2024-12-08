@@ -143,10 +143,24 @@ class CategoryViewSet(ViewSet):
 
 
 class TokenViewSet(ViewSet):
-    def list(self, request):
-        tokens = Token.objects.all()
-        serializer = TokenSerializer(tokens, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    @action(detail=False, methods=['get'], url_path='by-token/(?P<token>[^/.]+)')
+    def retrieve_by_token(self, request, token=None):
+        try:
+            token_instance = Token.objects.get(tokens=token)
+            serializer = TokenSerializer(token_instance)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Token.DoesNotExist as e:
+            print("Token does not exist", str(e))
+            return Response(
+                {"error": "Token not found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        except Exception as e:
+            print("An unexpected error occurred", str(e))
+            return Response(
+                {"error": f"An unexpected error occurred: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
     def destroy(self, request, pk=None):
         try:
