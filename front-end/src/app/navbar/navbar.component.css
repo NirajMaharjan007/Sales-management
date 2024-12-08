@@ -1,5 +1,5 @@
 .round {
-  border-radius: 12px;
+  border-radius: 24px;
 }
 
 .danger {
@@ -13,4 +13,18 @@
 
 .danger:hover {
   background-color: #af2f2a !important; /* Darker red on hover */
+}
+
+.form-white.input-group > .form-control:focus {
+  border-color: #fff;
+  box-shadow: inset 0 0 0 1px #fff;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: #fff;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+  color: rgba(255, 255, 255, 0.75);
 }

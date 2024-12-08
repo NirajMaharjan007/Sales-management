@@ -292,3 +292,7 @@ table {
   padding: 0.75rem 0.5rem !important;
   margin: 0;
 }
+
+.mat-mdc-menu-content {
+  padding: 0 !important;
+}
