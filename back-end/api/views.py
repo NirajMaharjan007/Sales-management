@@ -76,6 +76,49 @@ class UserViewSet(ViewSet):
         return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
 
 
+class UserDetailViewSet(ViewSet):
+    def list(self, request):
+        user_details = UserDetails.objects.all()
+        serializer = UserDetailSerializer(user_details, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, pk=None):
+        try:
+            user_detail = UserDetails.objects.get(user_id=pk)
+            serializer = UserDetailSerializer(user_detail)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except UserDetails.DoesNotExist as e:
+            print(str(e))
+            return Response({"error": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def update(self, request, pk=None):
+        try:
+            user_detail = UserDetails.objects.get(user_id=pk)
+            serializer = UserDetailSerializer(user_detail, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except UserDetails.DoesNotExist as error:
+            print(str(error))
+            return Response({"error": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def partial_update(self, request, pk=None):
+        try:
+            user_detail = UserDetails.objects.get(user_id=pk)
+            serializer = UserDetailSerializer(
+                user_detail, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except UserDetails.DoesNotExist as error:
+            print(str(error))
+            return Response({"error": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
 class TaxViewSet(ViewSet):
     def list(self, request):
         taxes = Tax.objects.all()

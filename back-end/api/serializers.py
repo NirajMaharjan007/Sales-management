@@ -68,3 +68,9 @@ class SaleSerializer(ModelSerializer):
     class Meta(object):
         model = Sales
         fields = '__all__'
+
+
+class UserDetailSerializer(ModelSerializer):
+    class Meta(object):
+        model = UserDetails
+        fields = '__all__'

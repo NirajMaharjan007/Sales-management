@@ -1,4 +1,5 @@
 from django.db.models import *
+from django.contrib.auth.models import User
 
 
 class Tax(Model):
@@ -130,4 +131,24 @@ class Sales(Model):
 
     class Meta:
         db_table = 'sales'
+        ordering = ['-created_at']
+
+
+class UserDetails(Model):
+    id = AutoField(primary_key=True)
+    phone = CharField(max_length=15, null=True, blank=True)
+    date_of_birth = DateField(null=True, blank=True)
+    gender = CharField(
+        max_length=6,
+        choices=[('Male', 'male'), ('Female', 'female'), ('Other', 'other')],
+        default='Other'
+    )
+    profile_picture = ImageField(upload_to='item_images/upload', null=True,
+                                 blank=True, max_length=None)
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
+    user_id = ForeignKey(User, on_delete=CASCADE, db_column='user_id')
+
+    class Meta:
+        db_table = 'user_details'
         ordering = ['-created_at']
