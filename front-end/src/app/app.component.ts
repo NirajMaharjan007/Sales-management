@@ -18,6 +18,7 @@ import { NgIf } from '@angular/common';
 import { AuthService } from './auth/auth.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { UserService } from './services/user.service';
+import { SettingsComponent } from './settings/settings.component';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,7 @@ import { UserService } from './services/user.service';
     SidebarComponent,
     NavbarComponent,
     LoginComponent,
+    SettingsComponent,
     PageNotFoundComponent,
     NgIf,
   ],

@@ -16,12 +16,36 @@ import { InvoiceManageComponent } from './invoice/manage/manage.component';
 import { SalesComponent } from './sales/sales.component';
 import { SupplierCreateComponent } from './suppliers/create/create.component';
 import { SupplierManageComponent } from './suppliers/manage/manage.component';
-import { LoginComponent } from './login/login.component';
-import { authGuard } from './auth/auth.guard';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SupplierEditComponent } from './suppliers/edit/edit.component';
 import { ProductDetailComponent } from './product/detail/detail.component';
 import { ProductOutterEditComponent } from './product/edit/edit.component';
+import { LoginComponent } from './login/login.component';
+import { authGuard } from './auth/auth.guard';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SettingsComponent } from './settings/settings.component';
+
+const list = [
+  { path: 'home', component: HomeComponent },
+  { path: 'tax/manage', component: TaxIndexComponent },
+  { path: 'tax/create', component: TaxCreateComponent },
+  { path: 'categories/manage', component: CategoryManageComponent },
+  { path: 'categories/create', component: CategoryCreateComponent },
+  { path: 'categories/edit/:id', component: CategoryEditComponent },
+  { path: 'products/create', component: ProductCreateComponent },
+  { path: 'products/manage', component: ProductManageComponent },
+  { path: 'products/edit/:id', component: ProductOutterEditComponent },
+  { path: 'products/detail/:id', component: ProductDetailComponent },
+  { path: 'units/create', component: UnitCreateComponent },
+  { path: 'units/manage', component: UnitManageComponent },
+  { path: 'units/edit/:id', component: UnitEditComponent },
+  { path: 'invoices/create', component: InvoiceCreateComponent },
+  { path: 'invoices/manage', component: InvoiceManageComponent },
+  { path: 'sales', component: SalesComponent },
+  { path: 'suppliers/create', component: SupplierCreateComponent },
+  { path: 'suppliers/manage', component: SupplierManageComponent },
+  { path: 'suppliers/edit/:id', component: SupplierEditComponent },
+  { path: 'setting/user/:id', component: SettingsComponent },
+];
 
 export const routes: Routes = [
   { path: '', redirectTo: '404', pathMatch: 'full' },
@@ -37,27 +61,7 @@ export const routes: Routes = [
   {
     path: '',
     canActivate: [authGuard],
-    children: [
-      { path: 'home', component: HomeComponent },
-      { path: 'tax/manage', component: TaxIndexComponent },
-      { path: 'tax/create', component: TaxCreateComponent },
-      { path: 'categories/manage', component: CategoryManageComponent },
-      { path: 'categories/create', component: CategoryCreateComponent },
-      { path: 'categories/edit/:id', component: CategoryEditComponent },
-      { path: 'products/create', component: ProductCreateComponent },
-      { path: 'products/manage', component: ProductManageComponent },
-      { path: 'products/edit/:id', component: ProductOutterEditComponent },
-      { path: 'products/detail/:id', component: ProductDetailComponent },
-      { path: 'units/create', component: UnitCreateComponent },
-      { path: 'units/manage', component: UnitManageComponent },
-      { path: 'units/edit/:id', component: UnitEditComponent },
-      { path: 'invoices/create', component: InvoiceCreateComponent },
-      { path: 'invoices/manage', component: InvoiceManageComponent },
-      { path: 'sales', component: SalesComponent },
-      { path: 'suppliers/create', component: SupplierCreateComponent },
-      { path: 'suppliers/manage', component: SupplierManageComponent },
-      { path: 'suppliers/edit/:id', component: SupplierEditComponent },
-    ],
+    children: list,
   },
 ];
 @NgModule({

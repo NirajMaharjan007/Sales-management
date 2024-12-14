@@ -1,4 +1,9 @@
-from django.db.models import *
+from django.db.models import (
+    Model, IntegerField, DateTimeField, CharField, BooleanField,
+    TextField, AutoField, ForeignKey, ImageField, FloatField,
+    DecimalField, DateField, CASCADE, SET_NULL
+)
+from decimal import Decimal
 from django.contrib.auth.models import User
 
 
@@ -8,9 +13,6 @@ class Tax(Model):
 
     class Meta(object):
         db_table = 'taxes'
-
-    def __str__(self):
-        return self.name
 
 
 class Category(Model):
@@ -97,9 +99,6 @@ class Product_Supplier(Model):
         ordering = ['-created_at', '-updated_at']
         unique_together = ('product_id', 'supplier_id')
 
-    def __str__(self):
-        return self.name
-
 
 class Invoice(Model):
     id = AutoField(primary_key=True)
@@ -111,9 +110,6 @@ class Invoice(Model):
         db_table = 'invoices'
         ordering = ['-created_at']
 
-    def __str__(self):
-        return self.name
-
 
 class Sales(Model):
     id = AutoField(primary_key=True)
@@ -122,12 +118,10 @@ class Sales(Model):
     qty = IntegerField()
     price = IntegerField()
     discount = IntegerField(default=0)
-    amount = DecimalField(max_digits=10, decimal_places=4, default=0.0000)
+    amount = DecimalField(max_digits=10, decimal_places=4,
+                          default=Decimal('0.0000'))
     created_at = DateField(auto_now_add=True)
     updated_at = DateField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name
 
     class Meta:
         db_table = 'sales'

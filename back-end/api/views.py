@@ -48,9 +48,12 @@ class UserViewSet(ViewSet):
     def signup(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save()
-            user.set_password(request.data['password'])
-            user.save()
+            # Create user instance but don't save yet
+            user = User.objects.create_user(
+                username=request.data['username'],
+                email=request.data['email'],
+                password=request.data['password']
+            )
             token = Token.objects.create(user=user)
             return Response({"token": token.key, "user": serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -536,7 +539,7 @@ class SalesViewSet(ViewSet):
             serializer = SaleSerializer(sales, many=True)
 
             if not sales.exists():
-                return Response(serializer.error, status=status.HTTP_404_NOT_FOUND)
+                return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
             else:
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -551,7 +554,7 @@ class SalesViewSet(ViewSet):
             serializer = SaleSerializer(sales, many=True)
 
             if not sales.exists():
-                return Response(serializer.error, status=status.HTTP_404_NOT_FOUND)
+                return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
             else:
                 return Response(serializer.data, status=status.HTTP_200_OK)
 

@@ -6,12 +6,12 @@ import { MatCardModule } from '@angular/material/card';
 import { UserService } from '../services/user.service';
 import { NgFor, NgIf } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatToolbarModule, MatMenuModule, MatCardModule, NgIf],
+  imports: [MatToolbarModule, MatMenuModule, MatCardModule, NgIf, RouterLink],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })

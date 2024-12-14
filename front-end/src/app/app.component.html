@@ -1,21 +1,27 @@
-<!-- Check if the current route is '/login' -->
-<div *ngIf="isRoute('/login'); else mainAppContent">
-  <!-- Display the login component directly without router-outlet -->
+<!-- Login Route -->
+<div *ngIf="isRoute('/login'); else check404">
+  <!-- Display the login component directly -->
   <app-login></app-login>
 </div>
 
-<!-- Main app content with router-outlet -->
-<ng-template #mainAppContent>
-  <span *ngIf="!isRoute('/404'); else pageNotFound">
+<!-- Check for 404 Route -->
+<ng-template #check404>
+  <ng-container *ngIf="isRoute('/404'); else defaultContent">
+    <!-- Page Not Found -->
+    <app-page-not-found></app-page-not-found>
+  </ng-container>
+</ng-template>
+
+<!-- Default Main Content -->
+<ng-template #defaultContent>
+  <ng-container *ngIf="isRoute('/setting'); else main">
+    <app-settings></app-settings>
+  </ng-container>
+  <ng-template #main>
     <app-sidebar></app-sidebar>
     <main class="container">
       <app-navbar [content]="htmlContent"></app-navbar>
       <router-outlet></router-outlet>
     </main>
-  </span>
-</ng-template>
-
-<!-- No Page Found content -->
-<ng-template #pageNotFound>
-  <app-page-not-found></app-page-not-found>
+  </ng-template>
 </ng-template>

@@ -1,4 +1,8 @@
-<mat-menu #appMenu="matMenu" class="bg-white m-0 p-0">
+<mat-menu
+  #appMenu="matMenu"
+  [overlapTrigger]="false"
+  class="bg-white me-lg-2 px-0"
+>
   <ng-template matMenuContent>
     <div *ngIf="user" class="text-center my-2">
       <mat-card-content class="text-black">
@@ -6,9 +10,9 @@
       </mat-card-content>
     </div>
     <hr class="p-0 m-0" />
-    <button mat-menu-item class="py-2">
+    <a mat-menu-item class="py-2" [routerLink]="['setting']">
       <i class="fa fa-cog fa-fw me-2" aria-hidden="true"></i>Settings
-    </button>
+    </a>
     <button
       mat-menu-item
       class="py-2 danger"
@@ -50,9 +54,9 @@
   </button> -->
 
   <button
+    mat-icon-button
     class="d-flex justify-content-between align-items-center p-0 m-0 btn round"
     [matMenuTriggerFor]="appMenu"
-    mat-icon-button
   >
     <img
       src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg"

@@ -2,13 +2,12 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
-import { NgIf } from '@angular/common';
 import { SuppilersService } from '../../services/suppliers.service';
 
 @Component({
   selector: 'supplier-manage',
   standalone: true,
-  imports: [RouterLink, MatPaginator, MatTableModule, MatPaginatorModule, NgIf],
+  imports: [RouterLink, MatPaginator, MatTableModule, MatPaginatorModule],
   templateUrl: './manage.component.html',
   styleUrl: './manage.component.css',
 })
