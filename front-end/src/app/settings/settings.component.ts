@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -9,13 +10,22 @@ import { ActivatedRoute, Params } from '@angular/router';
   styleUrl: './settings.component.css',
 })
 export class SettingsComponent implements OnInit {
-  id: string | null = null;
+  user: any;
 
-  constructor(private route: ActivatedRoute) {}
+  router = inject(Router);
+
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.id = params['id'];
-    });
+    try {
+      this.fetch();
+    } catch (error) {
+      console.log(error);
+      this.router.navigate(['/404/']);
+    }
+  }
+
+  private fetch() {
+    this.user = this.userService.getUser();
   }
 }

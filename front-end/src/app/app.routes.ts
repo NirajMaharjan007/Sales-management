@@ -44,7 +44,7 @@ const list = [
   { path: 'suppliers/create', component: SupplierCreateComponent },
   { path: 'suppliers/manage', component: SupplierManageComponent },
   { path: 'suppliers/edit/:id', component: SupplierEditComponent },
-  { path: 'setting/user/:id', component: SettingsComponent },
+  { path: 'setting/user', component: SettingsComponent },
 ];
 
 export const routes: Routes = [

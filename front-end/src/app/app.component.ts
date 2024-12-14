@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import {
-  ActivatedRoute,
   ActivatedRouteSnapshot,
   MaybeAsync,
   NavigationEnd,
@@ -17,7 +16,6 @@ import { LoginComponent } from './login/login.component';
 import { NgIf } from '@angular/common';
 import { AuthService } from './auth/auth.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { UserService } from './services/user.service';
 import { SettingsComponent } from './settings/settings.component';
 
 @Component({
