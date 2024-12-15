@@ -1,6 +1,6 @@
 <div class="container py-4 px-0">
   <div class="row">
-    <div class="col-md-4 col-xl-3">
+    <div class="col-md-4 col-xl-3" [@fadeInOut]>
       <div class="card">
         <div class="card-header">
           <h5 class="card-title mb-0">Profile Settings</h5>
@@ -65,16 +65,11 @@
           >
             Your data
           </a>
-          <a
-            class="list-group-item list-group-item-action"
-            data-toggle="list"
-            href="#"
-            role="tab"
-          >
-            Delete account
-          </a>
         </div>
       </div>
+      <a class="btn btn-primary mb-sm-4 my-0" [routerLink]="['/home']">
+        <i class="fa fa-circle-arrow-left fa-fw pe-2"></i> Back
+      </a>
     </div>
 
     <div class="col-md-8 col-xl-9">

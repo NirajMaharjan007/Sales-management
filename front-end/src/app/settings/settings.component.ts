@@ -3,6 +3,13 @@ import { UserService } from '../services/user.service';
 import { Router, RouterOutlet, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, NgClass } from '@angular/common';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-settings',
@@ -16,6 +23,13 @@ import { CommonModule, NgClass } from '@angular/common';
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',
+  animations: [
+    trigger('fadeInOut', [
+      state('void', style({ opacity: 0 })), // Initial state
+      transition(':enter', [animate('300ms ease-in')]), // Enter transition
+      transition(':leave', [animate('300ms ease-out')]), // Leave transition
+    ]),
+  ],
 })
 export class SettingsComponent implements OnInit {
   user: any;

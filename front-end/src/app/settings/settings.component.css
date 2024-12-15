@@ -43,3 +43,6 @@
 .list-group-item:not(:hover) {
   transition: 0.4s ease-out;
 }
+.list-group-item {
+  transition: background-color 0.32s ease-in, color 0.32s ease-in;
+}
