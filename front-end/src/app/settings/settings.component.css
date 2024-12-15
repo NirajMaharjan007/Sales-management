@@ -1,7 +1,30 @@
-.content {
+.card {
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 15px 1px rgba(52, 40, 104, 0.08);
   position: relative;
-  display: block;
-  overflow: hidden;
-  margin: 2rem 8rem;
-  height: 100%;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-clip: border-box;
+  border: none;
+  border-radius: 0.42rem;
+}
+
+.card-header:first-child {
+  border-radius: calc(0.2rem - 1px) calc(0.2rem - 1px) 0 0;
+}
+
+.card-header {
+  border-bottom-width: 1px;
+}
+
+.card-header {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  color: inherit;
+  background-color: #fff;
+  border-bottom: 1px solid #e5e9f2;
 }
