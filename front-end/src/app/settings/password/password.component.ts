@@ -12,7 +12,7 @@ import {
   standalone: true,
   imports: [],
   templateUrl: './password.component.html',
-  styleUrl: '../settings.component.css',
+  styleUrls: ['../settings.component.css', './password.component.css'],
   animations: [
     trigger('fadeInOut', [
       state('void', style({ opacity: 0 })), // Initial state

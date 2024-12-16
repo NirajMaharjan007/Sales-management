@@ -6,13 +6,20 @@ import {
   transition,
   animate,
 } from '@angular/animations';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './profile.component.html',
-  styleUrl: '../settings.component.css',
+  styleUrls: ['../settings.component.css', './profile.component.css'],
+
   animations: [
     trigger('fadeInOut', [
       state('void', style({ opacity: 0 })), // Initial state
@@ -21,4 +28,13 @@ import {
     ]),
   ],
 })
-export class ProfileComponent {}
+export class ProfileComponent {
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      username: ['', Validators.required],
+      bio: ['', Validators.required],
+    });
+  }
+}

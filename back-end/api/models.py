@@ -139,6 +139,8 @@ class UserDetails(Model):
     )
     profile_picture = ImageField(upload_to='item_images/upload', null=True,
                                  blank=True, max_length=None)
+    address = TextField(blank=True, null=True)
+    bio = TextField(blank=True, null=True)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
     user_id = ForeignKey(User, on_delete=CASCADE, db_column='user_id')
