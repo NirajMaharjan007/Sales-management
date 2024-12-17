@@ -1,0 +1,141 @@
+<div class="tab-content" [@fadeInOut]>
+  <div class="tab-pane fade show active" id="account" role="tabpanel">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">User's Information</h4>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="submit()" method="put">
+          <div class="row mb-2">
+            <div class="col-md-8">
+              <div class="form-group">
+                <label for="inputUsername">Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputUsername"
+                  placeholder="Username"
+                  formControlName="username"
+                />
+              </div>
+              <div class="form-group">
+                <label for="inputUsername">Biography</label>
+                <textarea
+                  rows="2"
+                  class="form-control"
+                  id="inputBio"
+                  placeholder="Tell something about yourself"
+                  formControlName="bio"
+                ></textarea>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div
+                class="d-flex flex-column align-items-center justify-content-around"
+              >
+                <span class="py-2">
+                  <!-- src="https://bootdey.com/img/Content/avatar/avatar1.png" -->
+                  <img
+                    [alt]="user.username + '\'s profile picture'"
+                    [src]="imageUrl"
+                    class="rounded-circle img-responsive"
+                    width="128"
+                  />
+                </span>
+                <span>
+                  <input
+                    type="file"
+                    class="form-control"
+                    formControlName="profile_picture"
+                    (change)="onFileSelected($event)"
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 justify-content-evenly">
+            <div class="form-group flex-fill">
+              <label for="inputFirstName">First name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="inputFirstName"
+                placeholder="First name"
+                formControlName="firstName"
+              />
+            </div>
+            <div class="form-group flex-fill">
+              <label for="inputLastName">Last name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="inputLastName"
+                placeholder="Last name"
+                formControlName="lastName"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail4">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="inputEmail4"
+              placeholder="Email"
+              formControlName="email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="inputAddress">Address</label>
+            <input
+              type="text"
+              class="form-control"
+              id="inputAddress"
+              placeholder="Address"
+              formControlName="address"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="inputPhone">Phone number</label>
+            <input type="text" class="form-control" formControlName="phone" />
+          </div>
+
+          <div class="form-group">
+            <label for="inputDOB">Date of Birth</label>
+            <input type="date" class="form-control" formControlName="dob" />
+          </div>
+
+          <div class="form-group">
+            <label for="inputGender">Gender:</label>
+            <span class="mx-2">
+              <input
+                type="radio"
+                class="form-check-input"
+                formControlName="gender"
+                value="Male"
+              />
+              <label for="Male" class="ms-2 form-check-label">Male</label>
+            </span>
+            <span class="mx-2">
+              <input
+                type="radio"
+                class="form-check-input"
+                formControlName="gender"
+                value="Female"
+              />
+              <label for="Female" class="ms-2 form-check-label">Female</label>
+            </span>
+          </div>
+
+          <div class="my-2">
+            <button type="submit" class="btn btn-success">
+              <i class="fa fa-circle-check fa-lg pe-2"></i> Update changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

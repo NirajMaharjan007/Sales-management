@@ -1,21 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { UserService } from '../services/user.service';
+import { Router, RouterOutlet, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule, NgClass } from '@angular/common';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [],
+  imports: [
+    ReactiveFormsModule,
+    RouterOutlet,
+    CommonModule,
+    NgClass,
+    RouterLink,
+  ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',
+  animations: [
+    trigger('fadeInOut', [
+      state('void', style({ opacity: 0 })), // Initial state
+      transition(':enter', [animate('300ms ease-in')]), // Enter transition
+      transition(':leave', [animate('300ms ease-out')]), // Leave transition
+    ]),
+  ],
 })
-export class SettingsComponent implements OnInit {
-  id: string | null = null;
+export class SettingsComponent {
+  user: any;
+  router = inject(Router);
 
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.id = params['id'];
-    });
+  isRoute(path: string) {
+    return this.router.url.includes(path);
   }
 }

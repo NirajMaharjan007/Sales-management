@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
 
   router = inject(Router);
   user: any;
+  imageUrl: string = '';
 
   constructor(
     private userService: UserService,
@@ -28,6 +29,11 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.userService.getUser();
+    this.userService.getUserImageById(this.user.id).subscribe({
+      next: (file: Blob) => {
+        this.imageUrl = URL.createObjectURL(file);
+      },
+    });
   }
 
   logout(id: any): void {

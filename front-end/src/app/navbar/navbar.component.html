@@ -10,7 +10,7 @@
       </mat-card-content>
     </div>
     <hr class="p-0 m-0" />
-    <a mat-menu-item class="py-2" [routerLink]="['setting']">
+    <a mat-menu-item class="py-2" [routerLink]="['setting/user/account']">
       <i class="fa fa-cog fa-fw me-2" aria-hidden="true"></i>Settings
     </a>
     <button
@@ -58,13 +58,15 @@
     class="d-flex justify-content-between align-items-center p-0 m-0 btn round"
     [matMenuTriggerFor]="appMenu"
   >
-    <img
-      src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg"
-      class="rounded-circle"
-      height="46"
-      [alt]="user.username + '\'s Photo'"
-      loading="lazy"
-    />
-    <i class="fa fa-angle-down fa-fw" aria-hidden="true"></i>
+    <span *ngIf="user" class="me-2">
+      <img
+        [src]="imageUrl"
+        class="rounded-circle"
+        height="46"
+        [alt]="user.username + '\'s Photo'"
+        loading="lazy"
+      />
+    </span>
+    <i class="fa fa-angle-down fa-fw pe-2" aria-hidden="true"></i>
   </button>
 </mat-toolbar-row>
