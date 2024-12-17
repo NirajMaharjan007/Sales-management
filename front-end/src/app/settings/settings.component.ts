@@ -31,33 +31,11 @@ import {
     ]),
   ],
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent {
   user: any;
-  form: FormGroup;
   router = inject(Router);
-
-  constructor(private userService: UserService, private fb: FormBuilder) {
-    this.form = this.fb.group({});
-  }
-
-  ngOnInit(): void {
-    try {
-      this.fetch();
-    } catch (error) {
-      console.log(error);
-      this.router.navigate(['/404/']);
-    }
-  }
-
-  private fetch() {
-    this.user = this.userService.getUser();
-  }
 
   isRoute(path: string) {
     return this.router.url.includes(path);
-  }
-
-  submit() {
-    console.log('GG');
   }
 }

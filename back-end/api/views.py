@@ -80,6 +80,8 @@ class UserViewSet(ViewSet):
 
 
 class UserDetailViewSet(ViewSet):
+    parser_classes = (MultiPartParser, FormParser)
+
     def list(self, request):
         user_details = UserDetails.objects.all()
         serializer = UserDetailSerializer(user_details, many=True)
@@ -94,6 +96,21 @@ class UserDetailViewSet(ViewSet):
             print(str(e))
             return Response({"error": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
 
+    @action(detail=False, methods=['get'], url_path='image/(?P<pk>[^/.]+)')
+    def get_user_image(self, request, *args, **kwargs):
+        try:
+            user_id = self.kwargs.get('pk')
+            user = UserDetails.objects.get(user_id=user_id)
+            content_type, _ = mimetypes.guess_type(user.profile_picture.path)
+
+            if user.profile_picture:
+                return FileResponse(user.profile_picture.open(), content_type=content_type, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": "Image not available for this User"}, status=status.HTTP_204_NO_CONTENT)
+        except UserDetails.DoesNotExist as e:
+            print(str(e))
+            return Response({"error": "User Image not found"}, status=status.HTTP_404_NOT_FOUND)
+
     def update(self, request, pk=None):
         try:
             user_detail = UserDetails.objects.get(user_id=pk)
@@ -102,20 +119,7 @@ class UserDetailViewSet(ViewSet):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except UserDetails.DoesNotExist as error:
-            print(str(error))
-            return Response({"error": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
-
-    def partial_update(self, request, pk=None):
-        try:
-            user_detail = UserDetails.objects.get(user_id=pk)
-            serializer = UserDetailSerializer(
-                user_detail, data=request.data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
+                print(str(serializer.errors))
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except UserDetails.DoesNotExist as error:
             print(str(error))
