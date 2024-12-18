@@ -44,11 +44,11 @@ class UserViewSet(ViewSet):
         except User.DoesNotExist:
             return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
-    def update(self, request, pk=None):
+    def partial_update(self, request, pk=None):
         try:
             user = User.objects.get(id=pk)
-            serializer = UserSerializer(user, data=request.data)
-            if serializer.is_valid(raise_exception=True):
+            serializer = UserSerializer(user, data=request.data, partial=True)
+            if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
@@ -128,16 +128,25 @@ class UserDetailViewSet(ViewSet):
             print(str(e))
             return Response({"error": "User Image not found"}, status=status.HTTP_404_NOT_FOUND)
 
-    def update(self, request, pk=None):
+    def create(self, request):
+        serializer = UserDetailSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print(str(serializer.errors))
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def partial_update(self, request, pk=None):
         try:
             user_detail = UserDetails.objects.get(user_id=pk)
-            serializer = UserDetailSerializer(user_detail, data=request.data)
+            serializer = UserDetailSerializer(
+                user_detail, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 print(str(serializer.errors))
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.data, status=status.HTTP_200_OK)
         except UserDetails.DoesNotExist as error:
             print(str(error))
             return Response({"error": "User details not found"}, status=status.HTTP_404_NOT_FOUND)

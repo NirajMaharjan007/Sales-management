@@ -37,39 +37,47 @@ export class UserService implements OnInit {
     });
   }
 
-  setUserImage(id: string, image: File) {
-    const formData = new FormData();
-    formData.append('profile_picture', image, image.name);
-    formData.append('user_id', id);
-
-    return this.httpClient.put(`${this.userDetailApi}${id}/`, formData);
-  }
-
-  setUserDetails(id: string, data: any) {
+  setUserDetails(id: string, data: any, image: File) {
     const formData = new FormData();
     formData.append('bio', data.bio);
     formData.append('phone', data.phone);
     formData.append('address', data.address);
     formData.append('gender', data.gender);
-    formData.append('date_of_birth', data.date_of_birth);
+    formData.append('date_of_birth', data.dob);
+    formData.append('profile_picture', image, image.name);
     formData.append('user_id', id);
 
-    console.log('User Details', JSON.stringify(formData, null, 2));
+    for (const [key, value] of Object.entries(formData)) {
+      console.log(key, value);
+    }
 
-    this.setUser(id, data);
-    return this.httpClient.put(`${this.userDetailApi}${id}/`, formData);
+    return this.httpClient.post(`${this.userDetailApi}`, formData);
+  }
+  updateUserDetails(id: string, data: any, image: File) {
+    const formData = new FormData();
+    formData.append('bio', data.bio);
+    formData.append('phone', data.phone);
+    formData.append('address', data.address);
+    formData.append('gender', data.gender);
+    formData.append('date_of_birth', data.dob);
+    formData.append('profile_picture', image, image.name);
+    formData.append('user_id', id);
+
+    for (const [key, value] of Object.entries(formData)) {
+      console.log(key, value);
+    }
+
+    return this.httpClient.patch(`${this.userDetailApi}${id}/`, formData);
   }
 
-  private setUser(id: string, data: any) {
+  setUser(id: string, data: any) {
     const formData = new FormData();
     formData.append('username', data.username);
     formData.append('email', data.email);
-    formData.append('first_name', data.first_name);
-    formData.append('last_name', data.last_name);
+    formData.append('first_name', data.firstName);
+    formData.append('last_name', data.lastName);
 
-    console.log('User', JSON.stringify(formData, null, 2));
-
-    return this.httpClient.put(`${this.api}${id}/`, formData);
+    return this.httpClient.patch(`${this.api}${id}/`, formData);
   }
 
   getUser() {

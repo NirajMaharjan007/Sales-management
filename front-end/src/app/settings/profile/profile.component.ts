@@ -61,12 +61,7 @@ export class ProfileComponent implements OnInit {
     this.userService.getUserDetailsById(this.user.id).subscribe({
       next: (res) => {
         this.details = res;
-      },
-      error: (err) => {
-        console.error(err.message);
-      },
-      complete: () => {
-        if (this.details) {
+        if (this.details !== undefined) {
           this.form.patchValue({
             bio: this.details.bio,
             phone: this.details.phone,
@@ -77,13 +72,19 @@ export class ProfileComponent implements OnInit {
           this.loadImage();
         }
       },
-    });
-
-    this.form.patchValue({
-      username: this.user.username,
-      firstName: this.user.first_name,
-      lastName: this.user.last_name,
-      email: this.user.email,
+      error: (err) => {
+        console.error('Error fetching user details:', err.message);
+      },
+      complete: () => {
+        this.userService.getUserById(this.user.id).subscribe((res) => {
+          this.form.patchValue({
+            username: res.username,
+            firstName: res.first_name,
+            lastName: res.last_name,
+            email: res.email,
+          });
+        });
+      },
     });
   }
 
@@ -94,11 +95,10 @@ export class ProfileComponent implements OnInit {
   loadImage() {
     this.userService.getUserImageById(this.user.id).subscribe({
       next: (file: Blob) => {
-        console.log(file);
         try {
           this.imageUrl = URL.createObjectURL(file);
         } catch (error) {
-          console.error('Error:', error);
+          console.error('Error Image:', error);
         }
       },
       error: (err) => {
@@ -108,31 +108,71 @@ export class ProfileComponent implements OnInit {
   }
 
   submit() {
-    console.info(JSON.stringify(this.form.value, null, 2), this.form.valid);
+    console.log(JSON.stringify(this.form.value, null, 2));
     if (this.form.valid && this.selectedFile) {
-      this.userService.setUserImage(this.user.id, this.selectedFile).subscribe({
-        next: (res) => {
-          console.log('Done updating profile picture');
-
-          this.userService.setUserDetails(this.user.id, res).subscribe({
-            next: () => {
-              console.log('Done updating user details');
-              alert('Profile updated successfully');
-            },
-            error: (err) => {
-              console.error('USER detail Error:', err.message);
-              alert('Failed to update user details');
-            },
-          });
+      this.userService.setUser(this.user.id, this.form.value).subscribe({
+        next: () => {
+          console.log('Done updating user details');
+          if (this.details === undefined) {
+            this.userService
+              .setUserDetails(this.user.id, this.form.value, this.selectedFile)
+              .subscribe({
+                next: () => {
+                  console.log('Done updating user image');
+                  alert('Profile updated successfully');
+                },
+                error: (err) => {
+                  console.error('Error creating user details', err.message);
+                  alert('Error creating user details');
+                },
+              });
+          } else {
+            this.userService
+              .updateUserDetails(
+                this.user.id,
+                this.form.value,
+                this.selectedFile
+              )
+              .subscribe({
+                next: () => {
+                  console.log('Done updating user details');
+                  alert('Profile updated successfully');
+                },
+                error: (err) => {
+                  console.error('Error updating user details', err.message);
+                  alert('Error updating user details');
+                },
+              });
+          }
         },
         error: (err) => {
-          console.error('USER image Error:', err.message);
-          alert('Failed to update profile picture');
+          console.error('Error updating user', err.message);
+          alert('Error updating user profile');
+        },
+        complete: () => {
+          window.location.reload();
         },
       });
     } else {
       console.log('Form is not valid');
       alert('Form is not valid');
     }
+
+    // if (this.form.valid && this.selectedFile) {
+    // Log form data entries
+    // const entries = formData as any;
+    // for (const pair of entries.entries()) {
+    //   console.log(`${pair[0]}: ${pair[1]}`);
+    // }
+    // this.userService.setUser(this.user.id, formData).subscribe({
+    //   next: () => {
+    //     console.log('Done updating user details');
+    //     alert('Profile updated successfully');
+    //   },
+    // });
+    // } else {
+    //   console.log('Form is not valid');
+    //   alert('Form is not valid');
+    // }
   }
 }
