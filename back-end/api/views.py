@@ -44,6 +44,23 @@ class UserViewSet(ViewSet):
         except User.DoesNotExist:
             return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
+    def update(self, request, pk=None):
+        try:
+            user = User.objects.get(id=pk)
+            serializer = UserSerializer(user, data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                print(str(serializer.errors))
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except User.DoesNotExist as e:
+            print(str(e))
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            print(str(e))
+            return Response({"error": "An unexpected error occurred"}, status=status.HTTP_400_BAD_REQUEST)
+
     @action(detail=False, methods=['post'])
     def signup(self, request):
         serializer = UserSerializer(data=request.data)

@@ -112,15 +112,27 @@ export class ProfileComponent implements OnInit {
     if (this.form.valid && this.selectedFile) {
       this.userService.setUserImage(this.user.id, this.selectedFile).subscribe({
         next: (res) => {
-          console.log('GG', JSON.stringify(res, null, 2));
+          console.log('Done updating profile picture');
+
+          this.userService.setUserDetails(this.user.id, res).subscribe({
+            next: () => {
+              console.log('Done updating user details');
+              alert('Profile updated successfully');
+            },
+            error: (err) => {
+              console.error('USER detail Error:', err.message);
+              alert('Failed to update user details');
+            },
+          });
         },
         error: (err) => {
-          console.error(err.message);
+          console.error('USER image Error:', err.message);
+          alert('Failed to update profile picture');
         },
       });
     } else {
       console.log('Form is not valid');
-      // alert('Form is not valid');
+      alert('Form is not valid');
     }
   }
 }
